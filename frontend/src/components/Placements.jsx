@@ -5,29 +5,29 @@ const Placements = () => {
 
 	// Company data with placeholder images
 	const companies = [
-		{ id: 1, name: 'Accenture', logo: 'http://tpc.ac.in/images/placement-accenture.jpg' },
+		{ id: 1, name: 'Accenture', logo: './accenture.jpg' },
 		{
 			id: 2,
 			name: 'Godrej',
-			logo: 'http://tpc.ac.in/images/placement-company-godrej.jpg',
+			logo: './godrej.jpg',
 		},
-		{ id: 3, name: 'Wipro', logo: 'http://tpc.ac.in/images/placement-company-wipro.jpg' },
+		{ id: 3, name: 'Wipro', logo: './wipro.jpg' },
 		{
 			id: 4,
 			name: 'Larsen & Toubro',
-			logo: 'http://tpc.ac.in/images/placement-L&T-Ltd.jpg',
+			logo: './larsen.jpg',
 		},
-		{ id: 5, name: 'Schlumberger', logo: 'http://tpc.ac.in/images/placement-schlumberger.jpg' },
-		{ id: 6, name: 'Owens', logo: 'http://tpc.ac.in/images/placement-owens.jpeg' },
+		{ id: 5, name: 'Schlumberger', logo: './schlumberger.jpg' },
+		{ id: 6, name: 'Owens', logo: './owens.jpeg' },
 		{
 			id: 7,
 			name: 'United Spirits',
-			logo: 'http://tpc.ac.in/images/placement-United-Spirits-Ltd.jpg',
+			logo: './United_Spirits.jpg',
 		},
 		{
 			id: 8,
 			name: 'Next Gen Corp',
-			logo: 'http://tpc.ac.in/images/placement-Bhushan-Steel-Ltd.jpg',
+			logo: './Bhushan_Steel.jpg',
 		},
 	];
 

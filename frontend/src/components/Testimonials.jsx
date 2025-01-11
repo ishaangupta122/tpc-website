@@ -9,7 +9,7 @@ const Testimonials = () => {
 			id: 1,
 			name: 'Monika Gupta',
 			role: 'Programmer',
-			image: 'http://tpc.ac.in/images/monika.jpg',
+			image: './monika.jpg',
 			quote:
 				'I have been associated with TPC since 2008. To me, it has always been a pleasure to serve the institute.',
 		},
@@ -17,7 +17,7 @@ const Testimonials = () => {
 			id: 2,
 			name: 'Kunnal Thapa',
 			role: 'Alumni',
-			image: 'http://tpc.ac.in/images/user3.jpg',
+			image: './kunnal.jpg',
 			quote:
 				'My alma mater, there has been a much better improvement overall after the new building started operating.',
 		},
@@ -25,7 +25,7 @@ const Testimonials = () => {
 			id: 3,
 			name: 'Gurmehak Kaur',
 			role: 'Lecturer',
-			image: 'http://tpc.ac.in/dashboard/techerspics/gurmehak.jpg',
+			image: './gurmehak.jpg',
 			quote:
 				'We take extreme pleasure in getting associated with TPC. We anticipate your extended service for fulfilling our manpower requirements in a long run.',
 		},
@@ -33,7 +33,7 @@ const Testimonials = () => {
 			id: 4,
 			name: 'Arsheen Kaur',
 			role: 'Lecturer',
-			image: 'http://tpc.ac.in/dashboard/techerspics/arsheen.jpg',
+			image: './arsheen.jpg',
 			quote:
 				'The faculty support and resources available have been instrumental in my academic journey.',
 		},
@@ -41,7 +41,7 @@ const Testimonials = () => {
 			id: 5,
 			name: 'Deepak Batish',
 			role: 'Lecturer',
-			image: 'http://tpc.ac.in/dashboard/techerspics/Deepak%20photo.jpg',
+			image: './deepak.jpg',
 			quote:
 				'The collaborative environment and state-of-the-art facilities make this institution truly special.',
 		},

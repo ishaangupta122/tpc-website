@@ -4,36 +4,35 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 const carouselItems = [
 	{
 		title: 'Reception Gate of College',
-		image: 'http://tpc.ac.in/images/aboutclg.JPG',
+		image: './rec_gate.jpg',
 		description:
 			'Immerse yourself in breathtaking landscapes and discover the beauty of untouched wilderness.',
 		tag: 'Campus',
 	},
 	{
 		title: 'NDLI Award of Excellence',
-		image: 'http://tpc.ac.in/images/ndli.jpg',
+		image: './ndli_award.jpg',
 		description:
 			'Immerse yourself in breathtaking landscapes and discover the beauty of untouched wilderness.',
 		tag: 'Award',
 	},
 	{
 		title: 'Boys Hostel',
-		image: 'http://tpc.ac.in/images/tpcgallery/image14.JPG',
+		image: './boys_hostel.jpg',
 		description:
 			'Navigate through vibrant cityscapes and uncover hidden gems in metropolitan environments.',
 		tag: 'Hostel',
 	},
 	{
 		title: 'Girls Hostel',
-		image: 'http://tpc.ac.in/images/tpcgallery/image13.JPG',
+		image: './girls_hostel.jpg',
 		description:
 			'Navigate through vibrant cityscapes and uncover hidden gems in metropolitan environments.',
 		tag: 'Hostel',
 	},
 	{
 		title: 'College Campus',
-		image:
-			'https://imgs.search.brave.com/T1lIQy0ZpcBwSXIOOXnpH-IX5iazhf-Jgb2kYHgfutk/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9sci50/YXJnZXRhZG1pc3Np/b24uY29tL3N0b3Jh/Z2UvaW1nL2NvbGxl/Z2VzLy9JTUctMS00/Nzk3NzY0NzEud2Vi/cA',
+		image: './campus.webp',
 		description:
 			'Dive deep into rich traditions and explore the diverse cultural tapestry of our world.',
 		tag: 'Campus',
