@@ -19,9 +19,9 @@ const App = () => {
 				<Navbar />
 				<main className="flex-1 overflow-y-auto bg-[#E5E7EB]">
 					<Routes>
+						<Route path="/" element={<Dashboard />} />
 						<Route path="/login" element={<AdminLogin />} />
 						<Route path="/signup" element={<AdminSignup />} />
-						<Route path="/dashboard" element={<Dashboard />} />
 						<Route path="/faculty" element={<FacultyManagement />} />
 						<Route path="/facultyProfile" element={<FacultyProfile />} />
 						<Route path="/updates" element={<Updates />} />
