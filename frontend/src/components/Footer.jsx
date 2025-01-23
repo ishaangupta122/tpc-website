@@ -35,7 +35,7 @@ const Footer = () => {
 					{/* Logo Section */}
 					<div className="col-span-1 md:col-span-2 lg:col-span-1">
 						<div className="flex items-center justify-start gap-2 flex-wrap ">
-							<img src="http://tpc.ac.in/images/logo.png" alt="College Logo" className="h-12 " />
+							<img src="./tpc-logo.png" alt="College Logo" className="h-12 " />
 							<h1 className="text-md font-bold">Thapar Polytechnic College</h1>
 						</div>
 						<p className="mt-4 text-gray-400">
