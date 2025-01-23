@@ -56,11 +56,11 @@ const Testimonials = () => {
 	// };
 
 	return (
-		<section className="bg-[#FFFFFF] py-16 px-4">
+		<section id="testimonials" className="bg-[#FFFFFF] py-24 px-4">
 			<div className="max-w-[1400px] mx-auto">
 				<div className="text-center mb-12">
-					<h2 className="text-4xl font-bold text-[#98002E] mb-2">What Our Community Says</h2>
-					<div className="w-24 h-1 bg-[#FDB714] mx-auto rounded-full"></div>
+					<h2 className="text-4xl font-bold text-green-800 mb-4">What Our Community Says</h2>
+					<div className="w-28 h-1 bg-[#FDB714] mx-auto rounded-full"></div>
 				</div>
 
 				<div className="relative flex items-center">
@@ -73,7 +73,13 @@ const Testimonials = () => {
 					</button> */}
 
 					{/* Cards Container */}
-					<div className="flex w-full overflow-x-scroll scroll-smooth py-6 lg:mx-4">
+					<div
+						className="flex w-full overflow-x-scroll scroll-smooth py-6 lg:mx-4"
+						style={{
+							scrollbarWidth: 'none',
+							msOverflowStyle: 'none',
+							WebkitOverflowScrolling: 'touch',
+						}}>
 						<div className="flex gap-2 px-2 transition-transform duration-500 ease-out">
 							{testimonials.map((testimonial) => (
 								<div
@@ -81,13 +87,13 @@ const Testimonials = () => {
 									className=" max-w-[400px] w-[21rem] md:w-[20rem] lg:w-[30rem] ">
 									<div className="bg-white rounded-xl shadow-lg p-6 h-full flex flex-col justify-between">
 										<div>
-											<Quote className="w-8 h-8 text-[#98002E] mb-4" />
+											<Quote className="w-8 h-8 text-green-800 mb-4" />
 											<blockquote className="text-sm text-gray-600 mb-6 leading-relaxed">
 												{testimonial.quote}
 											</blockquote>
 										</div>
 
-										<div className="mt-auto pt-4 border-t border-gray-100">
+										<div className="mt-auto pt-4 border-t border-gray-300">
 											<div className="flex items-center">
 												<div className="w-12 h-12 rounded-full overflow-hidden mr-3">
 													<img
@@ -100,7 +106,7 @@ const Testimonials = () => {
 													<h4 className="font-semibold text-gray-900 text-sm">
 														{testimonial.name}
 													</h4>
-													<p className="text-xs font-semibold text-[#98002E]">{testimonial.role}</p>
+													<p className="text-xs font-semibold text-green-800">{testimonial.role}</p>
 												</div>
 											</div>
 										</div>

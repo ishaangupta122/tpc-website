@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import HeroSection from '../../components/HeroSection';
 
 const STATIC_DATA = {
 	boys: [
@@ -41,29 +42,18 @@ const STATIC_DATA = {
 const HostelPage = () => {
 	const [activeTab, setActiveTab] = useState('boys');
 	const [hostelData, setHostelData] = useState(STATIC_DATA);
-	const [loading, setLoading] = useState(false);
 
-	// Fetch data from an API
+	const breadcrumbs = [
+		{ label: 'Home', href: '/' },
+		{ label: 'Hostel', href: '/hostel-page' },
+	];
+
 	useEffect(() => {
 		const fetchHostelData = async () => {
-			setLoading(true);
-			try {
-				// Replace with your API endpoint
-				const response = await fetch('https://api.example.com/hostels');
-				const data = await response.json();
-
-				// Merge fetched data with STATIC_DATA (fallback to static if fetch fails)
-				setHostelData({
-					boys: STATIC_DATA.boys,
-					girls: STATIC_DATA.girls,
-				});
-			} catch (error) {
-				console.error('Error fetching hostel data:', error);
-				// Keep STATIC_DATA if fetch fails
-				setHostelData(STATIC_DATA);
-			} finally {
-				setLoading(false);
-			}
+			setHostelData({
+				boys: STATIC_DATA.boys,
+				girls: STATIC_DATA.girls,
+			});
 		};
 
 		fetchHostelData();
@@ -73,23 +63,23 @@ const HostelPage = () => {
 		return items.map((item, index) => (
 			<div
 				key={index}
-				className="flex flex-col lg:flex-row items-start gap-6 mb-8 bg-[#98002E] rounded-lg shadow-lg p-6">
+				className="flex flex-col lg:flex-row items-start gap-6 mb-8 bg-gray-100 rounded-lg shadow-lg shadow-black/10 p-6">
 				<img
 					src={item.image}
 					alt={item.title}
-					className="w-full lg:w-1/2 h-full object-cover rounded-lg"
+					className="w-full lg:w-1/2 h-full object-cover rounded-lg shadow-lg shadow-black/20"
 				/>
 				<div className="flex-1">
-					<h3 className="text-xl font-bold mb-4 text-[#ffd42a]">{item.title}</h3>
-					<p className="text-gray-100 mb-4">
-						<span className="font-semibold text-[#ffd42a]">Overview:</span> {item.description}
+					<h3 className="text-xl font-bold mb-4 text-green-900">{item.title}</h3>
+					<p className="text-gray-800 mb-4">
+						<span className="font-semibold text-green-900">Overview:</span> {item.description}
 					</p>
-					<p className="text-gray-100 mb-4">
-						<span className="font-semibold text-[#ffd42a]">Capacity:</span> {item.capacity}
+					<p className="text-gray-800 mb-4">
+						<span className="font-semibold text-green-900">Capacity:</span> {item.capacity}
 					</p>
 					<div>
-						<h4 className="font-semibold text-[#ffd42a]">Facilities:</h4>
-						<ul className="list-disc list-inside text-gray-100 space-y-1">
+						<h4 className="font-semibold text-green-900">Facilities:</h4>
+						<ul className="list-disc list-inside text-gray-800 space-y-1">
 							{item.facilities.map((facility, idx) => (
 								<li key={idx}>{facility}</li>
 							))}
@@ -101,63 +91,67 @@ const HostelPage = () => {
 	};
 
 	return (
-		<div className="min-h-screen bg-gray-50">
-			{/* Navigation Tabs */}
-			<div className="max-w-7xl mx-auto px-4 sm:px-14 pb-8 pt-20 flex items-center justify-between flex-wrap gap-4">
-				<div>
-					<h1 className="text-3xl font-bold text-[#98002E]">Hostel Information</h1>
+		<>
+			<HeroSection imageUrl="./rec_gate.jpg" title="College Hostel" breadcrumbs={breadcrumbs} />
+
+			<div className="min-h-screen bg-white">
+				{/* Navigation Tabs */}
+				<div className="max-w-7xl mx-auto px-4 sm:px-14 pb-8 pt-20 flex items-center justify-between flex-wrap gap-4">
+					<div>
+						<h1 className="text-3xl font-semibold uppercase text-green-900">
+							Hostel <span className="text-black">Information</span>
+						</h1>
+					</div>
+
+					<div className="flex gap-2">
+						<button
+							onClick={() => setActiveTab('boys')}
+							className={`px-6 py-2 rounded-lg font-medium ${
+								activeTab === 'boys'
+									? 'bg-gradient-to-b from-[#324E44] to-[#143429] text-white'
+									: 'text-gray-600 bg-gray-200 hover:bg-gray-300'
+							}`}>
+							Boys Hostels
+						</button>
+						<button
+							onClick={() => setActiveTab('girls')}
+							className={`px-6 py-2 rounded-lg font-medium ${
+								activeTab === 'girls'
+									? 'bg-gradient-to-b from-[#324E44] to-[#143429] text-white'
+									: 'text-gray-600 bg-gray-200 hover:bg-gray-300'
+							}`}>
+							Girls Hostels
+						</button>
+					</div>
 				</div>
 
-				<div className="flex gap-2">
-					<button
-						onClick={() => setActiveTab('boys')}
-						className={`px-6 py-2 rounded-lg font-medium ${
-							activeTab === 'boys'
-								? 'bg-[#98002E] text-white'
-								: 'text-gray-600 bg-gray-200 hover:bg-gray-300'
-						}`}>
-						Boys Hostels
-					</button>
-					<button
-						onClick={() => setActiveTab('girls')}
-						className={`px-6 py-2 rounded-lg font-medium ${
-							activeTab === 'girls'
-								? 'bg-[#98002E] text-white'
-								: 'text-gray-600 bg-gray-200 hover:bg-gray-300'
-						}`}>
-						Girls Hostels
-					</button>
+				{/* Main Content */}
+				<div className="max-w-7xl mx-auto px-4 sm:px-14 py-8">
+					{
+						<>
+							{activeTab === 'boys' && (
+								<div>
+									<div className="mb-8 w-fit">
+										<h1 className="text-2xl font-semibold mb-2 text-green-900">Boys Hostel</h1>
+										<div className="w-28 h-1 bg-[#FDB714] rounded-full mx-auto"></div>
+									</div>
+									{renderItems(hostelData.boys)}
+								</div>
+							)}
+							{activeTab === 'girls' && (
+								<div>
+									<div className="mb-8 w-fit">
+										<h1 className="text-2xl font-semibold mb-2 text-green-900">Girls Hostel</h1>
+										<div className="w-28 h-1 bg-[#FDB714] rounded-full mx-auto"></div>
+									</div>
+									{renderItems(hostelData.girls)}
+								</div>
+							)}
+						</>
+					}
 				</div>
 			</div>
-
-			{/* Main Content */}
-			<div className="max-w-7xl mx-auto px-4 sm:px-14 py-8">
-				{loading ? (
-					<p className="text-center text-gray-600">Loading...</p>
-				) : (
-					<>
-						{activeTab === 'boys' && (
-							<div>
-								<div className="mb-8 w-fit">
-									<h1 className="text-3xl font-bold mb-2 text-[#98002E]">Boys Hostel</h1>
-									<div className="w-24 h-1 bg-[#FDB714] rounded-full mx-auto"></div>
-								</div>
-								{renderItems(hostelData.boys)}
-							</div>
-						)}
-						{activeTab === 'girls' && (
-							<div>
-								<div className="mb-8 w-fit">
-									<h1 className="text-3xl font-bold mb-2 text-[#98002E]">Girls Hostel</h1>
-									<div className="w-24 h-1 bg-[#FDB714] rounded-full mx-auto"></div>
-								</div>
-								{renderItems(hostelData.girls)}
-							</div>
-						)}
-					</>
-				)}
-			</div>
-		</div>
+		</>
 	);
 };
 

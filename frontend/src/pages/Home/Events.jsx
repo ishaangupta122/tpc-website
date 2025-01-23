@@ -1,155 +1,138 @@
-import { useState, useEffect } from 'react';
+import { MoveRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useState, useRef } from 'react';
 
-const EventsSection = () => {
-	const [events, setEvents] = useState([]);
-	// const colors = ['blue', 'green', 'purple'];
+const EventsCarousel = () => {
+	const [events] = useState([
+		{
+			id: 1,
+			date: ['15', 'Mar 2024'],
+			title: 'New Academic Programs',
+			description:
+				'Launching courses in Artificial Intelligence and Data Science from the upcoming semester.',
+			image: './image1.jpeg',
+		},
+		{
+			id: 2,
+			date: ['15', 'Mar 2024'],
+			title: 'Scholarship Opportunities',
+			description: 'Increased funding for merit-based scholarships starting this academic year.',
+			image: './image2.jpeg',
+		},
+		{
+			id: 3,
+			date: ['15', 'Mar 2024'],
+			title: 'New Research Center Launch',
+			description: 'State-of-the-art AI research facility inaugurated with industry collaboration.',
+			image: './image3.jpeg',
+		},
+		{
+			id: 4,
+			date: ['15', 'Mar 2024'],
+			title: 'Campus Expansion',
+			description: 'New facilities being added to accommodate growing student population.',
+			image: './boys_hostel.jpg',
+		},
+		{
+			id: 5,
+			date: ['15', 'Mar 2024'],
+			title: 'International Partnership',
+			description: 'New exchange programs established with leading global universities.',
+			image: './girls_hostel.jpg',
+		},
+	]);
 
-	useEffect(() => {
-		const fetchEvents = async () => {
-			const data = [
-				{
-					date: '15 MARCH 2024',
-					time: '10:00 AM - 4:00 PM',
-					venue: 'Tech Auditorium, Block A',
-					title: 'Tech Symposium 2024',
-					description:
-						'Annual technical festival featuring workshops, competitions, and guest lectures.',
-					buttonText: 'Read More',
-				},
-				{
-					date: '22 MARCH 2024',
-					time: '12:00 PM - 3:00 PM',
-					venue: 'Virtual Event (Zoom)',
-					title: 'Global Alumni Meet',
-					description:
-						'Connect with alumni from around the world in this virtual networking event.',
-					buttonText: 'Read More',
-				},
-				{
-					date: '5 APRIL 2024',
-					time: '9:00 AM - 6:00 PM',
-					venue: 'International Conference Center',
-					title: 'Research Conference',
-					description: 'International conference on emerging technologies and innovation.',
-					buttonText: 'Read More',
-				},
-				{
-					date: '12 APRIL 2024',
-					time: '1:00 PM - 8:00 PM',
-					venue: 'Main Campus Grounds',
-					title: 'Cultural Fest',
-					description:
-						'Annual cultural celebration featuring performances, art exhibitions, and competitions.',
-					buttonText: 'Read More',
-				},
-			];
-			setEvents(data);
-		};
+	const scrollRef = useRef(null);
+	const [activeButton, setActiveButton] = useState(null);
 
-		fetchEvents();
-	}, []);
+	const scroll = (direction) => {
+		if (scrollRef.current && !activeButton) {
+			setActiveButton(direction);
 
-	// Function to map color to Tailwind classes
-	// const getColorClasses = (color) => {
-	// 	switch (color) {
-	// 		case 'blue':
-	// 			return {
-	// 				text: 'text-[#98002E]',
-	// 				bg: 'bg-[#98002E]',
-	// 				hover: 'hover:bg-[#98002E]/90',
-	// 				border: 'border-[#98002E]',
-	// 			};
-	// 		case 'green':
-	// 			return {
-	// 				text: 'text-green-600',
-	// 				bg: 'bg-green-600',
-	// 				hover: 'hover:bg-green-700',
-	// 				border: 'border-green-600',
-	// 			};
-	// 		case 'purple':
-	// 			return {
-	// 				text: 'text-purple-600',
-	// 				bg: 'bg-purple-600',
-	// 				hover: 'hover:bg-purple-700',
-	// 				border: 'border-purple-600',
-	// 			};
-	// 		default:
-	// 			return {};
-	// 	}
-	// };
+			const container = scrollRef.current;
+			const cardWidth = container.offsetWidth / 3;
+			const scrollAmount = cardWidth * 3;
+			const maxScroll = container.scrollWidth - container.offsetWidth;
+
+			let newScroll;
+			if (direction === 'next') {
+				newScroll = Math.min(container.scrollLeft + scrollAmount, maxScroll);
+			} else {
+				newScroll = Math.max(container.scrollLeft - scrollAmount, 0);
+			}
+
+			container.scrollTo({
+				left: newScroll,
+				behavior: 'smooth',
+			});
+
+			setTimeout(() => {
+				setActiveButton(null);
+			}, 800);
+		}
+	};
 
 	return (
-		<section id="events" className="py-20 bg-gradient-to-b from-gray-50 to-white">
-			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-				{/* Section Header */}
-				<div className="text-center mb-16">
-					<h2 className="text-4xl font-bold text-[#98002E] mb-2">Upcoming Events</h2>
-					<div className="w-24 h-1 bg-[#FDB714] mx-auto rounded-lg"></div>
-				</div>
-
-				{/* Events Timeline */}
-				<div className="relative">
-					{/* Timeline Line */}
-					<div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-[#FDB714]"></div>
-
-					{/* Event Items */}
-					<div className="space-y-12">
-						{events.map((event, index) => {
-							// Determine the color based on the index
-							// const color = colors[index % colors.length];
-							// const colorClasses = getColorClasses(color);
-
-							return (
-								<div
-									key={index}
-									className={`relative flex flex-col md:flex-row ${
-										index % 2 === 0 ? 'md:flex-row-reverse' : 'md:flex-row'
-									} items-center`}>
-									<div className={`w-full md:w-1/2 ${index % 2 === 0 ? 'md:pl-8' : 'md:pr-8'}`}>
-										<div className={`p-6 rounded-lg shadow-lg border-t-4 border-[#98002E]`}>
-											<div className={`text-black text-sm font-semibold mb-2`}>{event.date}</div>
-											<h3 className="text-[#98002E] text-xl font-bold mb-2">{event.title}</h3>
-											<p className="text-gray-600">{event.description}</p>
-
-											{/* New Event Time and Venue */}
-											<div className="mt-2">
-												<p className="text-sm text-gray-600">
-													<strong>Time:</strong> {event.time}
-												</p>
-												<p className="text-sm text-gray-600">
-													<strong>Venue:</strong> {event.venue}
-												</p>
-											</div>
-
-											<button
-												className={`mt-4 bg-[#98002E] hover:bg-[#98002E]/90 text-white px-4 py-2 rounded-lg text-sm font-medium`}>
-												{event.buttonText}
-											</button>
-										</div>
-									</div>
-									<div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-7 h-7 rounded-full bg-[#FDB714] border-4 border-gray-50"></div>
-								</div>
-							);
-						})}
+		<section
+			id="latest-events"
+			className="bg-white overflow-hidden flex justify-center items-start py-10">
+			<div className="max-w-6xl mx-6 px-6 py-10 my-10 bg-gray-100 rounded-3xl container">
+				{/* Heading And Buttons */}
+				<div className="w-full flex justify-between items-center mb-8 px-2">
+					<div className="text-left w-fit">
+						<h2 className="text-4xl font-medium text-green-900">Latest Events</h2>
+					</div>
+					<div className="flex gap-2">
+						<button
+							onClick={() => scroll('prev')}
+							disabled={activeButton === 'prev'}
+							className="p-2 rounded-full bg-[#143429] text-white hover:bg-[#324E44] transition-colors disabled:opacity-50">
+							<ChevronLeft className="w-6 h-6" />
+						</button>
+						<button
+							onClick={() => scroll('next')}
+							disabled={activeButton === 'next'}
+							className="p-2 rounded-full bg-[#143429] text-white hover:bg-[#324E44] transition-colors disabled:opacity-50">
+							<ChevronRight className="w-6 h-6" />
+						</button>
 					</div>
 				</div>
 
-				{/* Calendar Link */}
-				<div className="text-center mt-16">
-					<button className="bg-[#98002E] hover:bg-[#98002E]/90 text-white font-bold py-3 px-8 rounded-lg flex items-center mx-auto ">
-						<svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								strokeWidth="2"
-								d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-						</svg>
-						View Full Calendar
-					</button>
+				{/* Carousel */}
+				<div
+					ref={scrollRef}
+					className="flex gap-2 overflow-x-auto scroll-smooth"
+					style={{
+						scrollbarWidth: 'none',
+						msOverflowStyle: 'none',
+						WebkitOverflowScrolling: 'touch',
+					}}>
+					{events.map((event) => (
+						<div key={event.id} className="w-full md:w-1/3 lg:w-1/4 flex-shrink-0 px-2 py-5">
+							<div className="bg-white rounded-lg shadow-lg transform hover:-translate-y-1 transition-all duration-300 relative h-full">
+								<div className="relative h-40 bg-[#143429]/20 rounded-t-md overflow-hidden border-b-[4px] border-green-900">
+									<img src={event.image} alt={event.title} className="h-full w-full object-cover" />
+									<div className="flex flex-col text-center absolute top-0 left-4 font-medium bg-gradient-to-b from-[#324E44]/90 to-[#143429]/90 text-white px-3 py-1 rounded-b-lg">
+										<span className="text-3xl">{event.date[0]}</span>
+										<span className="text-sm">{event.date[1]}</span>
+									</div>
+								</div>
+								<div className="p-4 pb-24 rounded-b-md">
+									<h3 className="text-lg font-semibold text-green-900 mb-3">{event.title}</h3>
+									<p className="text-gray-600 text-sm">{event.description}</p>
+									<a
+										href="#"
+										className="absolute bottom-0 left-0 right-0 h-14 rounded-b-md overflow-hidden bg-gradient-to-b from-[#324E44] to-[#143429] hover:underline inline-flex items-center justify-center py-4 text-white">
+										Read More
+										<MoveRight className="ml-2" />
+									</a>
+								</div>
+							</div>
+						</div>
+					))}
 				</div>
 			</div>
 		</section>
 	);
 };
 
-export default EventsSection;
+export default EventsCarousel;

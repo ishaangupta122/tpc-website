@@ -1,7 +1,13 @@
 import { useState } from 'react';
 import { Search } from 'lucide-react';
+import HeroSection from '../../components/HeroSection';
 
 const AdminStaff = () => {
+	const breadcrumbs = [
+		{ label: 'Home', href: '/' },
+		{ label: 'Admin Staff', href: '/admin-staff' },
+	];
+
 	const [facultyList] = useState([
 		{
 			id: 1,
@@ -95,10 +101,14 @@ const AdminStaff = () => {
 
 	return (
 		<>
+			<HeroSection imageUrl="./rec_gate.jpg" title="Admin Staff" breadcrumbs={breadcrumbs} />
+
 			<div className="flex items-center flex-col">
 				<section className="px-6 lg:px-16 py-6 lg:py-16  max-w-7xl">
 					<div className="mb-6 space-y-6">
-						<h1 className="text-2xl font-bold mb-4">Admin Staff</h1>
+						<h1 className="text-2xl font-semibold mb-4 uppercase text-green-900">
+							Admin <span className="text-black">Staff</span>
+						</h1>
 						{/* Filters and Search */}
 						<div className="flex flex-col sm:flex-row gap-4">
 							<div className="relative flex-1">
@@ -139,7 +149,7 @@ const AdminStaff = () => {
 										key={faculty.id}
 										className="bg-white rounded-lg shadow-lg overflow-hidden w-full lg:w-fit">
 										{/* Header Section */}
-										<div className="bg-gradient-to-r from-[#de265d] to-[#98002E] text-white px-6 py-4">
+										<div className="bg-gradient-to-b from-[#324E44] to-[#143429] text-white px-6 py-4">
 											<div className="flex items-center gap-4">
 												<img
 													src={faculty.image}
@@ -148,8 +158,8 @@ const AdminStaff = () => {
 													loading="lazy"
 												/>
 												<div>
-													<h2 className="text-xl font-bold text-[#FDB714]">{faculty.name}</h2>
-													<p className="">{faculty.title}</p>
+													<h2 className="text-lg font-semibold ">{faculty.name}</h2>
+													<p className="text-sm font-normal">{faculty.title}</p>
 												</div>
 											</div>
 										</div>

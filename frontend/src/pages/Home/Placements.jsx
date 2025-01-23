@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-const Placements = () => {
+const PlacementCarousel = () => {
 	const scrollRef = useRef(null);
 	const [isHovered, setIsHovered] = useState(false);
 
@@ -45,18 +45,21 @@ const Placements = () => {
 	}, [companies.length, isHovered]);
 
 	return (
-		<div className="w-full bg-[#98002E]/90 py-12 overflow-hidden">
-			<div className="max-w-7xl mx-auto px-4 ">
-				<div className="text-center mb-16">
-					<h2 className="text-4xl font-bold text-white mb-2">Our Recruiting Partners</h2>
-					<div className="w-24 h-1 bg-[#FDB714] mx-auto rounded-lg" />
-				</div>
+		<div id="placements" className="">
+			<div className="w-full bg-[#e5f7f8] py-24 overflow-hidden">
+				<div className="max-w-7xl mx-auto px-4 ">
+					<div className="text-center mb-16">
+						<h2 className="text-3xl font-semibold text-green-900 mb-4 uppercase">
+							Recruiting <span className="text-black">Partners</span>
+						</h2>
+						<div className="w-28 h-1 bg-black mx-auto rounded-lg" />
+					</div>
 
-				<div
-					className="relative"
-					onMouseEnter={() => setIsHovered(true)}
-					onMouseLeave={() => setIsHovered(false)}>
-					<style>{`
+					<div
+						className="relative"
+						onMouseEnter={() => setIsHovered(true)}
+						onMouseLeave={() => setIsHovered(false)}>
+						<style>{`
 						@keyframes scroll {
 							0% {
 								transform: translateX(0);
@@ -67,22 +70,23 @@ const Placements = () => {
 						}
 					`}</style>
 
-					<div className="overflow-hidden">
-						<div ref={scrollRef} className="flex gap-4 w-fit  py-2">
-							{allCompanies.map((company, index) => (
-								<div
-									key={`${company.id}-${index}`}
-									className="flex-none w-48 p-4 bg-white rounded-lg shadow-sm transition-transform hover:scale-105 duration-300">
-									<img
-										src={company.logo}
-										alt={company.name}
-										className="w-full h-24 object-contain"
-									/>
-									<p className="mt-2 text-center font-bold text-[#98002E] text-sm">
-										{company.name}
-									</p>
-								</div>
-							))}
+						<div className="overflow-hidden">
+							<div ref={scrollRef} className="flex gap-4 w-fit py-2">
+								{allCompanies.map((company, index) => (
+									<div
+										key={`${company.id}-${index}`}
+										className="flex-none w-48 p-4 bg-white rounded-lg shadow-sm transition-transform hover:scale-105 duration-300">
+										<img
+											src={company.logo}
+											alt={company.name}
+											className="w-full h-24 object-contain"
+										/>
+										<p className="mt-2 text-center font-bold text-green-800 text-sm">
+											{company.name}
+										</p>
+									</div>
+								))}
+							</div>
 						</div>
 					</div>
 				</div>
@@ -91,4 +95,4 @@ const Placements = () => {
 	);
 };
 
-export default Placements;
+export default PlacementCarousel;
