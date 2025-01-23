@@ -36,7 +36,7 @@ const PlacementsData = () => {
 						{/* Faculty */}
 						<div className="text-white  flex flex-col justify-start items-start">
 							<h3 className="md:text-4xl text-3xl font-medium">10 LPA</h3>
-							<p className="font-normal  text-mduppercase">Highest Package</p>
+							<p className="font-normal  text-md uppercase">Highest Package</p>
 						</div>
 						{/* Staff */}
 						<div className="text-white  flex flex-col justify-start items-start">
