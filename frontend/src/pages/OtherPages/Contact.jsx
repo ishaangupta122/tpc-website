@@ -144,12 +144,11 @@ const ContactPage = () => {
 						<div className="h-full flex flex-col">
 							<div className="w-full h-96">
 								<iframe
-									src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3024.3525707283566!2d-74.00597868459375!3d40.71277797933168!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a1655930000%3A0x7e8dfe17b5778b!2sOne%20World%20Trade%20Center!5e0!3m2!1sen!2sus!4v1627669764909!5m2!1sen!2sus"
+									src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2707.590401011946!2d76.36474907446672!3d30.357657674767363!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391028ac2eef19c3%3A0x8bb309860f0fd9ba!2sThapar%20Polytechnic%20College!5e1!3m2!1sen!2sus!4v1738136658545!5m2!1sen!2sus"
 									className="w-full h-full border-0"
 									loading="lazy"
 									referrerPolicy="no-referrer-when-downgrade"
-									title="Campus Location"
-								/>
+									title="Campus Location"></iframe>
 							</div>
 							<div className="p-8 space-y-4">
 								<h2 className="flex flex-col justify-center text-lg font-semibold text-emerald-800">
