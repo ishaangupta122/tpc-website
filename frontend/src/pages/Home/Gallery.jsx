@@ -91,7 +91,7 @@ const GallerySection = () => {
 			<div className="container mx-auto px-4 md:px-10 flex justify-between flex-wrap lg:flex-nowrap gap-8">
 				{/* FAQ Section */}
 				<div className="w-full lg:w-[40%]">
-					<h2 className="text-2xl font-semibold uppercase text-green-900 mb-8">
+					<h2 className="text-2xl font-semibold uppercase text-emerald-900 mb-8">
 						FAQ<span className="text-black">s</span>
 					</h2>
 					<div className="space-y-4">
@@ -102,19 +102,19 @@ const GallerySection = () => {
 								className={`border cursor-pointer rounded-lg p-4 shadow-sm transition-all duration-300 
 									${
 										activeFAQ === index
-											? 'bg-green-50 border-green-700'
-											: 'bg-white border-gray-200 hover:bg-green-50'
+											? 'bg-emerald-50 border-emerald-700'
+											: 'bg-white border-gray-200 hover:bg-emerald-50'
 									}`}>
 								<div className="flex justify-between items-center cursor-pointer">
-									<h3 className="text-sm font-semibold text-green-800 ">{faq.question}</h3>
+									<h3 className="text-sm font-semibold text-emerald-800 ">{faq.question}</h3>
 									{activeFAQ === index ? (
-										<Minus className="text-green-800" />
+										<Minus className="text-emerald-800" />
 									) : (
-										<Plus className="text-green-800" />
+										<Plus className="text-emerald-800" />
 									)}
 								</div>
 								{activeFAQ === index && (
-									<p className="text-sm text-gray-600 mt-3 pl-2 border-l-2 border-green-700">
+									<p className="text-sm text-gray-600 mt-3 pl-2 border-l-2 border-emerald-700">
 										{faq.answer}
 									</p>
 								)}
@@ -126,12 +126,12 @@ const GallerySection = () => {
 				{/* Gallery Section */}
 				<div className="w-full  lg:w-[60%]">
 					<div className="flex items-center justify-between mb-8">
-						<h2 className="text-2xl font-semibold uppercase text-green-900 ">
+						<h2 className="text-2xl font-semibold uppercase text-emerald-900 ">
 							College<span className="text-black"> Gallery</span>
 						</h2>
 						<a
 							href="/gallery"
-							className="flex gap-1 items-center text-green-900 hover:underline text-sm font-medium">
+							className="flex gap-1 items-center text-emerald-900 hover:underline text-sm font-medium">
 							View All{' '}
 							<span>
 								<MoveRight />
@@ -148,7 +148,7 @@ const GallerySection = () => {
 									src={img}
 									alt={`Campus Image ${index + 1}`}
 									className={
-										' h-32 w-full object-cover transition-transform duration-300 group-hover:scale-105 bg-green-200/50'
+										' h-32 w-full object-cover transition-transform duration-300 group-hover:scale-105 bg-emerald-200/50'
 									}
 								/>
 								<div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300"></div>

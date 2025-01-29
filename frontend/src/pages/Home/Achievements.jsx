@@ -1,29 +1,26 @@
 import { ChevronUp, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useRef } from 'react';
+import TruncateText from '../../components/TruncateText';
 
 const SuccessStoriesCarousel = () => {
 	const successStories = [
 		{
 			title: 'Global Expansion Success',
-			client: 'TechCorp Inc.',
 			description: 'Achieved 300% growth in international markets within 6 months',
 			image: './gurmehak.jpg',
 		},
 		{
 			title: 'Digital Transformation',
-			client: 'RetailGiant Co.',
 			description: 'Modernized legacy systems resulting in 50% operational cost reduction',
 			image: './monika.jpg',
 		},
 		{
 			title: 'Customer Success Story',
-			client: 'FinanceHub Ltd.',
 			description: 'Implemented AI solutions leading to 80% faster processing times',
 			image: './arsheen.jpg',
 		},
 		{
 			title: 'Startup Growth Case',
-			client: 'InnovateLabs',
 			description: 'Scaled from seed to Series B in 18 months with our platform',
 			image: './deepak.jpg',
 		},
@@ -48,17 +45,17 @@ const SuccessStoriesCarousel = () => {
 			<div className="relative w-full">
 				<div className="flex items-center justify-between mb-6">
 					<h2 className="text-2xl font-semibold uppercase">
-						<span className="text-green-900">Success </span> Stories
+						<span className="text-emerald-900">Success </span> Stories
 					</h2>
 					<div className="flex gap-2">
 						<button
 							onClick={handleScrollUp}
-							className="p-2 rounded-full bg-[#143429] text-white hover:bg-[#324E44]">
+							className="p-2 rounded-full bg-gradient-to-b from-emerald-800 to-emerald-950 text-white hover:bg-gradient-to-b hover:from-emerald-800/95 hover:to-emerald-950/95">
 							<ChevronUp size={24} />
 						</button>
 						<button
 							onClick={handleScrollDown}
-							className="p-2 rounded-full bg-[#143429] text-white hover:bg-[#324E44]">
+							className="p-2 rounded-full bg-gradient-to-b from-emerald-800 to-emerald-950 text-white hover:bg-gradient-to-b hover:from-emerald-800/95 hover:to-emerald-950/95">
 							<ChevronDown size={24} />
 						</button>
 					</div>
@@ -81,13 +78,17 @@ const SuccessStoriesCarousel = () => {
 								<img
 									src={story.image}
 									alt={story.title}
-									className="h-full w-full object-cover bg-green-100"
+									className="h-full w-full object-cover bg-emerald-100"
 								/>
 							</div>
 							<div className="w-1/2 px-3 py-4 flex flex-col gap-4">
-								<h2 className="text-md font-semibold text-green-900">{story.title}</h2>
-								<p className="text-gray-600 text-xs">{story.description}</p>
-								<a href="/" className="text-green-900 text-sm hover:underline">
+								<h2 className="text-md font-semibold text-emerald-900">
+									<TruncateText text={story.title} maxLength={30} />
+								</h2>
+								<p className="text-gray-600 text-xs">
+									<TruncateText text={story.description} maxLength={80} />
+								</p>
+								<a href="/" className="text-emerald-900 text-sm hover:underline">
 									Read More
 								</a>
 							</div>
@@ -151,17 +152,17 @@ const AchievementsCarousel = () => {
 		<div className="relative lg:w-[60vw] w-full">
 			<div className="flex items-center mb-6 px-4">
 				<h2 className="text-2xl font-semibold flex-grow uppercase">
-					<span className="text-green-900">College </span>Achievements
+					<span className="text-emerald-900">College </span>Achievements
 				</h2>
 				<div className="flex gap-2">
 					<button
 						onClick={handleScrollLeft}
-						className="p-2 rounded-full bg-[#143429] text-white hover:bg-[#324E44]">
+						className="p-2 rounded-full bg-gradient-to-b from-emerald-800 to-emerald-950 text-white hover:bg-gradient-to-b hover:from-emerald-800/95 hover:to-emerald-950/95">
 						<ChevronLeft size={24} />
 					</button>
 					<button
 						onClick={handleScrollRight}
-						className="p-2 rounded-full bg-[#143429] text-white hover:bg-[#324E44]">
+						className="p-2 rounded-full bg-gradient-to-b from-emerald-800 to-emerald-950 text-white hover:bg-gradient-to-b hover:from-emerald-800/95 hover:to-emerald-950/95">
 						<ChevronRight size={24} />
 					</button>
 				</div>
@@ -183,13 +184,19 @@ const AchievementsCarousel = () => {
 						<img
 							src={achievement.image}
 							alt={achievement.title}
-							className="w-full h-56 object-cover bg-green-100"
+							className="w-full h-56 object-cover bg-emerald-100"
 						/>
-						<div className="relative p-6 flex flex-col gap-2 h-full overflow-y-auto">
-							<div className="text-sm text-gray-500 font-medium">{achievement.date}</div>
-							<h3 className="text-xl text-green-900 font-bold">{achievement.title}</h3>
-							<p className="text-gray-600 text-sm mb-5">{achievement.description}</p>
-							<a href="/" className="text-green-900 text-md w-fit hover:underline">
+						<div className="relative p-6 flex flex-col gap-3 h-full overflow-y-auto">
+							<div className="text-sm text-white font-medium mb-2 bg-emerald-800 w-fit px-3 py-1 rounded-xl">
+								{achievement.date}
+							</div>
+							<h3 className="text-xl text-emerald-900 font-bold">
+								<TruncateText text={achievement.title} maxLength={30} />
+							</h3>
+							<p className="text-gray-600 text-sm mb-5">
+								<TruncateText text={achievement.description} maxLength={60} />
+							</p>
+							<a href="/" className="text-emerald-900 text-md w-fit hover:underline">
 								Read More
 							</a>
 						</div>

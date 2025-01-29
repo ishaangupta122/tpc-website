@@ -27,7 +27,7 @@ const HeroSection = ({ imageUrl, title, breadcrumbs }) => {
 						<span key={index} className="flex items-center">
 							<a
 								href={breadcrumb.href}
-								className={`text-lg font-medium ${
+								className={`font-medium ${
 									index === breadcrumbs.length - 1 ? 'text-green-800' : ''
 								}`}>
 								{breadcrumb.label}

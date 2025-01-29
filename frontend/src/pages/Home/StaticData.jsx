@@ -1,6 +1,6 @@
 const StaticData = () => {
 	return (
-		<div className="relative w-full md:h-52 h-[100vh] bg-yellow-200 mt-20">
+		<div className="relative w-full md:h-52 h-[80vh] bg-yellow-200 mt-20">
 			{/* Background Image Layer */}
 			<div
 				className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -18,21 +18,21 @@ const StaticData = () => {
 						{/* Students */}
 						<div className="text-white space-y-2 font-medium flex flex-col justify-center items-center">
 							<h3 className="md:text-5xl text-4xl">1000+</h3>
-							<div className="w-24 bg-green-600 rounded-lg h-1"></div>
+							<div className="w-24 bg-emerald-700 rounded-lg h-1"></div>
 							<p className="text-md  uppercase font-normal">Students</p>
 						</div>
 
 						{/* Faculty */}
 						<div className="text-white space-y-2 font-medium flex flex-col justify-center items-center">
 							<h3 className="md:text-5xl text-4xl">200+</h3>
-							<div className="w-24 bg-green-600 rounded-lg h-1"></div>
+							<div className="w-24 bg-emerald-700 rounded-lg h-1"></div>
 							<p className="text-md  uppercase font-normal">Faculty & Staff</p>
 						</div>
 
 						{/* Departments */}
 						<div className="text-white space-y-2 font-medium flex flex-col justify-center items-center">
 							<h3 className="md:text-5xl text-4xl">50+</h3>
-							<div className="w-24 bg-green-600 rounded-lg h-1"></div>
+							<div className="w-24 bg-emerald-700 rounded-lg h-1"></div>
 							<p className="text-md  uppercase font-normal">Seminars Done</p>
 						</div>
 					</div>

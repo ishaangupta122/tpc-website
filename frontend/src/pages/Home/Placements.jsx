@@ -49,7 +49,7 @@ const PlacementCarousel = () => {
 			<div className="w-full bg-[#e5f7f8] py-24 overflow-hidden">
 				<div className="max-w-7xl mx-auto px-4 ">
 					<div className="text-center mb-16">
-						<h2 className="text-3xl font-semibold text-green-900 mb-4 uppercase">
+						<h2 className="text-3xl font-semibold text-emerald-900 mb-4 uppercase">
 							Recruiting <span className="text-black">Partners</span>
 						</h2>
 						<div className="w-28 h-1 bg-black mx-auto rounded-lg" />
@@ -81,7 +81,7 @@ const PlacementCarousel = () => {
 											alt={company.name}
 											className="w-full h-24 object-contain"
 										/>
-										<p className="mt-2 text-center font-bold text-green-800 text-sm">
+										<p className="mt-2 text-center font-bold text-emerald-800 text-sm">
 											{company.name}
 										</p>
 									</div>

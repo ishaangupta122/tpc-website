@@ -49,7 +49,7 @@ const LibraryPage = () => {
 				<div className="max-w-7xl w-full">
 					{/* Header */}
 					<div className="text-center mb-16">
-						<h1 className="text-3xl font-semibold mb-4 uppercase text-green-900">
+						<h1 className="text-3xl font-semibold mb-4 uppercase text-emerald-900">
 							Polytechnic <span className="text-black">Library</span>
 						</h1>
 						<div className="w-28 h-1 bg-[#FDB714] mx-auto rounded-full"></div>
@@ -72,7 +72,7 @@ const LibraryPage = () => {
 
 						{/* Description Section */}
 						<div className="text-gray-800">
-							<h2 className="text-2xl font-semibold text-green-900 mb-4">About Our Library</h2>
+							<h2 className="text-2xl font-semibold text-emerald-900 mb-4">About Our Library</h2>
 							<p className="text-base leading-7 mb-4">
 								The library is a temple of learning, a lighthouse, and a chief agency in the spread
 								of knowledge. Our polytechnic library boasts an open access system, an uncommon
@@ -102,7 +102,7 @@ const LibraryPage = () => {
 					<div className="mt-20 bg-gray-100 rounded-xl shadow-lg shadow-black/10 py-4 sm:py-16 px-4 mb-10">
 						<div className="max-w-3xl mx-auto">
 							<div className="text-center mb-10">
-								<h1 className="text-2xl font-semibold mb-2 uppercase text-green-900">
+								<h1 className="text-2xl font-semibold mb-2 uppercase text-emerald-900">
 									Meet <span className="text-black">Our Faculty</span>
 								</h1>
 								<div className="w-28 h-1 bg-[#FDB714] mx-auto rounded-full"></div>
@@ -118,7 +118,7 @@ const LibraryPage = () => {
 							<div className="flex justify-center">
 								<div className="bg-white rounded-lg shadow-lg overflow-hidden w-full lg:w-fit">
 									{/* Faculty Profile Card - Keeping the original implementation */}
-									<div className="bg-gradient-to-b from-[#324E44] to-[#143429] text-white px-6 py-4">
+									<div className="bg-gradient-to-b from-emerald-800 to-emerald-950 text-white px-6 py-4">
 										<div className="flex items-center gap-4">
 											<img
 												src={displayedFaculty.image}

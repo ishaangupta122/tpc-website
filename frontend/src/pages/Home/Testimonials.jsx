@@ -59,7 +59,7 @@ const Testimonials = () => {
 		<section id="testimonials" className="bg-[#FFFFFF] py-24 px-4">
 			<div className="max-w-[1400px] mx-auto">
 				<div className="text-center mb-12">
-					<h2 className="text-4xl font-bold text-green-800 mb-4">What Our Community Says</h2>
+					<h2 className="text-4xl font-bold text-emerald-800 mb-4">What Our Community Says</h2>
 					<div className="w-28 h-1 bg-[#FDB714] mx-auto rounded-full"></div>
 				</div>
 
@@ -87,7 +87,7 @@ const Testimonials = () => {
 									className=" max-w-[400px] w-[21rem] md:w-[20rem] lg:w-[30rem] ">
 									<div className="bg-white rounded-xl shadow-lg p-6 h-full flex flex-col justify-between">
 										<div>
-											<Quote className="w-8 h-8 text-green-800 mb-4" />
+											<Quote className="w-8 h-8 text-emerald-800 mb-4" />
 											<blockquote className="text-sm text-gray-600 mb-6 leading-relaxed">
 												{testimonial.quote}
 											</blockquote>
@@ -106,7 +106,9 @@ const Testimonials = () => {
 													<h4 className="font-semibold text-gray-900 text-sm">
 														{testimonial.name}
 													</h4>
-													<p className="text-xs font-semibold text-green-800">{testimonial.role}</p>
+													<p className="text-xs font-semibold text-emerald-800">
+														{testimonial.role}
+													</p>
 												</div>
 											</div>
 										</div>

@@ -140,7 +140,7 @@ const CollegePoliciesPage = () => {
 			<div className="min-h-screen bg-gray-50 lg:py-16 px-4 lg:px-8">
 				<div className="max-w-4xl mx-auto">
 					<div className="mb-12">
-						<h1 className="text-3xl text-center font-semibold mb-4 uppercase text-green-900">
+						<h1 className="text-3xl text-center font-semibold mb-4 uppercase text-emerald-900">
 							College <span className="text-black">Guidlines & Policies</span>
 						</h1>
 						<div className="w-28 h-1 bg-[#FDB714] rounded-full mx-auto"></div>
@@ -151,19 +151,19 @@ const CollegePoliciesPage = () => {
 							<button
 								className={`w-full px-6 py-4 text-left flex justify-between items-center ${
 									openSections[policy.id]
-										? 'bg-gradient-to-b from-[#324E44] to-[#143429]'
+										? 'bg-gradient-to-b from-emerald-800 to-emerald-950'
 										: 'bg-white'
 								} hover:bg-green-100 transition-colors rounded-t-lg`}
 								onClick={() => toggleSection(policy.id)}>
 								<h2
 									className={`text-xl font-semibold ${
-										openSections[policy.id] ? 'text-white' : 'text-green-900'
+										openSections[policy.id] ? 'text-white' : 'text-emerald-900'
 									}`}>
 									{policy.title}
 								</h2>
 								<svg
 									className={`w-6 h-6 transform transition-transform ${
-										openSections[policy.id] ? 'text-white rotate-180' : 'text-green-900'
+										openSections[policy.id] ? 'text-white rotate-180' : 'text-emerald-900'
 									}`}
 									fill="none"
 									stroke="currentColor"

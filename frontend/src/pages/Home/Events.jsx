@@ -1,5 +1,6 @@
 import { MoveRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useState, useRef } from 'react';
+import TruncateText from '../../components/TruncateText';
 
 const EventsCarousel = () => {
 	const [events] = useState([
@@ -79,19 +80,19 @@ const EventsCarousel = () => {
 				{/* Heading And Buttons */}
 				<div className="w-full flex justify-between items-center mb-8 px-2">
 					<div className="text-left w-fit">
-						<h2 className="text-4xl font-medium text-green-900">Latest Events</h2>
+						<h2 className="text-4xl font-medium text-emerald-900">Latest Events</h2>
 					</div>
 					<div className="flex gap-2">
 						<button
 							onClick={() => scroll('prev')}
 							disabled={activeButton === 'prev'}
-							className="p-2 rounded-full bg-[#143429] text-white hover:bg-[#324E44] transition-colors disabled:opacity-50">
+							className="p-2 rounded-full bg-gradient-to-b from-emerald-800 to-emerald-950 text-white hover:bg-gradient-to-b hover:from-emerald-800/95 hover:to-emerald-950/95 transition-colors disabled:opacity-50">
 							<ChevronLeft className="w-6 h-6" />
 						</button>
 						<button
 							onClick={() => scroll('next')}
 							disabled={activeButton === 'next'}
-							className="p-2 rounded-full bg-[#143429] text-white hover:bg-[#324E44] transition-colors disabled:opacity-50">
+							className="p-2 rounded-full bg-gradient-to-b from-emerald-800 to-emerald-950 text-white hover:bg-gradient-to-b hover:from-emerald-800/95 hover:to-emerald-950/95 transition-colors disabled:opacity-50">
 							<ChevronRight className="w-6 h-6" />
 						</button>
 					</div>
@@ -109,19 +110,23 @@ const EventsCarousel = () => {
 					{events.map((event) => (
 						<div key={event.id} className="w-full md:w-1/3 lg:w-1/4 flex-shrink-0 px-2 py-5">
 							<div className="bg-white rounded-lg shadow-lg transform hover:-translate-y-1 transition-all duration-300 relative h-full">
-								<div className="relative h-40 bg-[#143429]/20 rounded-t-md overflow-hidden border-b-[4px] border-green-900">
+								<div className="relative h-40 bg-[#143429]/20 rounded-t-md overflow-hidden border-b-[4px] border-emerald-900">
 									<img src={event.image} alt={event.title} className="h-full w-full object-cover" />
-									<div className="flex flex-col text-center absolute top-0 left-4 font-medium bg-gradient-to-b from-[#324E44]/90 to-[#143429]/90 text-white px-3 py-1 rounded-b-lg">
+									<div className="flex flex-col text-center absolute top-0 left-4 font-medium bg-gradient-to-b from-emerald-800 to-emerald-950 text-white px-3 py-1 rounded-b-lg">
 										<span className="text-3xl">{event.date[0]}</span>
 										<span className="text-sm">{event.date[1]}</span>
 									</div>
 								</div>
 								<div className="p-4 pb-24 rounded-b-md">
-									<h3 className="text-lg font-semibold text-green-900 mb-3">{event.title}</h3>
-									<p className="text-gray-600 text-sm">{event.description}</p>
+									<h3 className="text-lg font-semibold text-emerald-900 mb-3">
+										<TruncateText text={event.title} maxLength={30} />
+									</h3>
+									<p className="text-gray-600 text-sm">
+										<TruncateText text={event.description} maxLength={60} />
+									</p>
 									<a
 										href="#"
-										className="absolute bottom-0 left-0 right-0 h-14 rounded-b-md overflow-hidden bg-gradient-to-b from-[#324E44] to-[#143429] hover:underline inline-flex items-center justify-center py-4 text-white">
+										className="absolute bottom-0 left-0 right-0 h-14 rounded-b-md overflow-hidden bg-gradient-to-b from-emerald-800 to-emerald-950 hover:underline inline-flex items-center justify-center py-4 text-white">
 										Read More
 										<MoveRight className="ml-2" />
 									</a>

@@ -14,7 +14,7 @@ const PrincipalCard = () => {
 					</div>
 					<div className="flex flex-col lg:w-[60%] w-full gap-2">
 						<h1 className="font-bold text-3xl">
-							<span className="text-green-800">{`Principal's `}</span>
+							<span className="text-emerald-800">{`Principal's `}</span>
 							<span className="">Message</span>
 						</h1>
 						<p className="text-md font-normal ">Dr. Ankush Kansal</p>
@@ -27,7 +27,7 @@ const PrincipalCard = () => {
 						</p>
 						<a
 							href="/principal"
-							className="text-green-800 w-fit flex items-center justify-center gap-1 hover:underline">
+							className="text-emerald-800 w-fit flex items-center justify-center gap-1 hover:underline">
 							Read More
 							<MoveRight />
 						</a>
