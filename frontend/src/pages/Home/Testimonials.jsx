@@ -1,9 +1,6 @@
-import { useState } from 'react';
-import { ChevronLeft, ChevronRight, Quote } from 'lucide-react';
+import { Quote } from 'lucide-react';
 
 const Testimonials = () => {
-	const [currentIndex, setCurrentIndex] = useState(0);
-
 	const testimonials = [
 		{
 			id: 1,
@@ -47,14 +44,6 @@ const Testimonials = () => {
 		},
 	];
 
-	const nextSlide = () => {
-		setCurrentIndex((prevIndex) => (prevIndex === testimonials.length - 1 ? 0 : prevIndex + 1));
-	};
-
-	const prevSlide = () => {
-		setCurrentIndex((prevIndex) => (prevIndex === 0 ? testimonials.length - 1 : prevIndex - 1));
-	};
-
 	return (
 		<section id="testimonials" className="bg-[#FFFFFF] py-24 px-4">
 			<div className="max-w-[1400px] mx-auto">
@@ -64,14 +53,6 @@ const Testimonials = () => {
 				</div>
 
 				<div className="relative flex items-center">
-					{/* Left Button */}
-					<button
-						onClick={prevSlide}
-						className="absolute left-0 z-10 p-2 rounded-full bg-white shadow-lg hover:bg-blue-50 transition-all"
-						aria-label="Previous">
-						<ChevronLeft className="w-6 h-6 text-blue-600" />
-					</button>
-
 					{/* Cards Container */}
 					<div
 						className="flex w-full overflow-x-scroll scroll-smooth py-6 lg:mx-4"
@@ -117,27 +98,6 @@ const Testimonials = () => {
 							))}
 						</div>
 					</div>
-
-					{/* Right Button */}
-					<button
-						onClick={nextSlide}
-						className="absolute right-0 z-10 p-2 rounded-full bg-white shadow-lg hover:bg-blue-50 transition-all"
-						aria-label="Next">
-						<ChevronRight className="w-6 h-6 text-blue-600" />
-					</button>
-				</div>
-
-				{/* Pagination Dots */}
-				<div className="flex justify-center mt-8 space-x-2">
-					{testimonials.map((_, index) => (
-						<button
-							key={index}
-							onClick={() => setCurrentIndex(index)}
-							className={`w-3 h-3 rounded-full transition-all duration-300 
-                ${index === currentIndex ? 'bg-blue-600' : 'bg-blue-200'}`}
-							aria-label={`Go to slide ${index + 1}`}
-						/>
-					))}
 				</div>
 			</div>
 		</section>

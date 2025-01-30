@@ -1,5 +1,6 @@
 import { CalendarDays, GraduationCapIcon, Images, Quote, Trophy } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import Typewriter from '../../components/TypeWriteEffect';
 
 const Carousel = () => {
 	const [currentSlide, setCurrentSlide] = useState(0);
@@ -88,23 +89,23 @@ const Carousel = () => {
 				</div>
 				<div className="absolute top-0 left-0  z-20 overflow-hidden w-full flex md:justify-start justify-center items-center flex-col h-full">
 					<div className="flex flex-col gap-4 text-white text-center mt-0 md:mt-[12vh] lg:mt-[20vh] px-3">
-						<span className="font-light tracking-tighter text-2xl lg:text-3xl xl:text-4xl">
+						<span
+							className="font-normal tracking-tighter uppercase text-2xl lg:text-3xl xl:text-4xl"
+							style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)' }}>
 							Welcome To
 						</span>
 						<span
-							className="font-medium tracking-wide text-3xl lg:text-4xl xl:text-5xl flex items-start justify-center"
-							style={{
-								textShadow: '10px 0 10px rgba(0, 0, 0, 0.5)',
-							}}>
+							className="font-medium tracking-wide text-3xl lg:text-4xl xl:text-5xl flex items-start justify-center uppercase"
+							style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)' }}>
 							<Quote className="mr-1 rotate-180" />
-							{`Thapar Polytechnic College`}
+							<Typewriter text={'Thapar Polytechnic College'} />
 							<Quote className="ml-2" />
 						</span>
 					</div>
 				</div>
 			</div>
 			<div className="absolute -bottom-10 z-20 md:flex hidden items-center justify-center w-full">
-				<div className="grid lg:grid-cols-5 md:grid-cols-2 max-w-4xl">
+				<div className="grid lg:grid-cols-5 md:grid-cols-2 max-w-5xl">
 					{quickLinks.map((item, index) => (
 						<a
 							key={index}

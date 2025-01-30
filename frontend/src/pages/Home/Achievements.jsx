@@ -71,9 +71,7 @@ const SuccessStoriesCarousel = () => {
 						scrollbarWidth: 'none',
 					}}>
 					{successStories.map((story, index) => (
-						<div
-							key={index}
-							className="flex bg-white rounded-lg shadow-lg overflow-hidden min-h-56 w-full">
+						<div key={index} className="flex bg-white rounded-lg shadow-lg  min-h-56 w-full">
 							<div className="overflow-hidden rounded-l-lg h-full w-1/2">
 								<img
 									src={story.image}
@@ -82,8 +80,8 @@ const SuccessStoriesCarousel = () => {
 								/>
 							</div>
 							<div className="w-1/2 px-3 py-4 flex flex-col gap-4">
-								<div className="text-md font-semibold text-emerald-900">
-									<TruncateText text={story.title} maxLength={30} />
+								<div className="text-sm font-semibold text-emerald-900">
+									<TruncateText text={story.title} maxLength={20} />
 								</div>
 								<div className="text-gray-600 text-xs">
 									<TruncateText text={story.description} maxLength={80} />
