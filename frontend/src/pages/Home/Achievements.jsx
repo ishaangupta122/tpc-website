@@ -82,12 +82,12 @@ const SuccessStoriesCarousel = () => {
 								/>
 							</div>
 							<div className="w-1/2 px-3 py-4 flex flex-col gap-4">
-								<h2 className="text-md font-semibold text-emerald-900">
+								<div className="text-md font-semibold text-emerald-900">
 									<TruncateText text={story.title} maxLength={30} />
-								</h2>
-								<p className="text-gray-600 text-xs">
+								</div>
+								<div className="text-gray-600 text-xs">
 									<TruncateText text={story.description} maxLength={80} />
-								</p>
+								</div>
 								<a href="/" className="text-emerald-900 text-sm hover:underline">
 									Read More
 								</a>
@@ -190,12 +190,12 @@ const AchievementsCarousel = () => {
 							<div className="text-sm text-white font-medium mb-2 bg-emerald-800 w-fit px-3 py-1 rounded-xl">
 								{achievement.date}
 							</div>
-							<h3 className="text-xl text-emerald-900 font-bold">
+							<div className="text-xl text-emerald-900 font-bold">
 								<TruncateText text={achievement.title} maxLength={30} />
-							</h3>
-							<p className="text-gray-600 text-sm mb-5">
+							</div>
+							<div className="text-gray-600 text-sm mb-5">
 								<TruncateText text={achievement.description} maxLength={60} />
-							</p>
+							</div>
 							<a href="/" className="text-emerald-900 text-md w-fit hover:underline">
 								Read More
 							</a>

@@ -1,6 +1,6 @@
 const StaticData = () => {
 	return (
-		<div className="relative w-full md:h-52 h-[80vh] bg-yellow-200 mt-20">
+		<div className="relative w-full md:h-52 h-[80vh] mt-20">
 			{/* Background Image Layer */}
 			<div
 				className="absolute inset-0 bg-cover bg-center bg-no-repeat"

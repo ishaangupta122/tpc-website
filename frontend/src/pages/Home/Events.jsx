@@ -118,12 +118,12 @@ const EventsCarousel = () => {
 									</div>
 								</div>
 								<div className="p-4 pb-24 rounded-b-md">
-									<h3 className="text-lg font-semibold text-emerald-900 mb-3">
+									<div className="text-lg font-semibold text-emerald-900 mb-3">
 										<TruncateText text={event.title} maxLength={30} />
-									</h3>
-									<p className="text-gray-600 text-sm">
+									</div>
+									<div className="text-gray-600 text-sm">
 										<TruncateText text={event.description} maxLength={60} />
-									</p>
+									</div>
 									<a
 										href="#"
 										className="absolute bottom-0 left-0 right-0 h-14 rounded-b-md overflow-hidden bg-gradient-to-b from-emerald-800 to-emerald-950 hover:underline inline-flex items-center justify-center py-4 text-white">

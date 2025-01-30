@@ -1,8 +1,8 @@
-// import { useState } from 'react';
-import { Quote } from 'lucide-react';
+import { useState } from 'react';
+import { ChevronLeft, ChevronRight, Quote } from 'lucide-react';
 
 const Testimonials = () => {
-	// const [currentIndex, setCurrentIndex] = useState(0);
+	const [currentIndex, setCurrentIndex] = useState(0);
 
 	const testimonials = [
 		{
@@ -47,13 +47,13 @@ const Testimonials = () => {
 		},
 	];
 
-	// const nextSlide = () => {
-	// 	setCurrentIndex((prevIndex) => (prevIndex === testimonials.length - 1 ? 0 : prevIndex + 1));
-	// };
+	const nextSlide = () => {
+		setCurrentIndex((prevIndex) => (prevIndex === testimonials.length - 1 ? 0 : prevIndex + 1));
+	};
 
-	// const prevSlide = () => {
-	// 	setCurrentIndex((prevIndex) => (prevIndex === 0 ? testimonials.length - 1 : prevIndex - 1));
-	// };
+	const prevSlide = () => {
+		setCurrentIndex((prevIndex) => (prevIndex === 0 ? testimonials.length - 1 : prevIndex - 1));
+	};
 
 	return (
 		<section id="testimonials" className="bg-[#FFFFFF] py-24 px-4">
@@ -65,12 +65,12 @@ const Testimonials = () => {
 
 				<div className="relative flex items-center">
 					{/* Left Button */}
-					{/* <button
+					<button
 						onClick={prevSlide}
 						className="absolute left-0 z-10 p-2 rounded-full bg-white shadow-lg hover:bg-blue-50 transition-all"
 						aria-label="Previous">
 						<ChevronLeft className="w-6 h-6 text-blue-600" />
-					</button> */}
+					</button>
 
 					{/* Cards Container */}
 					<div
@@ -119,16 +119,16 @@ const Testimonials = () => {
 					</div>
 
 					{/* Right Button */}
-					{/* <button
+					<button
 						onClick={nextSlide}
 						className="absolute right-0 z-10 p-2 rounded-full bg-white shadow-lg hover:bg-blue-50 transition-all"
 						aria-label="Next">
 						<ChevronRight className="w-6 h-6 text-blue-600" />
-					</button> */}
+					</button>
 				</div>
 
 				{/* Pagination Dots */}
-				{/* <div className="flex justify-center mt-8 space-x-2">
+				<div className="flex justify-center mt-8 space-x-2">
 					{testimonials.map((_, index) => (
 						<button
 							key={index}
@@ -138,7 +138,7 @@ const Testimonials = () => {
 							aria-label={`Go to slide ${index + 1}`}
 						/>
 					))}
-				</div> */}
+				</div>
 			</div>
 		</section>
 	);

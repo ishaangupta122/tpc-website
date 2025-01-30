@@ -87,7 +87,7 @@ const Carousel = () => {
 					))}
 				</div>
 				<div className="absolute top-0 left-0  z-20 overflow-hidden w-full flex md:justify-start justify-center items-center flex-col h-full">
-					<div className="flex flex-col gap-4 text-white text-center mt-0 md:mt-[20vh] px-3">
+					<div className="flex flex-col gap-4 text-white text-center mt-0 md:mt-[12vh] lg:mt-[20vh] px-3">
 						<span className="font-light tracking-tighter text-2xl lg:text-3xl xl:text-4xl">
 							Welcome To
 						</span>
