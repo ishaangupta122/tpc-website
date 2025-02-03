@@ -48,19 +48,19 @@ const PrincipalProfile = () => {
 						</div>
 						{/* Contact Info - Hidden on mobile, visible on lg screens */}
 						<div className="hidden lg:block bg-yellow-50 rounded-lg p-6 shadow-md">
-							<h3 className="text-xl font-bold mb-4 text-yellow-600">Contact Information</h3>
+							<h3 className="text-xl font-medium mb-4 text-yellow-600">Contact Information</h3>
 							<div className="space-y-3">
 								<div className="flex items-center gap-3">
 									<Mail className="text-yellow-600" />
-									<span>principal@thaparpolytechnic.ac.in</span>
+									<a href="mailto:principaltpc@thapar.edu">principaltpc@thapar.edu</a>
 								</div>
 								<div className="flex items-center gap-3">
 									<Phone className="text-yellow-600" />
-									<span>Office: (0175) XXX-XXXX</span>
+									<span>Office: +91 XXXXX-XXXXX</span>
 								</div>
 								<div className="flex items-center gap-3">
 									<Clock className="text-yellow-600" />
-									<span>Office Hours: Monday-Friday, 9:00 AM - 5:00 PM</span>
+									<span>Monday-Friday: 9:00 AM - 5:00 PM</span>
 								</div>
 							</div>
 							<div className="flex gap-4 mt-6">
@@ -79,7 +79,9 @@ const PrincipalProfile = () => {
 
 					{/* Right Column - Message and Contact Info for mobile */}
 					<div className="lg:w-1/2">
-						<h2 className="text-3xl font-bold mb-4 text-emerald-900">Message from the Principal</h2>
+						<h2 className="text-3xl font-semibold mb-4 text-emerald-900">
+							Message from the Principal
+						</h2>
 						<h2 className="text-lg font-normal mb-4 text-black italic">- Dr. Ankush Kansal</h2>
 						<div className="text-gray-700 space-y-4">
 							<p>
@@ -120,19 +122,19 @@ const PrincipalProfile = () => {
 
 						{/* Contact Info - Visible only on mobile/tablet */}
 						<div className="lg:hidden bg-yellow-50 rounded-lg p-6 my-6 shadow-lg">
-							<h3 className="text-xl font-bold mb-4 text-yellow-600">Contact Information</h3>
+							<h3 className="text-xl font-semibold mb-4 text-yellow-600">Contact Information</h3>
 							<div className="space-y-3">
 								<div className="flex items-center gap-3">
 									<Mail className="text-yellow-600" />
-									<span>principal@thaparpolytechnic.ac.in</span>
+									<a href="mailto:principaltpc@thapar.edu">principaltpc@thapar.edu</a>
 								</div>
 								<div className="flex items-center gap-3">
 									<Phone className="text-yellow-600" />
-									<span>Office: (0175) XXX-XXXX</span>
+									<span>Office: +91 XXXXX-XXXXX</span>
 								</div>
 								<div className="flex items-center gap-3">
 									<Clock className="text-yellow-600" />
-									<span>Office Hours: Monday-Friday, 9:00 AM - 5:00 PM</span>
+									<span>Monday-Friday: 9:00 AM - 5:00 PM</span>
 								</div>
 							</div>
 							<div className="flex gap-4 mt-4">
@@ -154,17 +156,20 @@ const PrincipalProfile = () => {
 			{/* Achievements Section */}
 			<div className="bg-gray-50 py-12">
 				<div className="container mx-auto px-4">
-					<h2 className="text-3xl font-bold text-emerald-900 mb-4 text-center">Key Highlights</h2>
+					<h2 className="text-3xl font-semibold uppercase text-emerald-900 mb-4 text-center">
+						Key
+						<span className="text-black"> Highlights</span>
+					</h2>
 					<div className="w-28 h-1 bg-[#FDB714] mx-auto rounded-full mb-10"></div>
 					<div className="grid md:grid-cols-2 gap-6">
 						{achievements.map((achievement, index) => (
 							<div
 								key={index}
-								className="bg-gradient-to-b from-emerald-800 to-emerald-950 text-white rounded-lg p-6 shadow-md hover:-translate-y-1 transition-transform duration-300">
-								<h3 className="text-xl font-medium mb-4 text-[#ffd42a]">{achievement.title}</h3>
+								className="bg-emerald-50 border from-emerald-50 to-emerald-100 rounded-lg p-6 shadow-md hover:-translate-y-1 transition-transform duration-300">
+								<h3 className="text-xl font-medium mb-4 ">{achievement.title}</h3>
 								<ul className="space-y-2 px-2">
 									{achievement.points.map((point, idx) => (
-										<li key={idx} type="disc" className="text-gray-100">
+										<li key={idx} type="disc" className="text-gray-700">
 											{point}
 										</li>
 									))}

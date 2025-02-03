@@ -1,4 +1,4 @@
-import { Mail, MessageCircleMore, Phone, User } from 'lucide-react';
+import { Clock, Mail, MessageCircleMore, Phone, User } from 'lucide-react';
 import { useState } from 'react';
 import HeroSection from '../../components/HeroSection';
 
@@ -42,7 +42,7 @@ const ContactPage = () => {
 
 	return (
 		<>
-			<HeroSection imageUrl="./rec_gate.jpg" title="Feedback Form" breadcrumbs={breadcrumbs} />
+			<HeroSection imageUrl="/rec_gate.jpg" title="Contact Page" breadcrumbs={breadcrumbs} />
 			<div className=" flex items-center justify-center bg-gray-100 p-3 py-20 ">
 				<div className="w-full max-w-4xl bg-white rounded-lg shadow-xl overflow-hidden flex flex-col md:flex-row">
 					<div className="w-full md:w-1/2 p-8">
@@ -55,10 +55,12 @@ const ContactPage = () => {
 							</div>
 						) : (
 							<form onSubmit={handleSubmit} className="space-y-6">
-								<h1 className="text-3xl font-semibold text-emerald-800 mb-6">Contact Us</h1>
+								<h1 className="text-2xl uppercase tracking-tighter font-semibold text-emerald-800 mb-6">
+									Having a Query ? Contact Us
+								</h1>
 								<div>
 									<label htmlFor="name" className="block text-sm font-medium text-gray-700">
-										Name
+										Name*
 									</label>
 									<div className="mt-1 relative rounded-md shadow-sm ">
 										<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -76,7 +78,7 @@ const ContactPage = () => {
 								</div>
 								<div>
 									<label htmlFor="email" className="block text-sm font-medium text-gray-700">
-										Email
+										Email*
 									</label>
 									<div className="mt-1 relative rounded-md shadow-sm">
 										<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -101,7 +103,6 @@ const ContactPage = () => {
 											<Phone className="h-5 w-5 text-emerald-800" aria-hidden="true" />
 										</div>
 										<input
-											required
 											type="phone"
 											name="number"
 											id="number"
@@ -112,7 +113,7 @@ const ContactPage = () => {
 								</div>
 								<div>
 									<label htmlFor="message" className="block text-sm font-medium text-gray-700">
-										Message
+										Message*
 									</label>
 									<div className="mt-1 relative rounded-md shadow-sm">
 										<div className="absolute inset-y-0 left-0 pl-3 pt-2 flex items-start pointer-events-none">
@@ -152,22 +153,34 @@ const ContactPage = () => {
 							</div>
 							<div className="p-8 space-y-4">
 								<h2 className="flex flex-col justify-center text-lg font-semibold text-emerald-800">
-									Thapar Polytechnic Collge,
+									Thapar Polytechnic Collge, Thapar Technology Campus, Bhadson Road,
 									<span className="">Patiala - 147001, India</span>
 								</h2>
-								<div className="text-gray-800">
-									<p>
-										<span className="text-emerald-800 font-medium">Main Office:</span> +91
-										XXXXX-XXXXX
-									</p>
-									<p>
-										<span className="text-emerald-800 font-medium">Email:</span> info@college.edu
+								<div className="text-gray-800 font-medium">
+									<div className="flex items-center gap-2">
+										<span className="flex items-center gap-1 text-emerald-800 font-semibold">
+											<Phone />
+											Phone:
+										</span>{' '}
+										<div className="flex items-center flex-col lg:flex-row gap-1">
+											<span>75088-55997, </span>
+											<span>90563-40134</span>
+										</div>
+									</div>
+									<p className="flex items-center gap-2">
+										<span className="flex items-center gap-1 text-emerald-800 font-semibold">
+											<Mail />
+											Email:
+										</span>{' '}
+										tpcadmissions@thapar.edu
 									</p>
 								</div>
 								<p className="text-gray-800">
-									<span className="text-emerald-800 font-medium">Office Hours:</span>
-									<br />
-									<span className="font-medium">Monday - Friday</span>: 9:00 AM - 5:00 PM
+									<span className="flex items-center gap-1 text-emerald-800 font-semibold">
+										<Clock />
+										Office Hours:
+									</span>
+									<span className="font-medium">Monday-Friday: 9:00 AM - 5:00 PM</span>
 								</p>
 							</div>
 						</div>

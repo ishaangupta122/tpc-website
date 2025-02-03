@@ -45,7 +45,7 @@ const HostelPage = () => {
 
 	const breadcrumbs = [
 		{ label: 'Home', href: '/' },
-		{ label: 'Hostel', href: '/hostel-page' },
+		{ label: 'Hostel', href: '/hostel' },
 	];
 
 	useEffect(() => {

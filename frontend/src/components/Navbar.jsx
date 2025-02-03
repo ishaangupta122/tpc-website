@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronDown, ChevronRight, User, Users } from 'lucide-react';
+import { ChevronDown, ChevronRight, Smartphone, User, Users } from 'lucide-react';
 
 const Navbar = () => {
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -8,57 +8,85 @@ const Navbar = () => {
 	const [activeMobileDropdown, setActiveMobileDropdown] = useState(null);
 
 	const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
+
 	const toggleMobileDropdown = (linkName) => {
 		setActiveMobileDropdown(activeMobileDropdown === linkName ? null : linkName);
+	};
+
+	// Combined handler for both closing sidebar and dropdown
+	const handleLinkClick = () => {
+		setIsSidebarOpen(false);
+		setActiveDropdown(null);
+		setActiveMobileDropdown(null);
+	};
+
+	// Desktop dropdown handlers
+	const handleMouseEnter = (dropdownName) => {
+		setActiveDropdown(dropdownName);
+	};
+
+	const handleMouseLeave = () => {
+		setActiveDropdown(null);
+	};
+
+	// Handle dropdown link clicks
+	const handleDropdownLinkClick = () => {
+		setActiveDropdown(null);
+		setActiveMobileDropdown(null);
 	};
 
 	return (
 		<div className="sticky top-0 z-50">
 			{/* Top Navbar */}
 			<div className="hidden lg:block bg-gradient-to-b from-emerald-800 to-emerald-950 border-b">
-				<div className="max-w-7xl mx-auto px-4">
+				<div className="max-w-7xl mx-auto px-6">
 					<div className="flex items-center justify-between h-14">
-						<div className="flex items-center space-x-6">
+						<div className="flex items-center lg:space-x-4 xl:space-x-5 text-xs xl:uppercase lg:tracking-tight xl:tracking-wide">
 							<Link
-								to="/admission-enquiry"
-								className="flex flex-col justify-center items-center text-sm text-white hover:text-emerald-100 transition-colors"
-								style={{ animation: 'blink 1s steps(2, start) infinite' }}>
-								<span className="">+91 XXXXX XXXXX</span>
-								Admission Enquiry
-								<style>
-									{`
-    @keyframes blink {
-      50%, 100% { opacity: 1; }
-      0% { opacity: 0; }
-    }
-  `}
-								</style>
+								to="/contact"
+								className="flex flex-col justify-center items-center text-yellow-300 hover:text-yellow-400 transition-colors  blink-animation">
+								<span className="flex items-center justify-center">
+									<Smartphone className="h-4" />
+									Admission Enquiry :
+								</span>
+								<span className="">+91 75088-55997</span>
+							</Link>
+							<Link
+								to="https://forms.eduqfix.com/thaperolform/add"
+								target="_blank"
+								className="text-yellow-300 hover:text-yellow-400 transition-colors  blink-animation">
+								Online Fee Payment
 							</Link>
 							<Link
 								to="/magazines"
-								className="text-sm text-white hover:text-emerald-100 transition-colors">
+								className=" text-white hover:text-emerald-100 transition-colors">
 								College Magazine
 							</Link>
 							<Link
 								to="/mentors-list"
-								className="text-sm text-white hover:text-emerald-100 transition-colors">
+								className=" text-white hover:text-emerald-100 transition-colors">
 								List of Mentors
 							</Link>
 							<Link
 								to="/forms-download"
-								className="text-sm text-white hover:text-emerald-100 transition-colors">
+								className=" text-white hover:text-emerald-100 transition-colors">
 								Forms Download
 							</Link>
 							<Link
-								to="/contact"
-								className="text-sm text-white hover:text-emerald-100 transition-colors">
-								Feedback Form
+								to="/mandatory-disclosure"
+								className=" text-white hover:text-emerald-100 transition-colors">
+								Mandatory Disclosure
+							</Link>
+							<Link
+								to="/tpc-newsletter"
+								className=" text-white hover:text-emerald-100 transition-colors">
+								TPC Newsletter
 							</Link>
 						</div>
 
 						{/* Login Dropdown */}
-						<div className="relative group z-50">
-							<button className="flex items-center font-semibold space-x-2 bg-white text-emerald-800 px-2 rounded-md hover:bg-emerald-100 transition-colors py-1">
+						{/* <div className="relative group z-50">
+							<button className="flex items-center mr-2 font-semibold space-x-2 bg-white text-emerald-800 px-2 rounded-md hover:bg-emerald-100 transition-colors py-1">
 								<span>Login</span>
 								<ChevronDown className="w-4 h-4 group-hover:rotate-180 transition-transform duration-200" />
 							</button>
@@ -82,7 +110,7 @@ const Navbar = () => {
 									<span>Alumni</span>
 								</Link>
 							</div>
-						</div>
+						</div> */}
 					</div>
 				</div>
 			</div>
@@ -90,11 +118,17 @@ const Navbar = () => {
 			{/* Main Navbar */}
 			<nav className="bg-white shadow-md">
 				<div className="max-w-7xl mx-auto px-4">
-					<div className="flex items-center justify-between h-20">
+					<div className="flex items-center justify-between h-24">
 						{/* Logo */}
-						<Link to="/" className="flex items-center">
-							<img src="./tpc-logo.png" alt="Logo" className="h-16 w-auto" />
-						</Link>
+						<div className="flex items-center h-20 gap-4">
+							<a href="/" className="flex items-center">
+								<img src="/tpc-logo.png" alt="TPC-Logo" className="h-14 xl:h-20 w-auto" />
+							</a>
+							<div className="h-14 bg-green-800 w-[1px] rounded-lg"></div>
+							<Link to="https://ndl.iitkgp.ac.in/" target="_blank" className="flex items-center">
+								<img src="/ndli_logo.png" alt="NDLI-Logo" className="h-9 xl:h-12 w-auto " />
+							</Link>
+						</div>
 
 						{/* Mobile Menu Button */}
 						<button
@@ -111,49 +145,62 @@ const Navbar = () => {
 						</button>
 
 						{/* Desktop Navigation */}
-						<div className="hidden lg:flex items-center space-x-2 h-full">
+						<div className="hidden lg:flex items-center space-x-5 h-full font-medium mr-4">
 							<Link
 								to="/"
-								className="px-4 py-2 font-medium text-gray-700 hover:text-emerald-600 transition-colors">
+								onClick={handleDropdownLinkClick}
+								className=" text-gray-700 hover:text-emerald-600 transition-colors">
 								Home
 							</Link>
 
+							{/*  */}
 							{/* Institution Dropdown */}
 							<div
-								className="relative group h-full flex items-center"
-								onMouseEnter={() => setActiveDropdown('institution')}
-								onMouseLeave={() => setActiveDropdown(null)}>
-								<button className="px-4 py-2 font-medium text-gray-700 hover:text-emerald-600 transition-colors flex items-center">
+								className="relative group  flex items-center"
+								onMouseEnter={() => handleMouseEnter('institution')}
+								onMouseLeave={handleMouseLeave}>
+								<button className=" text-gray-700 hover:text-emerald-600 transition-colors flex items-center">
 									Institution
 									<ChevronDown className="ml-1 w-4 h-4 group-hover:rotate-180 transition-transform duration-200" />
 								</button>
 								<div
-									className={`absolute top-full left-0 w-56 bg-gradient-to-b from-emerald-800 to-emerald-950 rounded-b-md shadow-lg transition-all duration-200 ${
+									className={`absolute top-full mt-9 left-0 w-56 bg-gradient-to-b from-emerald-800 to-emerald-950 rounded-b-md shadow-lg transition-all duration-200 ${
 										activeDropdown === 'institution' ? 'opacity-100 visible' : 'opacity-0 invisible'
 									}`}>
-									<div className="py-2  text-white text-sm">
+									<div className="py-2 text-white text-sm font-normal">
 										<Link
 											to="/about"
+											onClick={handleDropdownLinkClick}
 											className="block px-4 py-2 hover:bg-emerald-50 hover:text-emerald-600">
 											About Us
 										</Link>
 										<Link
 											to="/principal"
+											onClick={handleDropdownLinkClick}
 											className="block px-4 py-2 hover:bg-emerald-50 hover:text-emerald-600">
 											Principal
 										</Link>
 										<Link
 											to="/faculty"
+											onClick={handleDropdownLinkClick}
 											className="block px-4 py-2 hover:bg-emerald-50 hover:text-emerald-600">
 											Faculty
 										</Link>
 										<Link
 											to="/managing-committee"
+											onClick={handleDropdownLinkClick}
 											className="block px-4 py-2 hover:bg-emerald-50 hover:text-emerald-600">
 											Managing Committee
 										</Link>
 										<Link
+											to="/admin-staff"
+											onClick={handleDropdownLinkClick}
+											className="block px-4 py-2 hover:bg-emerald-50 hover:text-emerald-600">
+											Admin Staff
+										</Link>
+										<Link
 											to="/gallery"
+											onClick={handleDropdownLinkClick}
 											className="block px-4 py-2 hover:bg-emerald-50 hover:text-emerald-600">
 											Gallery
 										</Link>
@@ -163,40 +210,45 @@ const Navbar = () => {
 
 							{/* Academics Dropdown */}
 							<div
-								className="relative group h-full flex items-center"
-								onMouseEnter={() => setActiveDropdown('academics')}
-								onMouseLeave={() => setActiveDropdown(null)}>
-								<button className="px-4 py-2 font-medium text-gray-700 hover:text-emerald-600 transition-colors flex items-center">
+								className="relative group flex items-center"
+								onMouseEnter={() => handleMouseEnter('academics')}
+								onMouseLeave={handleMouseLeave}>
+								<button className="  text-gray-700 hover:text-emerald-600 transition-colors flex items-center">
 									Academics
 									<ChevronDown className="ml-1 w-4 h-4 group-hover:rotate-180 transition-transform duration-200" />
 								</button>
 								<div
-									className={`absolute top-full left-0 w-56 bg-gradient-to-b from-emerald-800 to-emerald-950 rounded-b-md shadow-lg transition-all duration-200 ${
+									className={`absolute top-full mt-9 left-0 w-56 bg-gradient-to-b from-emerald-800 to-emerald-950 rounded-b-md shadow-lg transition-all duration-200 ${
 										activeDropdown === 'academics' ? 'opacity-100 visible' : 'opacity-0 invisible'
 									}`}>
-									<div className="py-2 text-white text-sm">
+									<div className="py-2 text-white text-sm font-normal">
 										<Link
 											to="/admission"
+											onClick={handleDropdownLinkClick}
 											className="block px-4 py-2  hover:bg-emerald-50 hover:text-emerald-600">
 											Admission
 										</Link>
 										<Link
 											to="/hostel"
+											onClick={handleDropdownLinkClick}
 											className="block px-4 py-2  hover:bg-emerald-50 hover:text-emerald-600">
 											Hostel
 										</Link>
 										<Link
 											to="/library"
+											onClick={handleDropdownLinkClick}
 											className="block px-4 py-2  hover:bg-emerald-50 hover:text-emerald-600">
 											Library
 										</Link>
 										<Link
 											to="/placements"
+											onClick={handleDropdownLinkClick}
 											className="block px-4 py-2  hover:bg-emerald-50 hover:text-emerald-600">
 											Placements
 										</Link>
 										<Link
 											to="/aicte-courses"
+											onClick={handleDropdownLinkClick}
 											className="block px-4 py-2  hover:bg-emerald-50 hover:text-emerald-600">
 											AICTE Approved Courses
 										</Link>
@@ -206,55 +258,60 @@ const Navbar = () => {
 
 							{/* Departments Dropdown */}
 							<div
-								className="relative group h-full flex items-center"
-								onMouseEnter={() => setActiveDropdown('departments')}
-								onMouseLeave={() => setActiveDropdown(null)}>
-								<button className="px-4 py-2 font-medium text-gray-700 hover:text-emerald-600 transition-colors flex items-center">
+								className="relative group flex items-center"
+								onMouseEnter={() => handleMouseEnter('departments')}
+								onMouseLeave={handleMouseLeave}>
+								<button className=" text-gray-700 hover:text-emerald-600 transition-colors flex items-center">
 									Departments
 									<ChevronDown className="ml-1 w-4 h-4 group-hover:rotate-180 transition-transform duration-200" />
 								</button>
 								<div
-									className={`absolute top-full left-0 w-56 bg-gradient-to-b from-emerald-800 to-emerald-950 rounded-b-md shadow-lg transition-all duration-200 ${
+									className={`absolute top-full mt-9 left-0 w-56 bg-gradient-to-b from-emerald-800 to-emerald-950 rounded-b-md shadow-lg transition-all duration-200 ${
 										activeDropdown === 'departments' ? 'opacity-100 visible' : 'opacity-0 invisible'
 									}`}>
-									<div className="py-2 text-white text-sm">
+									<div className="py-2 text-white text-sm font-normal">
 										<Link
 											to="/applied-science"
+											onClick={handleDropdownLinkClick}
 											className="block px-4 py-2  hover:bg-emerald-50 hover:text-emerald-600">
 											Applied Science
 										</Link>
 										<Link
+											to="/architectural"
+											onClick={handleDropdownLinkClick}
+											className="block px-4 py-2  hover:bg-emerald-50 hover:text-emerald-600">
+											Architectural Assitantship
+										</Link>
+										<Link
 											to="/cse"
+											onClick={handleDropdownLinkClick}
 											className="block px-4 py-2  hover:bg-emerald-50 hover:text-emerald-600">
 											Computer Science Engineering
 										</Link>
 										<Link
 											to="/civil"
+											onClick={handleDropdownLinkClick}
 											className="block px-4 py-2  hover:bg-emerald-50 hover:text-emerald-600">
 											Civil Engineering
 										</Link>
 										<Link
-											to="/mechanical"
-											className="block px-4 py-2  hover:bg-emerald-50 hover:text-emerald-600">
-											Mechanical Engineering
-										</Link>
-										<Link
 											to="/electrical"
+											onClick={handleDropdownLinkClick}
 											className="block px-4 py-2  hover:bg-emerald-50 hover:text-emerald-600">
 											Electrical Engineering
 										</Link>
 										<Link
-											to="/architectural"
+											to="/mechanical"
+											onClick={handleDropdownLinkClick}
 											className="block px-4 py-2  hover:bg-emerald-50 hover:text-emerald-600">
-											Architectural Assitantship
+											Mechanical Engineering
 										</Link>
 									</div>
 								</div>
 							</div>
-
 							<Link
 								to="/placements"
-								className="px-4 py-2 font-medium text-gray-700 hover:text-emerald-600 transition-colors">
+								className="text-gray-700 hover:text-emerald-600 transition-colors">
 								Placements
 							</Link>
 						</div>
@@ -268,9 +325,9 @@ const Navbar = () => {
 					isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
 				}`}>
 				<div className="flex items-center justify-between p-4 border-b">
-					<Link to="/" className="flex items-center">
+					<a href="/" onClick={handleLinkClick} className="flex items-center">
 						<img src="./tpc-logo.png" alt="Logo" className="h-12 w-auto" />
-					</Link>
+					</a>
 					<button
 						onClick={toggleSidebar}
 						className="p-2 rounded-md text-gray-600 hover:bg-gray-100">
@@ -289,6 +346,7 @@ const Navbar = () => {
 					<div className="px-4 py-2">
 						<Link
 							to="/"
+							onClick={handleLinkClick}
 							className="block py-3 text-base font-medium text-gray-900 hover:text-emerald-600 border-b">
 							Home
 						</Link>
@@ -309,43 +367,201 @@ const Navbar = () => {
 								className={`overflow-hidden transition-all duration-200 ${
 									activeMobileDropdown === 'institution' ? 'max-h-96' : 'max-h-0'
 								}`}>
-								<div className="pl-4 pb-3 space-y-2">
+								<div className="pl-4 pb-3 space-y-2 font-medium">
 									<Link
 										to="/about"
-										className="block py-2 text-sm text-gray-600 hover:text-emerald-600">
+										onClick={handleLinkClick}
+										className="block py-2  text-gray-600 hover:text-emerald-600">
 										About Us
 									</Link>
 									<Link
 										to="/principal"
-										className="block py-2 text-sm text-gray-600 hover:text-emerald-600">
+										onClick={handleLinkClick}
+										className="block py-2  text-gray-600 hover:text-emerald-600">
 										Principal
 									</Link>
 									<Link
 										to="/faculty"
-										className="block py-2 text-sm text-gray-600 hover:text-emerald-600">
+										onClick={handleLinkClick}
+										className="block py-2  text-gray-600 hover:text-emerald-600">
 										Faculty
 									</Link>
 									<Link
 										to="/managing-committee"
-										className="block py-2 text-sm text-gray-600 hover:text-emerald-600">
+										onClick={handleLinkClick}
+										className="block py-2  text-gray-600 hover:text-emerald-600">
 										Managing Committee
 									</Link>
 									<Link
+										to="/admin-staff"
+										onClick={handleLinkClick}
+										className="block py-2  text-gray-600 hover:text-emerald-600">
+										Admin Staff
+									</Link>
+									<Link
 										to="/gallery"
-										className="block py-2 text-sm text-gray-600 hover:text-emerald-600">
+										onClick={handleLinkClick}
+										className="block py-2  text-gray-600 hover:text-emerald-600">
 										Gallery
 									</Link>
 								</div>
 							</div>
 						</div>
-
-						{/* Rest of mobile menu items following the same pattern... */}
-						{/* Add similar blocks for Academics and Departments */}
-
+						{/* Mobile Academics */}
+						<div className="border-b">
+							<button
+								onClick={() => toggleMobileDropdown('academics')}
+								className="flex items-center justify-between w-full py-3 text-base font-medium text-gray-900 hover:text-emerald-600">
+								<span>Academics</span>
+								<ChevronRight
+									className={`w-5 h-5 transition-transform duration-200 ${
+										activeMobileDropdown === 'academics' ? 'rotate-90' : ''
+									}`}
+								/>
+							</button>
+							<div
+								className={`overflow-hidden transition-all duration-200 ${
+									activeMobileDropdown === 'academics' ? 'max-h-96' : 'max-h-0'
+								}`}>
+								<div className="pl-4 pb-3 space-y-2 font-medium">
+									<Link
+										to="/admission"
+										onClick={handleLinkClick}
+										className="block py-2  text-gray-600 hover:text-emerald-600">
+										Admission
+									</Link>
+									<Link
+										to="/hostel"
+										onClick={handleLinkClick}
+										className="block py-2  text-gray-600 hover:text-emerald-600">
+										Hostel
+									</Link>
+									<Link
+										to="/library"
+										onClick={handleLinkClick}
+										className="block py-2  text-gray-600 hover:text-emerald-600">
+										Library
+									</Link>
+									<Link
+										to="/placements"
+										onClick={handleLinkClick}
+										className="block py-2  text-gray-600 hover:text-emerald-600">
+										Placements
+									</Link>
+									<Link
+										to="/aicte-courses"
+										onClick={handleLinkClick}
+										className="block py-2  text-gray-600 hover:text-emerald-600">
+										AICTE Approved Courses
+									</Link>
+								</div>
+							</div>
+						</div>
+						{/* Mobile Departments */}
+						<div className="border-b">
+							<button
+								onClick={() => toggleMobileDropdown('departments')}
+								className="flex items-center justify-between w-full py-3 text-base font-medium text-gray-900 hover:text-emerald-600">
+								<span>Departments</span>
+								<ChevronRight
+									className={`w-5 h-5 transition-transform duration-200 ${
+										activeMobileDropdown === 'departments' ? 'rotate-90' : ''
+									}`}
+								/>
+							</button>
+							<div
+								className={`overflow-hidden transition-all duration-200 ${
+									activeMobileDropdown === 'departments' ? 'max-h-96' : 'max-h-0'
+								}`}>
+								<div className="pl-4 pb-3 space-y-2 font-medium">
+									<Link
+										to="/applied-science"
+										onClick={handleLinkClick}
+										className="block py-2  text-gray-600 hover:text-emerald-600">
+										Applied Science
+									</Link>
+									<Link
+										to="/architectural"
+										onClick={handleLinkClick}
+										className="block py-2  text-gray-600 hover:text-emerald-600">
+										Architectural Assistantship
+									</Link>
+									<Link
+										to="/cse"
+										onClick={handleLinkClick}
+										className="block py-2  text-gray-600 hover:text-emerald-600">
+										Computer Science & Engineering
+									</Link>
+									<Link
+										to="/civil"
+										onClick={handleLinkClick}
+										className="block py-2  text-gray-600 hover:text-emerald-600">
+										Civil Engineering
+									</Link>
+									<Link
+										to="/electrical"
+										onClick={handleLinkClick}
+										className="block py-2  text-gray-600 hover:text-emerald-600">
+										Electrical Engineering
+									</Link>
+									<Link
+										to="/mechanical"
+										onClick={handleLinkClick}
+										className="block py-2  text-gray-600 hover:text-emerald-600">
+										Mechanical Engineering
+									</Link>
+								</div>
+							</div>
+						</div>
 						<Link
 							to="/placements"
+							onClick={handleLinkClick}
 							className="block py-3 text-base font-medium text-gray-900 hover:text-emerald-600 border-b">
 							Placements
+						</Link>
+						{/* Top Navbar Links */}
+						<Link
+							to="/contact"
+							onClick={handleLinkClick}
+							className="block py-3 text-base font-medium text-red-500 hover:text-emerald-600 border-b blink-animation">
+							Admission Enquiry
+						</Link>
+						<Link
+							to="https://forms.eduqfix.com/thaperolform/add"
+							onClick={handleLinkClick}
+							target="_blank"
+							className="block py-3 text-base font-medium text-red-500 hover:text-emerald-600 border-b blink-animation">
+							Online Fee Payment
+						</Link>
+						<Link
+							to="/magazines"
+							onClick={handleLinkClick}
+							className="block py-3 text-base font-medium text-gray-900 hover:text-emerald-600 border-b">
+							College Magazine
+						</Link>
+						<Link
+							to="/mentors-list"
+							onClick={handleLinkClick}
+							className="block py-3 text-base font-medium text-gray-900 hover:text-emerald-600 border-b">
+							List of Mentors
+						</Link>
+						<Link
+							to="/forms-download"
+							onClick={handleLinkClick}
+							className="block py-3 text-base font-medium text-gray-900 hover:text-emerald-600 border-b">
+							Forms Download
+						</Link>
+						<Link
+							to="/mandatory-disclosure"
+							onClick={handleLinkClick}
+							className="block py-3 text-base font-medium text-gray-900 hover:text-emerald-600 border-b">
+							Mandatory Disclosure
+						</Link>
+						<Link
+							to="/tpc-newsletter"
+							onClick={handleLinkClick}
+							className="block py-3 text-base font-medium text-gray-900 hover:text-emerald-600 border-b">
+							TPC Newsletter
 						</Link>
 					</div>
 				</div>

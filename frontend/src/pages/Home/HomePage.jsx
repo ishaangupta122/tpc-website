@@ -1,21 +1,21 @@
 import Testimonials from './Testimonials';
 import Carousel from './Carousel';
 import PlacementCarousel from './Placements';
-import AchievementsSection from './Achievements';
-import EventsCarousel from './Events';
 import PrincipalCard from './PrincipalCard';
 import StaticData from './StaticData';
 import PlacementsData from './PlacementData';
 import GallerySection from './Gallery';
+import EventsSection from './Events';
+import AchievementsCarousel from './Achievements';
 
 const HomePage = () => {
 	return (
 		<>
 			<Carousel />
-			<EventsCarousel />
+			<AchievementsCarousel />
 			<PrincipalCard />
 			<StaticData />
-			<AchievementsSection />
+			<EventsSection />
 			<PlacementsData />
 			<GallerySection />
 			<PlacementCarousel />

@@ -4,7 +4,7 @@ import HeroSection from '../../components/HeroSection';
 const CollegePoliciesPage = () => {
 	const breadcrumbs = [
 		{ label: 'Home', href: '/' },
-		{ label: 'College Policies', href: '/admission-page' },
+		{ label: 'College Policies', href: '/admission' },
 	];
 
 	const [policyContent] = useState({

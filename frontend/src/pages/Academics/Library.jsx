@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import HeroSection from '../../components/HeroSection';
+import { Link } from 'react-router-dom';
 
 const LibraryPage = () => {
 	const [faculty, setFaculty] = useState(null);
@@ -13,7 +14,6 @@ const LibraryPage = () => {
 	// Static data fallback
 	const staticFaculty = {
 		name: 'Seema Sharma',
-		title: 'Assistant Librarian',
 		email: 'seemarn72@yahoo.co.in',
 		phone: '+91 XXXXX-XXXXX',
 		designation: 'Assistant Librarian',
@@ -115,57 +115,55 @@ const LibraryPage = () => {
 
 							{error && <p className="text-red-600 text-center mb-6">{error}</p>}
 
-							<div className="flex justify-center">
-								<div className="bg-white rounded-lg shadow-lg overflow-hidden w-full lg:w-fit">
-									{/* Faculty Profile Card - Keeping the original implementation */}
-									<div className="bg-gradient-to-b from-emerald-800 to-emerald-950 text-white px-6 py-4">
-										<div className="flex items-center gap-4">
-											<img
-												src={displayedFaculty.image}
-												alt="Profile"
-												className="w-20 h-20 rounded-full object-cover border-4 border-white"
-												loading="lazy"
-											/>
-											<div>
-												<h2 className="text-xl font-semibold">{displayedFaculty.name}</h2>
-												<p className="text-sm font-normal">{displayedFaculty.title}</p>
-											</div>
-										</div>
-									</div>
-
-									<div className="p-6 space-y-2 text-sm">
-										<div className="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-2">
-											<div>
-												<h3 className="text-gray-500 font-semibold">Email:</h3>
-												<p className="text-gray-800 font-medium">{displayedFaculty.email}</p>
-											</div>
-											<div>
-												<h3 className="text-gray-500 font-semibold">Phone:</h3>
-												<p className="text-gray-800 font-medium">{displayedFaculty.phone}</p>
-											</div>
-											<div>
-												<h3 className="text-gray-500 font-semibold">Designation:</h3>
-												<p className="text-gray-800 font-medium">{displayedFaculty.designation}</p>
-											</div>
-											<div>
-												<h3 className="text-gray-500 font-semibold">Joined Date:</h3>
-												<p className="text-gray-800 font-medium">{displayedFaculty.joinedDate}</p>
-											</div>
-											<div>
-												<h3 className="text-gray-500 font-semibold">Experience:</h3>
-												<p className="text-gray-800 font-medium">{displayedFaculty.experience}</p>
+							<div className="flex items-center justify-center w-full ">
+								<div className="max-w-7xl">
+									<div className="bg-white rounded-lg shadow-lg overflow-hidden w-full ">
+										{/* Header Section */}
+										<div className="bg-gradient-to-b from-emerald-800 to-emerald-950 text-white px-6 py-4">
+											<div className="flex items-center gap-4">
+												<Link to={`/faculty-profile`}>
+													<img
+														src={displayedFaculty.image}
+														alt="Profile"
+														className="w-20 h-20 rounded-full object-cover border-4 border-white"
+														loading="lazy"
+													/>
+												</Link>
+												<div>
+													<h2 className="text-lg font-semibold ">{displayedFaculty.name}</h2>
+													<p className="text-sm font-normal text-green-200">
+														{displayedFaculty.designation}
+													</p>
+												</div>
 											</div>
 										</div>
 
-										<div>
-											<h3 className="text-gray-500 mb-2 font-semibold">Education:</h3>
-											<ul className="space-y-1 list-disc list-inside">
-												{displayedFaculty.education.map((edu, index) => (
-													<li key={index} className="text-gray-800 font-medium">
-														{edu}
-													</li>
-												))}
-											</ul>
+										{/* Details Section */}
+										<div className="py-6 px-4 space-y-2 text-sm">
+											{/* Email */}
+											<div className="flex gap-2 justify-start items-center font-medium">
+												<h3 className=" text-green-800 ">Email:</h3>
+												<a
+													href={`mailto:${displayedFaculty.email}`}
+													className="text-green-800 underline ">
+													{displayedFaculty.email}
+												</a>
+											</div>
+											{/* Phone */}
+											<div className="flex gap-2 justify-start items-center font-medium">
+												<h3 className=" text-green-800 ">Phone:</h3>
+												<p className="text-gray-800  ">{displayedFaculty.phone}</p>
+											</div>
+											{/* Joined Date */}
+											<div className="flex gap-2 justify-start items-center font-medium">
+												<h3 className=" text-green-800 ">Joined Date:</h3>
+												<p className="text-gray-800  ">{displayedFaculty.joinedDate}</p>
+											</div>
+											{/* Experience */}
+											<div className="flex gap-2 justify-start items-center font-medium">
+												<h3 className=" text-green-800  ">Experience:</h3>
+												<p className="text-gray-800 ">{displayedFaculty.experience}</p>
+											</div>
 										</div>
 									</div>
 								</div>

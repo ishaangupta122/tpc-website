@@ -1,4 +1,5 @@
 import { MoveRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const PrincipalCard = () => {
 	return (
@@ -25,12 +26,12 @@ const PrincipalCard = () => {
 							industrial infrastructure coupled with favourable policies and thrust from the
 							Government are expected to help sustain the growth momentum in manufacturing.
 						</p>
-						<a
-							href="/principal"
+						<Link
+							to="/principal"
 							className="text-emerald-800 w-fit flex items-center justify-center gap-1 hover:underline">
 							Read More
 							<MoveRight />
-						</a>
+						</Link>
 					</div>
 				</div>
 			</div>

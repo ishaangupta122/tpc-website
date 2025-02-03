@@ -1,6 +1,6 @@
 const StaticData = () => {
 	return (
-		<div className="relative w-full md:h-52 h-[80vh] mt-20">
+		<div className="relative w-full md:h-52 mt-20">
 			{/* Background Image Layer */}
 			<div
 				className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -13,7 +13,7 @@ const StaticData = () => {
 
 			{/* Content Layer */}
 			<div className="relative h-full flex items-center justify-center">
-				<div className="container mx-auto px-4">
+				<div className="container mx-auto px-4 py-10 md:py-0">
 					<div className="grid grid-cols-1 md:grid-cols-3 space-y-10 md:space-y-0 text-center ">
 						{/* Students */}
 						<div className="text-white space-y-2 font-medium flex flex-col justify-center items-center">

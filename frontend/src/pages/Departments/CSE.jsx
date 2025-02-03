@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-const DepartmentPage = () => {
+const CSEDepartment = () => {
 	const carouselImages = ['./rec_gate.jpg', './girls_hostel.jpg', './boys_hostel.jpg'];
 
 	const activities = [
@@ -51,6 +51,33 @@ const DepartmentPage = () => {
 		},
 	];
 
+	const labs = [
+		{
+			title: 'Advanced Computing Lab',
+			description:
+				'Our state-of-the-art computing lab is equipped with high-performance workstations and the latest software tools for research in artificial intelligence, machine learning, and parallel computing. Students get hands-on experience with cutting-edge technologies used in industry.',
+			image: '/image2.jpeg',
+		},
+		{
+			title: 'Network Security Lab',
+			description:
+				'Dedicated to network security research and education, this lab features specialized hardware and software for cybersecurity training, penetration testing, and network defense simulations. Students learn practical security skills in a controlled environment.',
+			image: '/image2.jpeg',
+		},
+		{
+			title: 'IoT and Embedded Systems Lab',
+			description:
+				'This specialized laboratory houses various IoT devices, sensors, and embedded systems. Students work on real-world projects involving hardware-software integration, sensor networks, and smart device development.',
+			image: '/image2.jpeg',
+		},
+		{
+			title: 'IoT and Embedded Systems Lab',
+			description:
+				'This specialized laboratory houses various IoT devices, sensors, and embedded systems. Students work on real-world projects involving hardware-software integration, sensor networks, and smart device development.',
+			image: '/image2.jpeg',
+		},
+	];
+
 	const [currentSlide, setCurrentSlide] = useState(0);
 
 	useEffect(() => {
@@ -88,19 +115,19 @@ const DepartmentPage = () => {
 					))}
 					<button
 						onClick={prevSlide}
-						className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 p-2 rounded-full hover:bg-white">
+						className="absolute left-4 top-1/2 -translate-y-1/2 bg-gradient-to-b from-emerald-800 to-emerald-950 text-white p-2 rounded-full hover:from-emerald-800/90 hover:to-emerald-950/90">
 						<ChevronLeft size={24} />
 					</button>
 					<button
 						onClick={nextSlide}
-						className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 p-2 rounded-full hover:bg-white">
+						className="absolute right-4 top-1/2 -translate-y-1/2 bg-gradient-to-b from-emerald-800 to-emerald-950 text-white p-2 rounded-full hover:from-emerald-800/90 hover:to-emerald-950/90">
 						<ChevronRight size={24} />
 					</button>
 				</div>
 				{/* Department Title Section */}
 				<div className="bg-gradient-to-b from-emerald-800 to-emerald-950 w-full py-6">
 					<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-						<h1 className="text-2xl md:text-3xl font-semibold  text-white text-center">
+						<h1 className="text-2xl md:text-3xl font-semibold text-white text-center blink-animation">
 							Department of Computer Science & Engineering
 						</h1>
 					</div>
@@ -108,7 +135,7 @@ const DepartmentPage = () => {
 			</div>
 
 			{/* Main Content Section */}
-			<div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
+			<div className="max-w-7xl mx-auto px-4 py-12 lg:px-8">
 				<div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 					{/* About Section with Image */}
 					<div className="lg:col-span-2 space-y-8">
@@ -147,12 +174,6 @@ const DepartmentPage = () => {
 						<div className="bg-white rounded-lg shadow-lg p-6 border border-gray-300">
 							<div className="flex justify-between items-center mb-6">
 								<h2 className="text-xl font-semibold text-green-800">Activities</h2>
-								<a
-									href="#"
-									className="text-green-800 hover:text-green-600 flex items-center gap-1 text-sm font-medium">
-									View All
-									<ExternalLink size={14} />
-								</a>
 							</div>
 							<div className="space-y-4 max-h-[540px] overflow-y-auto pr-2">
 								{activities.map((activity, index) => (
@@ -174,7 +195,7 @@ const DepartmentPage = () => {
 				</div>
 
 				{/* HOD Card */}
-				<div className="bg-gray-50 border border-gray-300 rounded-lg shadow-lg max-w-3xl mb-16 mt-28">
+				<div className="bg-gray-50 border border-gray-300 rounded-lg shadow-lg max-w-3xl my-20">
 					{/* Header Section */}
 					<div className="relative px-6 py-4">
 						<img
@@ -184,7 +205,7 @@ const DepartmentPage = () => {
 							loading="lazy"
 						/>
 						<div className="p-2">
-							<h2 className="text-2xl font-semibold text-green-800">Monika Gupta</h2>
+							<h2 className="text-2xl font-semibold text-green-800">Dr. Monika Gupta</h2>
 							<p className="font-medium">(Head of Department)</p>
 							<h2 className="font-light text-gray-700 mt-4 text-justify">
 								Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum quidem omnis quisquam
@@ -196,9 +217,35 @@ const DepartmentPage = () => {
 						</div>
 					</div>
 				</div>
+
+				{/* Labs Section */}
+				<div className="max-w-7xl mx-auto px-4 py-12">
+					<h2 className="text-3xl font-semibold text-green-900 mb-8 uppercase">
+						Our<span className="text-black"> Laboratories</span>
+					</h2>
+					<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+						{labs.map((lab, index) => (
+							<div
+								key={index}
+								className="bg-white rounded-lg border border-gray-300 shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+								<div className="aspect-w-16 aspect-h-9">
+									<img
+										src={lab.image}
+										alt={lab.title}
+										className="w-full h-48 object-cover bg-green-100"
+									/>
+								</div>
+								<div className="p-6 border-t-4 border-green-800">
+									<h3 className="text-xl font-semibold text-green-800 mb-3">{lab.title}</h3>
+									<p className="text-gray-600 text-sm text-justify">{lab.description}</p>
+								</div>
+							</div>
+						))}
+					</div>
+				</div>
 			</div>
 		</div>
 	);
 };
 
-export default DepartmentPage;
+export default CSEDepartment;

@@ -1,87 +1,42 @@
-import { useState } from 'react';
-import { Search } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Loader, Search } from 'lucide-react';
 import HeroSection from '../../components/HeroSection';
+import { Link } from 'react-router-dom';
+import TruncateText from '../../components/TruncateText';
+import axios from 'axios';
+import BASE_API from '../../../BASE_API/config';
 
 const Faculty = () => {
+	const [loading, setLoading] = useState(true);
+	const [searchQuery, setSearchQuery] = useState('');
+	const [selectedDepartment, setSelectedDepartment] = useState('');
+	const [facultyList, setFacultyList] = useState([]);
+
 	const breadcrumbs = [
 		{ label: 'Home', href: '/' },
 		{ label: 'Faculty', href: '/faculty' },
 	];
 
-	const [facultyList] = useState([
-		{
-			id: 1,
-			name: 'Dr. John Smith',
-			title: 'Professor, Computer Science Engineering',
-			email: 'john.smith@college.edu',
-			phone: '+91 XXXXX-XXXXX',
-			designation: 'Superintendent',
-			department: 'Computer Science Engineering',
-			joinedDate: 'September 15, 2018',
-			education: [
-				'Ph.D. in Computer Science',
-				'M.S. in Computer Science',
-				'B.Tech in Computer Science',
-			],
-			experience: '23 Years',
-			image: 'https://avatar.iran.liara.run/public',
-		},
-		{
-			id: 2,
-			name: 'Dr. Sarah Johnson',
-			title: 'Associate Professor, Electrical Engineering',
-			email: 'sarah.johnson@college.edu',
-			phone: '+91 XXXXX-XXXXX',
-			designation: 'Clerk',
-			department: 'Civil Engineering',
-			joinedDate: 'August 20, 2019',
-			education: ['Ph.D. in Physics', 'M.S. in Physics', 'B.S. in Physics'],
-			experience: '23 Years',
-			image: 'https://avatar.iran.liara.run/public',
-		},
-		{
-			id: 3,
-			name: 'Dr. Michael Chen',
-			title: 'Assistant Professor, Civil Engineering',
-			email: 'michael.chen@college.edu',
-			phone: '+91 XXXXX-XXXXX',
-			designation: 'PA to Principal',
-			department: 'Mechanical Engineering',
-			joinedDate: 'January 10, 2020',
-			education: ['Ph.D. in Mathematics', 'M.S. in Mathematics', 'B.S. in Mathematics'],
-			experience: '23 Years',
-			image: 'https://avatar.iran.liara.run/public',
-		},
-		{
-			id: 4,
-			name: 'Dr. Michael Chen',
-			title: 'Assistant Professor, Civil Engineering',
-			email: 'michael.chen@college.edu',
-			phone: '+91 XXXXX-XXXXX',
-			designation: 'Jr. Asstt.',
-			department: 'Electrical Engineering',
-			joinedDate: 'January 10, 2020',
-			education: ['Ph.D. in Mathematics', 'M.S. in Mathematics', 'B.S. in Mathematics'],
-			experience: '23 Years',
-			image: 'https://avatar.iran.liara.run/public',
-		},
-		{
-			id: 5,
-			name: 'Dr. Michael Chen',
-			title: 'Assistant Professor, Civil Engineering',
-			email: 'michael.chen@college.edu',
-			phone: '+91 XXXXX-XXXXX',
-			designation: 'Sr. Asstt.',
-			department: 'Architechural Assistantship',
-			joinedDate: 'January 10, 2020',
-			education: ['Ph.D. in Mathematics', 'M.S. in Mathematics', 'B.S. in Mathematics'],
-			experience: '23 Years',
-			image: 'https://avatar.iran.liara.run/public',
-		},
-	]);
+	const fetchFacultyList = async () => {
+		try {
+			setLoading(true);
+			const response = await axios.get(`${BASE_API}/faculty`, {
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				timeout: 5000,
+			});
+			setFacultyList(response.data);
+		} catch (err) {
+			console.log(err);
+		} finally {
+			setLoading(false);
+		}
+	};
 
-	const [searchQuery, setSearchQuery] = useState('');
-	const [selectedDepartment, setSelectedDepartment] = useState('');
+	useEffect(() => {
+		fetchFacultyList();
+	}, []);
 
 	const departments = [
 		'All',
@@ -105,12 +60,23 @@ const Faculty = () => {
 		return matchesSearch && matchesDepartment;
 	});
 
+	if (loading) {
+		return (
+			<section className="bg-white overflow-hidden flex justify-center items-center py-20">
+				<div className="flex flex-col items-center gap-4">
+					<Loader className="w-8 h-8 animate-spin text-emerald-900" />
+					<p className="text-emerald-900 font-medium">Loading Faculty List...</p>
+				</div>
+			</section>
+		);
+	}
+
 	return (
 		<>
 			<HeroSection imageUrl="./rec_gate.jpg" title="Faculty" breadcrumbs={breadcrumbs} />
 
 			<div className="flex items-center flex-col">
-				<section className="px-6 lg:px-16 py-6 lg:py-16  max-w-7xl">
+				<section className="px-6 lg:px-16 py-6 lg:py-16  max-w-7xl w-full">
 					<div className="mb-6 space-y-6">
 						<h1 className="text-2xl font-semibold mb-4 uppercase text-green-900">
 							College <span className="text-black">Faculty</span>
@@ -123,14 +89,14 @@ const Faculty = () => {
 									placeholder="Search faculty..."
 									value={searchQuery}
 									onChange={(e) => setSearchQuery(e.target.value)}
-									className="w-full p-2 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+									className="w-full p-2 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-800"
 								/>
 								<Search className="w-5 h-5 absolute left-3 top-2.5 text-neutral-400" />
 							</div>
 							<select
 								value={selectedDepartment}
 								onChange={(e) => setSelectedDepartment(e.target.value)}
-								className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
+								className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-800 bg-white">
 								<option value="">All Departments</option>
 								{departments
 									.filter((designation) => designation !== 'All')
@@ -153,60 +119,53 @@ const Faculty = () => {
 								{filteredFaculty.map((faculty) => (
 									<div
 										key={faculty.id}
-										className="bg-white rounded-lg shadow-lg overflow-hidden w-full lg:w-fit">
+										className="bg-white rounded-lg shadow-lg overflow-hidden w-full ">
 										{/* Header Section */}
 										<div className="bg-gradient-to-b from-emerald-800 to-emerald-950 text-white px-6 py-4">
 											<div className="flex items-center gap-4">
-												<img
-													src={faculty.image}
-													alt="Profile"
-													className="w-20 h-20 rounded-full object-cover border-4 border-white"
-													loading="lazy"
-												/>
+												<Link to={`/faculty/${faculty._id}`}>
+													<img
+														src={faculty.image}
+														alt="Profile"
+														className="w-20 h-20 rounded-full object-cover border-4 border-white"
+														loading="lazy"
+													/>
+												</Link>
 												<div>
 													<h2 className="text-lg font-semibold ">{faculty.name}</h2>
-													<p className="text-sm font-normal">{faculty.title}</p>
+													<p className="text-sm font-normal text-green-200">
+														{faculty.designation}
+													</p>
 												</div>
 											</div>
 										</div>
 
 										{/* Details Section */}
-										<div className="p-6 space-y-2 text-sm">
-											<div className="flex gap-2 justify-start items-center">
-												<h3 className=" text-gray-500 font-semibold">Email:</h3>
-												<p className="text-gray-800 font-medium">{faculty.email}</p>
-											</div>
+										<div className="py-6 px-4 space-y-2 text-sm">
 											{/* Email */}
-											{/* Phone */}
-											<div className="flex gap-2 justify-start items-center">
-												<h3 className=" text-gray-500  font-semibold">Phone:</h3>
-												<p className="text-gray-800 font-medium">{faculty.phone}</p>
+											<div className="flex gap-2 justify-start items-center font-medium">
+												<h3 className=" text-green-800 ">Email:</h3>
+												<a href={`mailto:${faculty.email}`} className="text-green-800 underline ">
+													{faculty.email}
+												</a>
 											</div>
-											{/* Designation */}
-											<div className="flex gap-2 justify-start items-center">
-												<h3 className=" text-gray-500  font-semibold">Designation:</h3>
-												<p className="text-gray-800 font-medium">{faculty.department}</p>
+											{/* Department */}
+											<div className="flex gap-2 justify-start items-center font-medium">
+												<h3 className=" text-green-800  ">Department:</h3>
+												<div className="text-gray-800 ">
+													<TruncateText text={faculty.department} maxLength={20} />
+												</div>
 											</div>
+
 											{/* Joined Date */}
-											<div className="flex gap-2 justify-start items-center">
-												<h3 className=" text-gray-500 font-semibold">Joined Date:</h3>
-												<p className="text-gray-800  font-medium">{faculty.joinedDate}</p>
+											<div className="flex gap-2 justify-start items-center font-medium">
+												<h3 className=" text-green-800 ">Joined Date:</h3>
+												<p className="text-gray-800  ">{faculty.joinedDate}</p>
 											</div>
 											{/* Experience */}
-											<div className="flex gap-2 justify-start items-center">
-												<h3 className=" text-gray-500  font-semibold">Experience:</h3>
-												<p className="text-gray-800 font-medium">{faculty.experience}</p>
-											</div>
-											{/* Education Section */}
-											<div className="text-sm">
-												<h3 className=" text-gray-500 mb-2  font-semibold">Education:</h3>
-												<ul className="space-y-1 list-disc list-inside">
-													{faculty.education.map((edu, index) => (
-														<li key={index} className="text-gray-800 font-medium ">
-															{edu}
-														</li>
-													))}
-												</ul>
+											<div className="flex gap-2 justify-start items-center font-medium">
+												<h3 className=" text-green-800  ">Experience:</h3>
+												<p className="text-gray-800 ">{faculty.experience}</p>
 											</div>
 										</div>
 									</div>

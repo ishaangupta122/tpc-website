@@ -1,38 +1,29 @@
 import { Download } from 'lucide-react';
 import HeroSection from '../../components/HeroSection';
 
-const FormsDownload = () => {
+const SafeWorkingEnv = () => {
 	const breadcrumbs = [
 		{ label: 'Home', href: '/' },
-		{ label: 'forms-download', href: '/forms-download' },
+		{ label: 'safe-working-environment', href: '/safe-working-environment' },
 	];
 	const links = [
-		'Casual Leave Form',
-		'TA-DA Form',
-		'Quotation Form',
-		'Purchase Index Form',
-		'Order Supply Form',
-		'Journey Approval Form',
-		'Advance Form',
-		'Guest House Form',
-		'Guest Faculty Salary Form',
-		'Gate Pass Form',
-		'Earned Leave Claim Form',
-		'Earned Leave Form',
-		'Construction & Maintenance Form',
-		'Bill Form',
-		'Bill Forwarding Form',
-		'Advance From Provident Fund Form',
+		'Sexual harassment of women at workplace (Prevention,prohibition and redressal) Act,2013',
+		'Internal Committee',
 	];
 
 	return (
 		<>
-			<HeroSection imageUrl="./rec_gate.jpg" title="Forms Download" breadcrumbs={breadcrumbs} />
+			<HeroSection
+				imageUrl="./rec_gate.jpg"
+				title="Safe Working Environment"
+				breadcrumbs={breadcrumbs}
+			/>
 			<div className="flex justify-center">
 				<div className="flex justify-start w-full max-w-7xl">
 					<div className="px-6 py-20 md:px-20">
 						<h1 className="text-2xl font-semibold uppercase text-gray-900 mb-2">
-							Forms <span className="text-emerald-800">Download</span>
+							Maintenance of Safe Working Environment{' '}
+							<span className="text-emerald-800">for Female Employees at TPC</span>
 						</h1>
 						<div className="h-[3px] w-32 bg-yellow-500 rounded-lg mb-6"></div>
 						<ul className="list-disc list-inside space-y-2">
@@ -54,4 +45,4 @@ const FormsDownload = () => {
 	);
 };
 
-export default FormsDownload;
+export default SafeWorkingEnv;

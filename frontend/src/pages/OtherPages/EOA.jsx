@@ -1,38 +1,36 @@
 import { Download } from 'lucide-react';
 import HeroSection from '../../components/HeroSection';
 
-const FormsDownload = () => {
+const EOA = () => {
 	const breadcrumbs = [
 		{ label: 'Home', href: '/' },
-		{ label: 'forms-download', href: '/forms-download' },
+		{ label: 'EOA', href: '/eoa' },
 	];
 	const links = [
-		'Casual Leave Form',
-		'TA-DA Form',
-		'Quotation Form',
-		'Purchase Index Form',
-		'Order Supply Form',
-		'Journey Approval Form',
-		'Advance Form',
-		'Guest House Form',
-		'Guest Faculty Salary Form',
-		'Gate Pass Form',
-		'Earned Leave Claim Form',
-		'Earned Leave Form',
-		'Construction & Maintenance Form',
-		'Bill Form',
-		'Bill Forwarding Form',
-		'Advance From Provident Fund Form',
+		'Extension of Approval (2015-2016)',
+		'Extension of Approval (2016-2017)',
+		'Extension of Approval (2017-2018)',
+		'Extension of Approval (2018-2019)',
+		'Extension of Approval (2019-2020)',
+		'Extension of Approval (2020-2021)',
+		'Extension of Approval (2021-2022)',
+		'Extension of Approval (2022-2023)',
+		'Extension of Approval (2023-2024)',
+		'Extension of Approval (2024-2025)',
 	];
 
 	return (
 		<>
-			<HeroSection imageUrl="./rec_gate.jpg" title="Forms Download" breadcrumbs={breadcrumbs} />
+			<HeroSection
+				imageUrl="./rec_gate.jpg"
+				title="Extension of Approval"
+				breadcrumbs={breadcrumbs}
+			/>
 			<div className="flex justify-center">
 				<div className="flex justify-start w-full max-w-7xl">
 					<div className="px-6 py-20 md:px-20">
 						<h1 className="text-2xl font-semibold uppercase text-gray-900 mb-2">
-							Forms <span className="text-emerald-800">Download</span>
+							Extension of <span className="text-emerald-800">Approval</span>
 						</h1>
 						<div className="h-[3px] w-32 bg-yellow-500 rounded-lg mb-6"></div>
 						<ul className="list-disc list-inside space-y-2">
@@ -54,4 +52,4 @@ const FormsDownload = () => {
 	);
 };
 
-export default FormsDownload;
+export default EOA;

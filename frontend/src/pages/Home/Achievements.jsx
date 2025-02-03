@@ -1,218 +1,141 @@
-import { ChevronUp, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
-import { useRef } from 'react';
+import { MoveRight, ChevronLeft, ChevronRight, Loader } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 import TruncateText from '../../components/TruncateText';
-
-const SuccessStoriesCarousel = () => {
-	const successStories = [
-		{
-			title: 'Global Expansion Success',
-			description: 'Achieved 300% growth in international markets within 6 months',
-			image: './gurmehak.jpg',
-		},
-		{
-			title: 'Digital Transformation',
-			description: 'Modernized legacy systems resulting in 50% operational cost reduction',
-			image: './monika.jpg',
-		},
-		{
-			title: 'Customer Success Story',
-			description: 'Implemented AI solutions leading to 80% faster processing times',
-			image: './arsheen.jpg',
-		},
-		{
-			title: 'Startup Growth Case',
-			description: 'Scaled from seed to Series B in 18 months with our platform',
-			image: './deepak.jpg',
-		},
-	];
-
-	const containerRef = useRef(null);
-
-	const handleScrollUp = () => {
-		if (containerRef.current) {
-			containerRef.current.scrollBy({ top: -150, behavior: 'smooth' });
-		}
-	};
-
-	const handleScrollDown = () => {
-		if (containerRef.current) {
-			containerRef.current.scrollBy({ top: 150, behavior: 'smooth' });
-		}
-	};
-
-	return (
-		<div className="w-full lg:w-[35vw]">
-			<div className="relative w-full">
-				<div className="flex items-center justify-between mb-6">
-					<h2 className="text-2xl font-semibold uppercase">
-						<span className="text-emerald-900">Success </span> Stories
-					</h2>
-					<div className="flex gap-2">
-						<button
-							onClick={handleScrollUp}
-							className="p-2 rounded-full bg-gradient-to-b from-emerald-800 to-emerald-950 text-white hover:bg-gradient-to-b hover:from-emerald-800/95 hover:to-emerald-950/95">
-							<ChevronUp size={24} />
-						</button>
-						<button
-							onClick={handleScrollDown}
-							className="p-2 rounded-full bg-gradient-to-b from-emerald-800 to-emerald-950 text-white hover:bg-gradient-to-b hover:from-emerald-800/95 hover:to-emerald-950/95">
-							<ChevronDown size={24} />
-						</button>
-					</div>
-				</div>
-
-				<div
-					id="stories-container"
-					ref={containerRef}
-					className="flex flex-col gap-4 h-[550px] overflow-y-auto bg-gray-200 p-4 rounded-lg"
-					style={{
-						scrollBehavior: 'smooth',
-						msOverflowStyle: 'none',
-						scrollbarWidth: 'none',
-					}}>
-					{successStories.map((story, index) => (
-						<div key={index} className="flex bg-white rounded-lg shadow-lg  min-h-56 w-full">
-							<div className="overflow-hidden rounded-l-lg h-full w-1/2">
-								<img
-									src={story.image}
-									alt={story.title}
-									className="h-full w-full object-cover bg-emerald-100"
-								/>
-							</div>
-							<div className="w-1/2 px-3 py-4 flex flex-col gap-4">
-								<div className="text-sm font-semibold text-emerald-900">
-									<TruncateText text={story.title} maxLength={20} />
-								</div>
-								<div className="text-gray-600 text-xs">
-									<TruncateText text={story.description} maxLength={80} />
-								</div>
-								<a href="/" className="text-emerald-900 text-sm hover:underline">
-									Read More
-								</a>
-							</div>
-						</div>
-					))}
-				</div>
-			</div>
-		</div>
-	);
-};
+import BASE_API from '../../../BASE_API/config';
 
 const AchievementsCarousel = () => {
-	const achievements = [
-		{
-			title: 'Project Launch',
-			date: '2024',
-			description: 'Successfully launched flagship product with 100k+ users',
-			image: './image1.jpeg',
-		},
-		{
-			title: 'Revenue Milestone',
-			date: '2023',
-			description: 'Achieved $1M ARR within first year of operations',
-			image: './rec_gate.jpg',
-		},
-		{
-			title: 'Team Growth',
-			date: '2023',
-			description: 'Expanded team from 5 to 50 employees globally',
-			image: './campus.webp',
-		},
-		{
-			title: 'Market Expansion',
-			date: '2022',
-			description: 'Entered 5 new international markets',
-			image: './girls_hostel.jpg',
-		},
-		{
-			title: 'Industry Award',
-			date: '2022',
-			description: "Named 'Most Innovative Startup' by TechAwards",
-			image: './boys_hostel.jpg',
-		},
-	];
+	const [achievements, setAchievements] = useState([]);
+	const [loading, setLoading] = useState(true);
+	const scrollRef = useRef(null);
+	const [activeButton, setActiveButton] = useState(null);
 
-	const containerRef = useRef(null);
-
-	const handleScrollLeft = () => {
-		if (containerRef.current) {
-			containerRef.current.scrollBy({ left: -300, behavior: 'smooth' });
+	const fetchAchievements = async () => {
+		try {
+			setLoading(true);
+			const response = await axios.get(`${BASE_API}/events`, {
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				timeout: 5000,
+			});
+			setAchievements(response.data);
+		} catch (err) {
+			console.log(err);
+		} finally {
+			setLoading(false);
 		}
 	};
 
-	const handleScrollRight = () => {
-		if (containerRef.current) {
-			containerRef.current.scrollBy({ left: 300, behavior: 'smooth' });
+	useEffect(() => {
+		fetchAchievements();
+	}, []);
+
+	const scroll = (direction) => {
+		if (scrollRef.current && !activeButton) {
+			setActiveButton(direction);
+			const container = scrollRef.current;
+			const cardWidth = container.offsetWidth / 3;
+			const scrollAmount = cardWidth * 3;
+			const maxScroll = container.scrollWidth - container.offsetWidth;
+
+			let newScroll;
+			if (direction === 'next') {
+				newScroll = Math.min(container.scrollLeft + scrollAmount, maxScroll);
+			} else {
+				newScroll = Math.max(container.scrollLeft - scrollAmount, 0);
+			}
+
+			container.scrollTo({
+				left: newScroll,
+				behavior: 'smooth',
+			});
+
+			setTimeout(() => {
+				setActiveButton(null);
+			}, 800);
 		}
 	};
 
 	return (
-		<div className="relative lg:w-[60vw] w-full">
-			<div className="flex items-center mb-6 px-4">
-				<h2 className="text-2xl font-semibold flex-grow uppercase">
-					<span className="text-emerald-900">College </span>Achievements
-				</h2>
-				<div className="flex gap-2">
-					<button
-						onClick={handleScrollLeft}
-						className="p-2 rounded-full bg-gradient-to-b from-emerald-800 to-emerald-950 text-white hover:bg-gradient-to-b hover:from-emerald-800/95 hover:to-emerald-950/95">
-						<ChevronLeft size={24} />
-					</button>
-					<button
-						onClick={handleScrollRight}
-						className="p-2 rounded-full bg-gradient-to-b from-emerald-800 to-emerald-950 text-white hover:bg-gradient-to-b hover:from-emerald-800/95 hover:to-emerald-950/95">
-						<ChevronRight size={24} />
-					</button>
+		<section
+			id="latest-achievements"
+			className="bg-white overflow-hidden flex justify-center items-start py-10">
+			<div className="max-w-6xl mx-6 px-6 py-10 my-10 bg-gray-100 rounded-3xl container">
+				{/* Heading And Buttons */}
+				<div className="w-full flex justify-between items-center mb-8 px-2">
+					<div className="text-left w-fit">
+						<h2 className="text-4xl font-medium text-emerald-900 ">College Achievements</h2>
+					</div>
+					<div className="flex gap-2">
+						<button
+							onClick={() => scroll('prev')}
+							disabled={activeButton === 'prev' || loading}
+							className="p-2 rounded-full bg-gradient-to-b from-emerald-800 to-emerald-950 text-white hover:bg-gradient-to-b hover:from-emerald-800/95 hover:to-emerald-950/95 transition-colors disabled:opacity-50">
+							<ChevronLeft className="w-6 h-6" />
+						</button>
+						<button
+							onClick={() => scroll('next')}
+							disabled={activeButton === 'next' || loading}
+							className="p-2 rounded-full bg-gradient-to-b from-emerald-800 to-emerald-950 text-white hover:bg-gradient-to-b hover:from-emerald-800/95 hover:to-emerald-950/95 transition-colors disabled:opacity-50">
+							<ChevronRight className="w-6 h-6" />
+						</button>
+					</div>
 				</div>
-			</div>
 
-			<div
-				id="achievements-container"
-				ref={containerRef}
-				className="flex overflow-x-auto gap-4 h-[550px] scroll-smooth px-4 pb-4"
-				style={{
-					scrollBehavior: 'smooth',
-					msOverflowStyle: 'none',
-					scrollbarWidth: 'none',
-				}}>
-				{achievements.map((achievement, index) => (
-					<div
-						key={index}
-						className="flex-shrink-0 w-full md:w-1/2 h-full bg-white rounded-lg shadow-lg overflow-hidden">
-						<img
-							src={achievement.image}
-							alt={achievement.title}
-							className="w-full h-56 object-cover bg-emerald-100"
-						/>
-						<div className="relative p-6 flex flex-col gap-3 h-full overflow-y-auto">
-							<div className="text-sm text-white font-medium mb-2 bg-emerald-800 w-fit px-3 py-1 rounded-xl">
-								{achievement.date}
-							</div>
-							<div className="text-xl text-emerald-900 font-bold">
-								<TruncateText text={achievement.title} maxLength={30} />
-							</div>
-							<div className="text-gray-600 text-sm mb-5">
-								<TruncateText text={achievement.description} maxLength={60} />
-							</div>
-							<a href="/" className="text-emerald-900 text-md w-fit hover:underline">
-								Read More
-							</a>
+				{/* Carousel or Loading State */}
+				{loading ? (
+					<div className="flex justify-center items-center min-h-[400px]">
+						<div className="flex flex-col items-center gap-4">
+							<Loader className="w-8 h-8 animate-spin text-emerald-900" />
+							<p className="text-emerald-900 font-medium">Loading Achievements...</p>
 						</div>
 					</div>
-				))}
+				) : (
+					<div
+						ref={scrollRef}
+						className="flex gap-2 overflow-x-auto scroll-smooth"
+						style={{
+							scrollbarWidth: 'none',
+							msOverflowStyle: 'none',
+							WebkitOverflowScrolling: 'touch',
+						}}>
+						{achievements.map((achievement, index) => (
+							<div key={index} className="w-full md:w-1/3  flex-shrink-0 px-2 py-5">
+								<div className="bg-white rounded-lg shadow-lg transform hover:-translate-y-1 transition-all duration-300 relative h-full">
+									<div className="relative h-56 bg-[#143429]/20 rounded-t-md overflow-hidden border-b-[4px] border-emerald-900">
+										<img
+											src={achievement.image}
+											alt={achievement.title}
+											className="h-full w-full object-cover"
+										/>
+										<div className="flex flex-col text-center absolute top-0 left-4 font-medium bg-gradient-to-b from-emerald-800 to-emerald-950 text-white px-3 py-1 rounded-b-lg">
+											<span className="text-sm">{achievement.date}</span>
+										</div>
+									</div>
+									<div className="p-4 pb-24 rounded-b-md">
+										<div className="text-lg font-semibold text-emerald-900 mb-3">
+											<TruncateText text={achievement.title} maxLength={30} />
+										</div>
+										<div className="text-gray-600 text-sm">
+											<TruncateText text={achievement.description} maxLength={60} />
+										</div>
+										<Link
+											to={`events/${achievement._id}`}
+											className="absolute bottom-0 left-0 right-0 h-14 rounded-b-md overflow-hidden bg-gradient-to-b from-emerald-800 to-emerald-950 hover:underline inline-flex items-center justify-center py-4 text-white">
+											Read More
+											<MoveRight className="ml-2" />
+										</Link>
+									</div>
+								</div>
+							</div>
+						))}
+					</div>
+				)}
 			</div>
-		</div>
+		</section>
 	);
 };
 
-const AchievementsSection = () => {
-	return (
-		<div id="achievements" className="flex justify-center w-full py-10 bg-gray-100">
-			<div className="w-full max-w-6xl flex justify-between items-start flex-col lg:flex-row gap-7 px-4 md:px-6 py-16">
-				<SuccessStoriesCarousel />
-				<AchievementsCarousel />
-			</div>
-		</div>
-	);
-};
-export default AchievementsSection;
+export default AchievementsCarousel;

@@ -1,3 +1,4 @@
+import { MapPin } from 'lucide-react';
 import {
 	FaFacebook,
 	FaTwitter,
@@ -6,20 +7,21 @@ import {
 	FaEnvelope,
 	FaPhone,
 } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
 	const quickLinks = [
-		{ title: 'About Us', link: '#' },
-		{ title: 'Admissions', link: '#' },
-		{ title: 'Academics', link: '#' },
-		{ title: 'Faculty', link: '#' },
+		{ title: 'Admissions', link: '/admission' },
+		{ title: 'Placements', link: '/placements' },
+		{ title: 'Contact', link: '/contact' },
+		{ title: 'Faculty', link: '/faculty' },
 	];
 
 	const researchLinks = [
-		{ title: 'Contact', link: '#' },
-		{ title: 'Research', link: '#' },
-		{ title: 'Campus Life', link: '#' },
-		{ title: 'Privacy Policy', link: '#' },
+		{ title: 'Principal', link: '/principal' },
+		{ title: 'Hostel', link: '/hostel' },
+		{ title: 'Library', link: '/library' },
+		{ title: 'Gallery', link: '/gallery' },
 	];
 	const socialLinks = [
 		{ icon: <FaFacebook className="w-6 h-6" />, link: '#', label: 'Facebook' },
@@ -30,64 +32,75 @@ const Footer = () => {
 
 	return (
 		<footer className="bg-black text-white ">
-			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-12">
-				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+			<div className="max-w-7xl mx-auto px-4 md:px-10 py-12">
+				<div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
 					{/* Logo Section */}
-					<div className="col-span-1 md:col-span-2 lg:col-span-1">
+					<div className="col-span-1 lg:col-span-1">
 						<div className="flex items-center justify-start gap-2 flex-wrap ">
-							<img src="./tpc-logo.png" alt="College Logo" className="h-12 " />
-							<h1 className="text-md font-bold">Thapar Polytechnic College</h1>
+							<a href="/">
+								<img src="/tpc-logo.png" alt="College Logo" className="h-16" />
+							</a>
+							<h1 className="text-sm font-bold">Thapar Polytechnic College</h1>
 						</div>
-						<p className="mt-4 text-gray-400">
-							Empowering minds, shaping futures, and fostering excellence in education since 1950.
+						<p className="mt-4 text-xs text-gray-400">
+							Empowering minds, shaping futures, and fostering excellence in education since 1956.
 						</p>
 					</div>
 
 					{/* Quick Links */}
-					<div className="text-left md:text-center ">
-						<h2 className="text-lg font-semibold mb-4">Quick Links</h2>
-						<ul className="space-y-2">
+					<div className="text-left lg:text-center ">
+						<h2 className="font-semibold mb-4">Quick Links</h2>
+						<ul className="space-y-2 text-sm">
 							{quickLinks.map((link, index) => (
 								<li key={index}>
-									<a
-										href={link.link}
+									<Link
+										to={link.link}
 										className="text-gray-400 hover:text-white transition-colors duration-300">
 										{link.title}
-									</a>
+									</Link>
 								</li>
 							))}
 						</ul>
 					</div>
 
 					{/* Resources */}
-					<div className="text-left md:text-center">
-						<h2 className="text-lg font-semibold mb-4">Resources</h2>
-						<ul className="space-y-2">
+					<div className="text-left lg:text-center">
+						<h2 className="font-semibold mb-4">Resources</h2>
+						<ul className="space-y-2 text-sm">
 							{researchLinks.map((link, index) => (
 								<li key={index}>
-									<a
-										href={link.link}
+									<Link
+										to={link.link}
 										className="text-gray-400 hover:text-white transition-colors duration-300">
 										{link.title}
-									</a>
+									</Link>
 								</li>
 							))}
 						</ul>
 					</div>
 
 					{/* Contact Info */}
-					<div className="md:flex flex-col items-center justify-start">
-						<h2 className="text-lg font-semibold mb-4">Contact Us</h2>
-						<div className="text-gray-400 space-y-2">
-							<p>Thapar Polytechnic College,</p>
-							<p>147001 - Patiala, Punjab</p>
-							<p className="flex justify-start items-center gap-2 flex-wrap">
+					<div className="lg:flex flex-col items-center justify-start">
+						<h2 className="font-semibold mb-4">Contact Us</h2>
+						<div className="text-gray-400 space-y-2 text-sm">
+							<div className="flex justify-start gap-2">
+								<MapPin className="mt-1" />
+								<div className="flex flex-col">
+									<span>Thapar Polytechnic College,</span>
+									<span>Bhadson Road, Patiala</span>
+								</div>
+							</div>
+							<a
+								href="telephone:+91 17523-65554"
+								className="flex justify-start items-center gap-2 flex-wrap">
 								<FaPhone />
 								+91 17523-65554
-							</p>
-							<p className="flex justify-start items-center gap-2 ">
+							</a>
+							<a
+								href="mailto:principaltpc@thapar.edu"
+								className="flex justify-start items-center gap-2 ">
 								<FaEnvelope /> principaltpc@thapar.edu
-							</p>
+							</a>
 						</div>
 					</div>
 				</div>

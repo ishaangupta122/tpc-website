@@ -1,50 +1,42 @@
-import { useState } from 'react';
-import { Search } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Loader, Search } from 'lucide-react';
 import HeroSection from '../../components/HeroSection';
+import axios from 'axios';
+import BASE_API from '../../../BASE_API/config';
 
 const ManagingCommittee = () => {
 	const [searchName, setSearchName] = useState('');
 	const [selectedCategory, setSelectedCategory] = useState('all');
+	const [loading, setLoading] = useState(true);
+	const [committeeMembers, setCommitteeMembers] = useState([]);
 
 	const breadcrumbs = [
 		{ label: 'Home', href: '/' },
-		{ label: 'Management Committee', href: '/management-committee' },
+		{ label: 'Managing-Committee', href: '/managing-committee' },
 	];
 
-	const communityData = [
-		{
-			id: 1,
-			name: 'Dr. Robert Wilson',
-			info: 'Ph.D. in Computer Science | 15+ years in Academia',
-			designation: 'Chairman',
-		},
-		{
-			id: 2,
-			name: 'Prof. Sarah Mitchell',
-			info: 'Ph.D. in Educational Leadership | Former Dean',
-			designation: 'Vice Chairman',
-		},
-		{
-			id: 3,
-			name: 'Dr. James Chen',
-			info: 'Ph.D. in Mathematics | Research Expert',
-			designation: 'Secretary',
-		},
-		{
-			id: 4,
-			name: 'Prof. Emily Brooks',
-			info: 'Ph.D. in Physics | Department Head',
-			designation: 'Member',
-		},
-		{
-			id: 5,
-			name: 'Dr. Michael Rodriguez',
-			info: 'Ph.D. in Engineering | Industry Expert',
-			designation: 'Member',
-		},
-	];
+	const fetchCommitteeMembers = async () => {
+		try {
+			setLoading(true);
+			const response = await axios.get(`${BASE_API}/members`, {
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				timeout: 5000,
+			});
+			setCommitteeMembers(response.data);
+		} catch (err) {
+			console.log(err);
+		} finally {
+			setLoading(false);
+		}
+	};
 
-	const filteredData = communityData.filter((member) => {
+	useEffect(() => {
+		fetchCommitteeMembers();
+	}, []);
+
+	const filteredData = committeeMembers.filter((member) => {
 		const nameMatch = member.name.toLowerCase().includes(searchName.toLowerCase());
 		const categoryMatch = selectedCategory === 'all' || member.designation === selectedCategory;
 		return nameMatch && categoryMatch;
@@ -59,6 +51,17 @@ const ManagingCommittee = () => {
 		};
 		return colors[designation] || 'bg-gray-100 text-gray-800';
 	};
+
+	if (loading) {
+		return (
+			<section className="bg-white overflow-hidden flex justify-center items-center py-20">
+				<div className="flex flex-col items-center gap-4">
+					<Loader className="w-8 h-8 animate-spin text-emerald-900" />
+					<p className="text-emerald-900 font-medium">Loading Committee Members...</p>
+				</div>
+			</section>
+		);
+	}
 
 	return (
 		<>
@@ -79,7 +82,7 @@ const ManagingCommittee = () => {
 								<input
 									type="text"
 									placeholder="Search by name..."
-									className="w-full p-2 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+									className="w-full p-2 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-800"
 									value={searchName}
 									onChange={(e) => setSearchName(e.target.value)}
 								/>
@@ -88,7 +91,7 @@ const ManagingCommittee = () => {
 
 							{/* Category Dropdown */}
 							<select
-								className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+								className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-800 bg-white"
 								value={selectedCategory}
 								onChange={(e) => setSelectedCategory(e.target.value)}>
 								<option value="all">All Categories</option>

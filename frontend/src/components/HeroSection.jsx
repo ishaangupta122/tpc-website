@@ -1,4 +1,5 @@
 import { ChevronRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const HeroSection = ({ imageUrl, title, breadcrumbs }) => {
 	return (
@@ -16,25 +17,31 @@ const HeroSection = ({ imageUrl, title, breadcrumbs }) => {
 						<div className="absolute inset-0 bg-black bg-opacity-60"></div>
 
 						{/* Centered title */}
-						<div className="absolute inset-0 flex items-center justify-start px-10">
-							<h1 className="text-5xl font-semibold text-white ml-10 uppercase">{title}</h1>
+						<div className="absolute inset-0 flex justify-center w-full">
+							<div className="flex justify-start items-center max-w-7xl w-full">
+								<div className="px-6 lg:px-16">
+									<h1 className="text-5xl font-semibold text-white uppercase">{title}</h1>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
 				{/* Breadcrumb navigation */}
-				<div className="flex w-full bg-gray-200 px-20 py-2 items-center">
-					{breadcrumbs.map((breadcrumb, index) => (
-						<span key={index} className="flex items-center">
-							<a
-								href={breadcrumb.href}
-								className={`font-medium ${
-									index === breadcrumbs.length - 1 ? 'text-green-800' : ''
-								}`}>
-								{breadcrumb.label}
-							</a>
-							{index < breadcrumbs.length - 1 && <ChevronRight />}
-						</span>
-					))}
+				<div className="flex w-full justify-center items-center bg-gray-200">
+					<div className="flex w-full max-w-7xl px-6 lg:px-16 py-2">
+						{breadcrumbs.map((breadcrumb, index) => (
+							<span key={index} className="flex items-center">
+								<Link
+									to={breadcrumb.href}
+									className={`font-medium ${
+										index === breadcrumbs.length - 1 ? 'text-green-800' : ''
+									}`}>
+									{breadcrumb.label}
+								</Link>
+								{index < breadcrumbs.length - 1 && <ChevronRight />}
+							</span>
+						))}
+					</div>
 				</div>
 			</div>
 		</>

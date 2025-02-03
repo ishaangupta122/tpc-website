@@ -1,22 +1,49 @@
 import { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, Minus, MoveRight, Plus, X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Loader, Minus, MoveRight, Plus, X } from 'lucide-react';
+import axios from 'axios';
+import BASE_API from '../../../BASE_API/config';
+import { Link } from 'react-router-dom';
 
 const GallerySection = () => {
 	const [activeFAQ, setActiveFAQ] = useState(null);
 	const [previewIndex, setPreviewIndex] = useState(null);
 	const [gridColumns, setGridColumns] = useState(3);
-
-	const images = [
-		'./boys_hostel.jpg',
-		'./girls_hostel.jpg',
-		'./rec_gate.jpg',
-		'./campus.webp',
-		'./image1.jpeg',
-		'./image3.jpeg',
-		'./image2.jpeg',
-		'./ndli_award.jpg',
-		'./principal.jpeg',
+	const [loading, setLoading] = useState(true);
+	const [images, setImages] = useState([]);
+	const staticImages = [
+		'/rec_gate.jpg',
+		'/ndli_award.jpg',
+		'/girls_hostel.jpg',
+		'/principal.jpeg',
+		'/image2.jpeg',
+		'/boys_hostel.jpg',
+		'/campus.webp',
+		'/image1.jpeg',
+		'/image3.jpeg',
 	];
+
+	const fetchImages = async () => {
+		try {
+			setLoading(true);
+			const response = await axios.get(`${BASE_API}/gallery`, {
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				timeout: 5000,
+			});
+			console.log(response.data);
+			const images = response.data.length === 0 ? staticImages : response.data;
+			setImages(images);
+		} catch (err) {
+			console.log(err);
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	useEffect(() => {
+		fetchImages();
+	}, []);
 
 	const faqs = [
 		{
@@ -38,15 +65,14 @@ const GallerySection = () => {
 				'We offer state-of-the-art laboratories, library, sports complex, and modern hostel facilities.',
 		},
 		{
-			question: 'What are the campus facilities?',
-			answer:
-				'We offer state-of-the-art laboratories, library, sports complex, and modern hostel facilities.',
+			question: 'Whom to contact for admission related queries?',
+			answer: '75088-55997, 90563-40134 OR tpcadmissions@thapar.edu',
 		},
-		{
-			question: 'What are the campus facilities?',
-			answer:
-				'We offer state-of-the-art laboratories, library, sports complex, and modern hostel facilities.',
-		},
+		// {
+		// 	question: 'What are the campus facilities?',
+		// 	answer:
+		// 		'We offer state-of-the-art laboratories, library, sports complex, and modern hostel facilities.',
+		// },
 	];
 
 	useEffect(() => {
@@ -123,38 +149,49 @@ const GallerySection = () => {
 					</div>
 				</div>
 
-				{/* Gallery Section */}
+				{/* Gallery Section or Loading State */}
 				<div className="w-full  lg:w-[60%]">
-					<div className="flex items-center justify-between mb-8">
-						<h2 className="text-2xl font-semibold uppercase text-emerald-900 ">
-							College<span className="text-black"> Gallery</span>
-						</h2>
-						<a
-							href="/gallery"
-							className="flex gap-1 items-center text-emerald-900 hover:underline text-sm font-medium">
-							View All{' '}
-							<span>
-								<MoveRight />
-							</span>
-						</a>
-					</div>
-					<div className={`grid grid-cols-${gridColumns} gap-2`}>
-						{displayedImages.map((img, index) => (
-							<div
-								key={index}
-								className="group relative overflow-hidden rounded-sm shadow-md cursor-pointer"
-								onClick={() => handlePreview(index)}>
-								<img
-									src={img}
-									alt={`Campus Image ${index + 1}`}
-									className={
-										' h-32 w-full object-cover transition-transform duration-300 group-hover:scale-105 bg-emerald-200/50'
-									}
-								/>
-								<div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300"></div>
+					{loading ? (
+						<div className="flex justify-center items-center min-h-[400px]">
+							<div className="flex flex-col items-center gap-4">
+								<Loader className="w-8 h-8 animate-spin text-emerald-900" />
+								<p className="text-emerald-900 font-medium">Loading Images...</p>
 							</div>
-						))}
-					</div>
+						</div>
+					) : (
+						<>
+							<div className="flex items-center justify-between mb-8">
+								<h2 className="text-2xl font-semibold uppercase text-emerald-900 ">
+									College<span className="text-black"> Gallery</span>
+								</h2>
+								<Link
+									to="/gallery"
+									className="flex gap-1 items-center text-emerald-900 hover:underline text-sm font-medium">
+									View All{' '}
+									<span>
+										<MoveRight />
+									</span>
+								</Link>
+							</div>
+							<div className={`grid grid-cols-${gridColumns} gap-2`}>
+								{displayedImages.map((img, index) => (
+									<div
+										key={index}
+										className="group relative overflow-hidden rounded-sm shadow-md cursor-pointer"
+										onClick={() => handlePreview(index)}>
+										<img
+											src={img}
+											alt={`Campus Image ${index + 1}`}
+											className={
+												' h-32 w-full object-cover transition-transform duration-300 group-hover:scale-105 bg-emerald-200/50'
+											}
+										/>
+										<div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300"></div>
+									</div>
+								))}
+							</div>
+						</>
+					)}
 				</div>
 			</div>
 

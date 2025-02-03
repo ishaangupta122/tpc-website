@@ -110,7 +110,7 @@ const PlacementsTracker = () => {
 									placeholder="Search department..."
 									value={searchTerm}
 									onChange={(e) => setSearchTerm(e.target.value)}
-									className="w-full p-2 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+									className="w-full p-2 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-800"
 								/>
 								<Search className="absolute left-3 top-2.5 text-gray-400 h-5 w-5" />
 							</div>
@@ -118,7 +118,7 @@ const PlacementsTracker = () => {
 							<select
 								value={selectedYear}
 								onChange={(e) => setSelectedYear(e.target.value)}
-								className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
+								className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-800 bg-white">
 								<option value="">All Years</option>
 								{Object.keys(placementData)
 									.sort((a, b) => Number(b) - Number(a))

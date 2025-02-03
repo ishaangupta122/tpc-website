@@ -25,14 +25,14 @@ const Carousel = () => {
 
 	const [quickLinks] = useState([
 		{
+			icon: <Trophy className="h-12 w-12" />,
+			title: 'Achievements',
+			href: '#latest-achievements',
+		},
+		{
 			icon: <CalendarDays className="h-12 w-12" />,
 			title: 'Events',
 			href: '#latest-events',
-		},
-		{
-			icon: <Trophy className="h-12 w-12" />,
-			title: 'Achievements',
-			href: '#achievements',
 		},
 		{
 			icon: <GraduationCapIcon className="h-12 w-12" />,
@@ -60,12 +60,11 @@ const Carousel = () => {
 	}, []);
 
 	const getCardStyle = (index) => {
-		// First color pattern (even indices)
+		const baseClasses = 'animate-slide-in opacity-0 card-animation';
 		if (index % 2 === 0) {
-			return 'bg-gradient-to-b from-emerald-50 to-emerald-100 text-black';
+			return `${baseClasses} bg-gradient-to-b from-emerald-50 to-emerald-100 text-black`;
 		}
-		// Second color pattern (odd indices)
-		return 'bg-gradient-to-b from-emerald-800 to-emerald-950 text-white';
+		return `${baseClasses} bg-gradient-to-b from-emerald-800 to-emerald-950 text-white`;
 	};
 
 	return (
@@ -87,16 +86,12 @@ const Carousel = () => {
 						</div>
 					))}
 				</div>
-				<div className="absolute top-0 left-0  z-20 overflow-hidden w-full flex md:justify-start justify-center items-center flex-col h-full">
+				<div className="absolute top-0 left-0 z-20 overflow-hidden w-full flex md:justify-start justify-center items-center flex-col h-full">
 					<div className="flex flex-col gap-4 text-white text-center mt-0 md:mt-[12vh] lg:mt-[20vh] px-3">
-						<span
-							className="font-normal tracking-tighter uppercase text-2xl lg:text-3xl xl:text-4xl"
-							style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)' }}>
+						<span className="welcome-text font-normal tracking-tighter uppercase text-2xl lg:text-3xl xl:text-4xl">
 							Welcome To
 						</span>
-						<span
-							className="font-medium tracking-wide text-3xl lg:text-4xl xl:text-5xl flex items-start justify-center uppercase"
-							style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)' }}>
+						<span className="college-name font-medium tracking-wide text-3xl lg:text-4xl xl:text-5xl flex items-start justify-center uppercase">
 							<Quote className="mr-1 rotate-180" />
 							<Typewriter text={'Thapar Polytechnic College'} />
 							<Quote className="ml-2" />
@@ -110,9 +105,10 @@ const Carousel = () => {
 						<a
 							key={index}
 							href={item.href}
+							style={{ animationDelay: `${index * 200}ms` }}
 							className={`flex items-center justify-center md:flex-row lg:flex-col gap-4 py-10 px-14 ${getCardStyle(
 								index,
-							)} min-w-[200px] lg:min-w-[150px] transition-all duration-300 ease-in-out hover:shadow-lg hover:scale-105 cursor-pointer ${
+							)} min-w-[200px] lg:min-w-[150px] transition-all duration-300 ease-in-out hover:shadow-lg  cursor-pointer ${
 								index + 1 === 5 && 'hidden lg:flex'
 							}`}>
 							{item.icon}
