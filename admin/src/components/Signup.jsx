@@ -122,7 +122,7 @@ const AdminSignup = () => {
 			</div>
 
 			<div className="mt-8 sm:mx-auto sm:w-full sm:max-w-lg mx-4">
-				<div className="bg-white py-8 px-4 shadow-lg shadow-blue-100/50 sm:rounded-xl sm:px-10 border border-blue-50">
+				<div className="bg-white py-8 px-4 shadow-lg shadow-green-100/50 sm:rounded-xl sm:px-10 border border-green-50">
 					<form className="space-y-6" onSubmit={handleSubmit}>
 						<div>
 							<label htmlFor="name" className="block text-sm font-medium text-gray-700">
@@ -135,7 +135,7 @@ const AdminSignup = () => {
 									type="text"
 									placeholder="Admin User"
 									required
-									className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+									className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
 									value={formData.name}
 									onChange={handleChange}
 								/>
@@ -155,7 +155,7 @@ const AdminSignup = () => {
 									placeholder="admin@example.com"
 									autoComplete="email"
 									required
-									className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+									className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
 									value={formData.email}
 									onChange={handleChange}
 								/>
@@ -174,7 +174,7 @@ const AdminSignup = () => {
 									type="tel"
 									placeholder="+91 XXXXX-XXXXX"
 									required
-									className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+									className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
 									value={formData.phone}
 									onChange={handleChange}
 								/>
@@ -194,7 +194,7 @@ const AdminSignup = () => {
 									placeholder="••••••••"
 									autoComplete="new-password"
 									required
-									className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all pr-10"
+									className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all pr-10"
 									value={formData.password}
 									onChange={handleChange}
 								/>
@@ -220,7 +220,7 @@ const AdminSignup = () => {
 									placeholder="••••••••"
 									autoComplete="new-password"
 									required
-									className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all pr-10"
+									className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all pr-10"
 									value={formData.confirmPassword}
 									onChange={handleChange}
 								/>
@@ -239,7 +239,7 @@ const AdminSignup = () => {
 						<div>
 							<button
 								type="submit"
-								className="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all transform hover:scale-[1.02]">
+								className="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all transform hover:scale-[1.02]">
 								Create Account
 							</button>
 						</div>
@@ -248,7 +248,7 @@ const AdminSignup = () => {
 							<p className="">Have an account ?</p>
 							<Link
 								to={'/'}
-								className="flex gap-2 items-center font-semibold text-blue-600 hover:underline">
+								className="flex gap-2 items-center font-semibold text-green-600 hover:underline">
 								Login
 							</Link>
 						</div>

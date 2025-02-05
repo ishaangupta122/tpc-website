@@ -1,143 +1,141 @@
 import { useState } from 'react';
+import { useFaculty } from '../context/FacultyContext'; 
 import { Trash2, Search, Plus, Edit2 } from 'lucide-react';
 
 const FacultyProfile = () => {
-	const [facultyList] = useState([
-		{
-			id: 1,
-			name: 'Dr. John Smith',
-			title: 'Professor, Computer Science Engineering',
-			email: 'john.smith@college.edu',
-			phone: '+1 (555) 123-4567',
-			department: 'Computer Science Engineering',
-			designation: 'Lecturer',
-			joinedDate: 'September 15, 2018',
-			education: [
-				'Ph.D. in Computer Science, MIT (2015)',
-				'M.S. in Computer Science, Stanford University (2012)',
-				'B.Tech in Computer Science, IIT Delhi (2010)',
-			],
-			experience: '23 Years',
-			image: 'https://avatar.iran.liara.run/public',
-		},
-		{
-			id: 2,
-			name: 'Dr. Sarah Johnson',
-			title: 'Associate Professor, Electrical Engineering',
-			email: 'sarah.johnson@college.edu',
-			phone: '+1 (555) 234-5678',
-			department: 'Electrical Engineering',
-			designation: 'HOD EE',
-			joinedDate: 'August 20, 2019',
-			education: [
-				'Ph.D. in Physics, Caltech (2016)',
-				'M.S. in Physics, UC Berkeley (2013)',
-				'B.S. in Physics, MIT (2011)',
-			],
-			experience: '23 Years',
-			image: 'https://avatar.iran.liara.run/public',
-		},
-		{
-			id: 3,
-			name: 'Dr. Michael Chen',
-			title: 'Assistant Professor, Civil Engineering',
-			email: 'michael.chen@college.edu',
-			phone: '+1 (555) 345-6789',
-			department: 'Civil Engineering',
-			designation: 'Professor',
-			joinedDate: 'January 10, 2020',
-			education: [
-				'Ph.D. in Mathematics, Harvard (2017)',
-				'M.S. in Mathematics, Princeton (2014)',
-				'B.S. in Mathematics, Yale (2012)',
-			],
-			experience: '23 Years',
-			image: 'https://avatar.iran.liara.run/public',
-		},
-	]);
+  const { facultyList, fetchFaculty, addFaculty, updateFaculty, deleteFaculty } = useFaculty(); 
 
-	const [searchQuery, setSearchQuery] = useState('');
-	const [selectedDepartment, setSelectedDepartment] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedDepartment, setSelectedDepartment] = useState('');
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    title: '',
+    email: '',
+    phone: '',
+    designation: '',
+    department: '',
+    experience: '',
+    joinedDate: '',
+    image: null,
+    education: []
+  });
+  const [educationInput, setEducationInput] = useState('');
+  const [selectvalue, setSelectedValue] = useState("")
+  const departments = [
+    'All',
+    'Admin Staff',
+    'Applied Science',
+    'Computer Science Engineering',
+    'Electrical Engineering',
+    'Civil Engineering',
+    'Architectural Assistantship',
+  ];
 
-	const departments = [
-		'All',
-		'Admin Staff',
-		'Applied Science',
-		'Computer Science Engineering',
-		'Electrical Engineering',
-		'Civil Engineering',
-		'Architectural Assistantship',
-	];
+  const filteredFaculty = facultyList.filter((faculty) => {
+    const matchesSearch =
+      faculty.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      faculty.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      faculty.department.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesDepartment =
+      !selectedDepartment ||
+      selectedDepartment === 'All' ||
+      faculty.department === selectedDepartment;
+    return matchesSearch && matchesDepartment;
+  });
 
-	const filteredFaculty = facultyList.filter((faculty) => {
-		const matchesSearch =
-			faculty.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-			faculty.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-			faculty.department.toLowerCase().includes(searchQuery.toLowerCase());
-		const matchesDepartment =
-			!selectedDepartment ||
-			selectedDepartment === 'All' ||
-			faculty.department === selectedDepartment;
-		return matchesSearch && matchesDepartment;
-	});
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
-	const handleEdit = (id) => {
-		console.log('Edit profile', id);
-	};
+  const handleFileChange = (e) => {
+    setFormData({ ...formData, image: e.target.files[0] });
+  };
 
-	const handleDelete = (id) => {
-		console.log('Delete profile', id);
-	};
+  const updatenFaculty = (e) => {
+	e.preventDefault();
+	updateFaculty(selectvalue, formData)
+	setIsEditOpen(false)
+  }
 
-	return (
-		<section className="p-6 space-y-6 max-w-7xl">
-			{/* Header */}
-			<div className="flex justify-between items-center bg-white p-4 rounded-lg border border-neutral-200/60">
-				<div>
-					<h1 className="text-2xl font-bold text-neutral-800">Faculty Profiles</h1>
-					<p className="text-neutral-500">Manage and view faculty information</p>
-				</div>
-				<button className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-blue-700 transition-colors">
-					<Plus className="w-5 h-5" />
-					<span className="lg:block hidden">Add New Faculty</span>
-				</button>
-			</div>
+  const addEducation = () => {
+    setFormData({
+      ...formData,
+      education: [...formData.education, educationInput],
+    });
+    setEducationInput('');
+	fetchFaculty()
+  };
 
-			{/* Filters and Search */}
-			<div className="flex flex-col sm:flex-row justify-between gap-4 bg-white p-4 rounded-lg border border-neutral-200/60">
-				<div className="relative flex-grow">
-					<input
-						type="search"
-						placeholder="Search faculty..."
-						value={searchQuery}
-						onChange={(e) => setSearchQuery(e.target.value)}
-						className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:border-blue-500"
-					/>
-					<Search className="w-5 h-5 absolute left-3 top-2.5 text-neutral-400" />
-				</div>
-				<select
-					value={selectedDepartment}
-					onChange={(e) => setSelectedDepartment(e.target.value)}
-					className="px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:border-blue-500">
-					<option value="">All Departments</option>
-					{departments
-						.filter((dept) => dept !== 'All')
-						.map((dept) => (
-							<option key={dept} value={dept}>
-								{dept}
-							</option>
-						))}
-				</select>
-			</div>
+  const addnFaculty = (e) => {
+    e.preventDefault();
+    const formDataCopy = { ...formData };
+    addFaculty(formDataCopy);
+    setIsEditOpen(false);
+  };
 
-			{/* Faculty List */}
-			{filteredFaculty.length === 0 ? (
+  const handleEdit = (faculty) => {
+    setFormData(faculty);
+	setSelectedValue(faculty._id)
+    setIsEditOpen(true);
+  };
+
+  const handleDelete = (id) => {
+    deleteFaculty(id);
+    fetchFaculty()
+  };
+
+  return (
+    <section className="p-6 space-y-6 max-w-7xl">
+      {/* Header */}
+      <div className="flex justify-between items-center bg-white p-4 rounded-lg border border-neutral-200/60">
+        <div>
+          <h1 className="text-2xl font-bold text-neutral-800">Faculty Profiles</h1>
+          <p className="text-neutral-500">Manage and view faculty information</p>
+        </div>
+        <button
+          onClick={() => setIsEditOpen(true)}
+          className="bg-green-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-green-700 transition-colors">
+          <Plus className="w-5 h-5" />
+          <span className="lg:block hidden">Add New Faculty</span>
+        </button>
+      </div>
+
+      {/* Filters and Search */}
+      <div className="flex flex-col sm:flex-row justify-between gap-4 bg-white p-4 rounded-lg border border-neutral-200/60">
+        <div className="relative flex-grow">
+          <input
+            type="search"
+            placeholder="Search faculty..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:border-green-500"
+          />
+          <Search className="w-5 h-5 absolute left-3 top-2.5 text-neutral-400" />
+        </div>
+        <select
+          value={selectedDepartment}
+          onChange={(e) => setSelectedDepartment(e.target.value)}
+          className="px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:border-green-500">
+          <option value="">All Departments</option>
+          {departments
+            .filter((dept) => dept !== 'All')
+            .map((dept) => (
+              <option key={dept} value={dept}>
+                {dept}
+              </option>
+            ))}
+        </select>
+      </div>
+
+	  {filteredFaculty.length === 0 ? (
 				<div className="bg-white p-6 rounded-lg border border-neutral-200/60 text-center text-neutral-600">
 					No faculty members found matching your search.
 				</div>
 			) : (
 				filteredFaculty.map((faculty) => (
-					<div key={faculty.id} className="flex justify-center w-full">
+					<div key={faculty._id} className="flex justify-center w-full">
 						<div className="bg-white rounded-lg shadow-lg overflow-hidden w-full max-w-3xl">
 							{/* Header Section */}
 							<div className="bg-gradient-to-r from-[#de265d] to-[#98002E] text-white px-6 py-4">
@@ -156,14 +154,13 @@ const FacultyProfile = () => {
 												<p className="text-neutral-100">{faculty.title}</p>
 											</div>
 											<div className="flex gap-3">
-												<button
-													onClick={() => handleEdit(faculty.id)}
-													className="flex items-center space-x-2 p-2 text-blue-600 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors">
+												{/* <button
+													onClick={() => handleEdit(faculty._id)}
+													className="flex items-center space-x-2 p-2 text-green-600 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors">
 													<Edit2 className="w-4 h-4" />
-													{/* <span>Edit Profile</span> */}
-												</button>
+												</button> */}
 												<button
-													onClick={() => handleDelete(faculty.id)}
+													onClick={() => handleDelete(faculty._id)}
 													className="flex items-center space-x-2 p-2 rounded-lg text-red-600 bg-gray-100 hover:bg-gray-200 transition-colors">
 													<Trash2 className="w-4 h-4" />
 													{/* <span>Delete</span> */}
@@ -223,8 +220,157 @@ const FacultyProfile = () => {
 					</div>
 				))
 			)}
-		</section>
-	);
+      {/* Edit Dialog */}
+      {isEditOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white rounded-lg shadow-lg w-1/2 max-h-[80vh] overflow-auto">
+            <h2 className="text-2xl font-bold text-neutral-800 pl-6 pr-6 pt-6">
+              Edit Faculty
+            </h2>
+            <form onSubmit={addnFaculty}>
+              <div className="pl-6 pr-6 pb-6">
+                <div className="mt-3">
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    placeholder="Enter full name"
+                    required
+                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:border-green-500"
+                  />
+                </div>
+                <div className="mt-4">
+                  <input
+                    type="text"
+                    name="title"
+                    value={formData.title}
+                    onChange={handleInputChange}
+                    placeholder="Enter title"
+                    required
+                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:border-green-500"
+                  />
+                </div>
+                <div className="mt-4">
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    placeholder="Enter email"
+                    required
+                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:border-green-500"
+                  />
+                </div>
+                <div className="mt-4">
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    placeholder="Enter phone number"
+                    required
+                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:border-green-500"
+                  />
+                </div>
+                <div className="mt-4">
+                  <select
+                    name="department"
+                    value={formData.department}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:border-green-500">
+                    <option value="">Select Department</option>
+                    {departments.map((dept) => (
+                      <option key={dept} value={dept}>
+                        {dept}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="mt-4">
+                  <input
+                    type="text"
+                    name="designation"
+                    value={formData.designation}
+                    onChange={handleInputChange}
+                    placeholder="Enter designation"
+                    required
+                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:border-green-500"
+                  />
+                </div>
+                <div className="mt-4">
+                  <input
+                    type="text"
+                    name="experience"
+                    value={formData.experience}
+                    onChange={handleInputChange}
+                    placeholder="Enter experience"
+                    required
+                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:border-green-500"
+                  />
+                </div>
+                <div className="mt-4">
+                  <input
+                    type="date"
+                    name="joinedDate"
+                    value={formData.joinedDate}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:border-green-500"
+                  />
+                </div>
+                <div className="mt-4">
+                  <label className="block text-gray-600 font-semibold">Upload Image</label>
+                  <input
+                    type="file"
+                    onChange={handleFileChange}
+                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:border-green-500"
+                  />
+                </div>
+                <div className="mt-4">
+                  <h3 className="font-semibold text-gray-600">Education</h3>
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="text"
+                      value={educationInput}
+                      onChange={(e) => setEducationInput(e.target.value)}
+                      placeholder="Enter education"
+                      className="px-4 py-2 border border-neutral-300 rounded-lg flex-grow focus:outline-none focus:border-green-500"
+                    />
+                    <button
+                      type="button"
+                      onClick={addEducation}
+                      className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                      Add
+                    </button>
+                  </div>
+                  <ul className="mt-2 space-y-2">
+                    {formData.education.map((edu, index) => (
+                      <li key={index} className="text-gray-800">
+                        {edu}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+              <div className="flex justify-end gap-4 p-6 border-t border-gray-200">
+                <button
+                  onClick={() => setIsEditOpen(false)}
+                  type="button"
+                  className="bg-gray-300 text-gray-800 px-6 py-2 rounded-lg hover:bg-gray-400 transition-colors">
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                  Save Changes
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </section>
+  );
 };
 
 export default FacultyProfile;

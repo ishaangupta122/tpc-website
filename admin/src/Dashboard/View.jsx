@@ -3,82 +3,55 @@ import { Users, Calendar, BarChart2, Bell, UserPlus, PlusCircle, Edit } from 'lu
 import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
-	const [stats] = useState([
-		{
-			title: 'Total Faculty',
-			value: '124',
-			icon: <Users size={24} />,
-			bgColor: 'bg-blue-100',
-			textColor: 'text-blue-800',
-			change: '↑ 12% from last month',
-			changeColor: 'text-green-500',
-		},
-		{
-			title: 'Upcoming Events',
-			value: '8',
-			icon: <Calendar size={24} />,
-			bgColor: 'bg-purple-100',
-			textColor: 'text-purple-800',
-			change: 'Next event in 2 days',
-			changeColor: 'text-green-500',
-		},
-		{
-			title: 'Placements',
-			value: '85%',
-			icon: <BarChart2 size={24} />,
-			bgColor: 'bg-green-100',
-			textColor: 'text-green-800',
-			change: '↑ 5% from last year',
-			changeColor: 'text-green-500',
-		},
-		{
-			title: 'New Updates',
-			value: '12',
-			icon: <Bell size={24} />,
-			bgColor: 'bg-red-100',
-			textColor: 'text-red-800',
-			change: '4 require attention',
-			changeColor: 'text-red-500',
-		},
-	]);
-
-	const [recentActivity] = useState([
-		{
-			icon: <Users size={24} />,
-			title: 'New faculty member added',
-			description: 'Dr. Smith joined Computer Science',
-			time: '2 hours ago',
-			bgColor: 'bg-blue-100',
-			textColor: 'text-blue-600',
-		},
-		{
-			icon: <Calendar size={24} />,
-			title: 'New event scheduled',
-			description: 'Annual Tech Symposium',
-			time: '5 hours ago',
-			bgColor: 'bg-purple-100',
-			textColor: 'text-purple-600',
-		},
-		{
-			icon: <BarChart2 size={24} />,
-			title: 'Placement Update',
-			description: '15 students placed at Tech Corp',
-			time: '1 day ago',
-			bgColor: 'bg-green-100',
-			textColor: 'text-green-600',
-		},
-	]);
+	// const [stats] = useState([
+	// 	{
+	// 		title: 'Total Faculty',
+	// 		value: '124',
+	// 		icon: <Users size={24} />,
+	// 		bgColor: 'bg-green-100',
+	// 		textColor: 'text-green-800',
+	// 		change: 'Updated the data',
+	// 		changeColor: 'text-green-500',
+	// 	},
+	// 	{
+	// 		title: 'Total Events',
+	// 		value: '8',
+	// 		icon: <Calendar size={24} />,
+	// 		bgColor: 'bg-purple-100',
+	// 		textColor: 'text-purple-800',
+	// 		change: 'Updated the data',
+	// 		changeColor: 'text-green-500',
+	// 	},
+	// 	{
+	// 		title: 'Total Placements',
+	// 		value: '85%',
+	// 		icon: <BarChart2 size={24} />,
+	// 		bgColor: 'bg-green-100',
+	// 		textColor: 'text-green-800',
+	// 		change: 'Updated the data',
+	// 		changeColor: 'text-green-500',
+	// 	},
+	// 	{
+	// 		title: 'Total Updates',
+	// 		value: '12',
+	// 		icon: <Bell size={24} />,
+	// 		bgColor: 'bg-red-100',
+	// 		textColor: 'text-red-800',
+	// 		change: 'Updated the data',
+	// 		changeColor: 'text-green-500',
+	// 	},
+	// ]);
 
 	const [quickActions] = useState([
 		{
 			icon: <UserPlus size={24} />,
 			label: 'Add Faculty',
 			to: '/faculty',
-			textColor: 'text-blue-600',
+			textColor: 'text-green-600',
 		},
 		{
 			icon: <PlusCircle size={24} />,
-			label: 'New Event',
+			label: 'New Event/Update',
 			to: '/events',
 			textColor: 'text-purple-600',
 		},
@@ -90,15 +63,21 @@ const Dashboard = () => {
 		},
 		{
 			icon: <Edit size={24} />,
-			label: 'Post Update',
+			label: 'Add Achievement',
 			to: '/updates',
 			textColor: 'text-red-600',
 		},
 		{
 			icon: <UserPlus size={24} />,
-			label: 'Add Faculty Profile',
-			to: '/facultyProfile',
+			label: 'Add Committee Member',
+			to: '/managing-committee',
 			textColor: 'text-yellow-600',
+		},
+		{
+			icon: <UserPlus size={24} />,
+			label: 'Update Admin Credentials',
+			to: '/settings',
+			textColor: 'text-red-600',
 		},
 	]);
 
@@ -113,7 +92,7 @@ const Dashboard = () => {
 			</div>
 
 			{/* Stats Grid */}
-			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+			{/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 				{stats.map((stat, index) => (
 					<div key={index} className="bg-white p-6 rounded-lg border border-neutral-200/60">
 						<div className="flex justify-between items-start">
@@ -128,33 +107,14 @@ const Dashboard = () => {
 						<p className={`${stat.changeColor} text-sm mt-4`}>{stat.change}</p>
 					</div>
 				))}
-			</div>
+			</div> */}
 
-			{/* Recent Activity and Quick Actions */}
-			<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-				{/* Recent Activity */}
-				<div className="bg-white p-6 rounded-lg border border-neutral-200/60">
-					<h2 className="text-lg font-semibold text-neutral-800 mb-4">Recent Activity</h2>
-					<div className="space-y-4">
-						{recentActivity.map((activity, index) => (
-							<div key={index} className="flex items-start space-x-4">
-								<div className={`${activity.bgColor} p-2 rounded-lg`}>
-									<span className={`w-6 h-6 ${activity.textColor}`}>{activity.icon}</span>
-								</div>
-								<div>
-									<p className="text-neutral-800">{activity.title}</p>
-									<p className="text-sm text-neutral-500">{activity.description}</p>
-									<p className="text-xs text-neutral-400 mt-1">{activity.time}</p>
-								</div>
-							</div>
-						))}
-					</div>
-				</div>
-
+			{/* Quick Actions */}
+			<div className="w-full">
 				{/* Quick Actions */}
-				<div className="bg-white p-6 rounded-lg border border-neutral-200/60">
+				<div className="bg-white p-6 w-full rounded-lg border border-neutral-200/60">
 					<h2 className="text-lg font-semibold text-neutral-800 mb-4">Quick Actions</h2>
-					<div className="grid grid-cols-2 gap-4">
+					<div className="flex flex-wrap justify-start items-center gap-4">
 						{quickActions.map((action, index) => (
 							<Link
 								key={index}

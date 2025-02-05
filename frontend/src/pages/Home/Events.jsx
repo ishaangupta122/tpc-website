@@ -206,9 +206,9 @@ const EventsCarousel = () => {
 									{event.date}
 								</div>
 								<div className="text-xl text-emerald-900 font-bold">
-									<TruncateText text={event.title} maxLength={30} />
+									<TruncateText text={event.title} maxLength={20} />
 								</div>
-								<div className="text-gray-600 text-sm mb-5">
+								<div className="text-gray-600 text-sm mb-4">
 									<TruncateText text={event.description} maxLength={60} />
 								</div>
 								<Link

@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 
 const Settings = () => {
 	const [formData, setFormData] = useState({
-		name: 'Admin User',
-		email: 'admin@college.edu',
-		phone: '+91 XXXXX-XXXXX',
+		name: '',
+		email: '',
+		phone: '',
 		currentPassword: '',
 		newPassword: '',
 		confirmPassword: '',
@@ -17,6 +17,31 @@ const Settings = () => {
 		confirmPassword: false,
 	});
 
+	const [loading, setLoading] = useState(true);
+
+	// Fetch user data from API
+	useEffect(() => {
+		const fetchUserData = async () => {
+			try {
+				const response = await fetch('http://localhost:3000/users/678e1af82244a66c11e36d36'); // Replace with your API URL
+				if (!response.ok) throw new Error('Failed to fetch user data');
+				const data = await response.json();
+				setFormData((prev) => ({
+					...prev,
+					name: data.name,
+					email: data.email,
+					phone: data.phone,
+				}));
+			} catch (error) {
+				console.error(error.message);
+			} finally {
+				setLoading(false);
+			}
+		};
+		fetchUserData();
+	}, []);
+
+	// Handle form input changes
 	const handleInputChange = (e) => {
 		const { name, value } = e.target;
 		setFormData({
@@ -25,6 +50,7 @@ const Settings = () => {
 		});
 	};
 
+	// Toggle password visibility
 	const togglePasswordVisibility = (field) => {
 		setShowPassword({
 			...showPassword,
@@ -32,92 +58,50 @@ const Settings = () => {
 		});
 	};
 
-	const settingsSections = [
-		{
-			title: 'Profile Settings',
-			content: (
-				<div className="space-y-6">
-					<div className="flex items-center justify-between space-x-4">
-						<img
-							src="https://avatar.iran.liara.run/public"
-							alt="Profile"
-							className="w-20 h-20 rounded-lg transition-opacity duration-300 opacity-100"
-							loading="lazy"
-						/>
-						<div>
-							<button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-								Change Photo
-							</button>
-						</div>
-					</div>
+	// Update profile settings
+	const handleProfileUpdate = async () => {
+		try {
+			const response = await fetch('http://localhost:3000/users', {
+				method: 'PUT',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					name: formData.name,
+					email: formData.email,
+					phone: formData.phone,
+				}),
+			});
+			if (!response.ok) throw new Error('Failed to update profile');
+			alert('Profile updated successfully!');
+		} catch (error) {
+			console.error(error.message);
+		}
+	};
 
-					<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-						{[
-							{ label: 'Name', name: 'name', type: 'text' },
-							{ label: 'Email', name: 'email', type: 'email' },
-							{ label: 'Phone', name: 'phone', type: 'tel' },
-						].map((field, index) => (
-							<div key={index}>
-								<label className="block text-sm font-medium text-neutral-700 mb-2">
-									{field.label}
-								</label>
-								<input
-									type={field.type}
-									name={field.name}
-									value={formData[field.name]}
-									onChange={handleInputChange}
-									className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:border-blue-500"
-								/>
-							</div>
-						))}
-					</div>
+	// Update password
+	const handlePasswordUpdate = async () => {
+		if (formData.newPassword !== formData.confirmPassword) {
+			alert('New password and confirm password do not match');
+			return;
+		}
+		try {
+			const response = await fetch('http://localhost:3000/auth/forgot-password', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					
+					email: formData.email,
+				}),
+			});
+			if (!response.ok) throw new Error('Failed to update password');
+			alert('Password updated successfully!');
+		} catch (error) {
+			console.error(error.message);
+		}
+	};
 
-					<div className="flex justify-end">
-						<button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-							Save Changes
-						</button>
-					</div>
-				</div>
-			),
-		},
-		{
-			title: 'Change Password',
-			content: (
-				<div className="mt-6 space-y-6">
-					{[
-						{ label: 'Current Password', name: 'currentPassword', placeholder: '••••••••' },
-						{ label: 'New Password', name: 'newPassword', placeholder: '••••••••' },
-						{ label: 'Confirm New Password', name: 'confirmPassword', placeholder: '••••••••' },
-					].map((field, index) => (
-						<div key={index}>
-							<label className="block text-sm font-medium text-neutral-700 mb-2">
-								{field.label}
-							</label>
-							<div className="relative">
-								<input
-									type={showPassword[field.name] ? 'text' : 'password'}
-									name={field.name}
-									placeholder={field.placeholder}
-									value={formData[field.name]}
-									onChange={handleInputChange}
-									className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:border-blue-500"
-								/>
-								<button
-									type="button"
-									className="absolute inset-y-0 right-3 flex items-center"
-									onClick={() => togglePasswordVisibility(field.name)}>
-									{showPassword[field.name] ? <EyeOff size={20} /> : <Eye size={20} />}
-								</button>
-							</div>
-						</div>
-					))}
-					<button className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-						Update Password
-					</button>
-				</div>
-			),
-		},
-	];
+	if (loading) {
+		return <div>Loading...</div>;
+	}
 
 	return (
 		<section id="settings" className="p-6 space-y-6 max-w-7xl">
@@ -134,21 +118,80 @@ const Settings = () => {
 					<div className="bg-white rounded-lg border border-neutral-200/60">
 						<div className="p-6">
 							<h2 className="text-lg font-semibold text-neutral-800 mb-4">
-								{settingsSections[0].title}
+								Profile Settings
 							</h2>
-							{settingsSections[0].content}
+							<div className="space-y-6">
+								<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+									{[
+										{ label: 'Name', name: 'name', type: 'text' },
+										{ label: 'Email', name: 'email', type: 'email' },
+										{ label: 'Phone', name: 'phone', type: 'tel' },
+									].map((field, index) => (
+										<div key={index}>
+											<label className="block text-sm font-medium text-neutral-700 mb-2">
+												{field.label}
+											</label>
+											<input
+												type={field.type}
+												name={field.name}
+												value={formData[field.name]}
+												onChange={handleInputChange}
+												className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:border-green-500"
+											/>
+										</div>
+									))}
+								</div>
+								<div className="flex justify-end">
+									<button
+										className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+										onClick={handleProfileUpdate}>
+										Save Changes
+									</button>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
 
-				{/* Quick Settings */}
+				{/* Change Password */}
 				<div className="space-y-6">
 					<div className="bg-white rounded-lg border border-neutral-200/60">
 						<div className="p-6">
 							<h2 className="text-lg font-semibold text-neutral-800 mb-4">
-								{settingsSections[1].title}
+								Change Password
 							</h2>
-							{settingsSections[1].content}
+							<div className="mt-6 space-y-6">
+								{[
+									{ label: 'Email', name: 'email', placeholder: 'email...' },
+								].map((field, index) => (
+									<div key={index}>
+										<label className="block text-sm font-medium text-neutral-700 mb-2">
+											{field.label}
+										</label>
+										<div className="relative">
+											<input
+												type='text'
+												name={field.name}
+												placeholder={field.placeholder}
+												value={formData[field.name]}
+												onChange={handleInputChange}
+												className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:border-green-500"
+											/>
+											<button
+												type="button"
+												className="absolute inset-y-0 right-3 flex items-center"
+												onClick={() => togglePasswordVisibility(field.name)}>
+												{showPassword[field.name] ? <EyeOff size={20} /> : <Eye size={20} />}
+											</button>
+										</div>
+									</div>
+								))}
+								<button
+									className="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+									onClick={handlePasswordUpdate}>
+									Update Password
+								</button>
+							</div>
 						</div>
 					</div>
 				</div>
