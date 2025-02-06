@@ -50,7 +50,7 @@ const EventsCarousel = () => {
 		<div className='relative lg:w-[65%] w-full'>
 			<div className='flex items-center mb-6 px-4'>
 				<h2 className='text-2xl font-semibold flex-grow uppercase'>
-					<span className='text-emerald-900'>Latest </span>Events
+					<span className='text-emerald-900'>Events & </span>Updates
 				</h2>
 				<div className='flex gap-2'>
 					<button

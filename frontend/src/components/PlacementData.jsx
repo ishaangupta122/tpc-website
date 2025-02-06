@@ -14,7 +14,7 @@ const PlacementsData = () => {
 
 			{/* Content Layer */}
 			<div className='relative h-full flex items-center justify-center'>
-				<div className='w-full flex space-y-10 lg:justify-between lg:space-y-0 flex-wrap lg:flex-nowrap px-4 py-10 md:py-0 md:px-12 max-w-6xl justify-center'>
+				<div className='w-full flex space-y-10 lg:justify-between lg:space-y-0 flex-wrap lg:flex-nowrap px-4 py-10 md:py-5 md:px-12 max-w-6xl justify-center'>
 					<div className='text-white font-semibold flex flex-col justify-center items-start'>
 						<h3 className='text-6xl text-white font-semibold'>#TPC</h3>
 						<p
