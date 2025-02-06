@@ -1,34 +1,9 @@
 import { useState } from 'react';
 import { Minus, Plus } from 'lucide-react';
+import { faqs } from '../data';
 
 const Faqs = () => {
 	const [activeFAQ, setActiveFAQ] = useState(null);
-	const faqs = [
-		{
-			question: 'What programs does the college offer?',
-			answer:
-				'We offer a variety of undergraduate and postgraduate programs in engineering, sciences, and humanities.',
-		},
-		{
-			question: 'How can I apply for admission?',
-			answer:
-				'You can apply online through our official website or visit the admissions office.',
-		},
-		{
-			question: 'Does the college provide hostel facilities?',
-			answer:
-				'Yes, we offer hostel facilities for both boys and girls with modern amenities.',
-		},
-		{
-			question: 'What are the campus facilities?',
-			answer:
-				'We offer state-of-the-art laboratories, library, sports complex, and modern hostel facilities.',
-		},
-		{
-			question: 'Whom to contact for admission related queries?',
-			answer: '75088-55997, 90563-40134 OR tpcadmissions@thapar.edu',
-		},
-	];
 
 	const toggleFAQ = (index) => {
 		setActiveFAQ(activeFAQ === index ? null : index);
