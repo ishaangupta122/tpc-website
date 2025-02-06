@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, Loader, MoveRight, X } from 'lucide-react';
-import BASE_API from '../../../BASE_API/config';
-import InstaEmbed from '../../components/InstaEmbed';
+import BASE_API from '../../BASE_API/config';
+import InstaEmbed from './InstaEmbed';
 
 const GallerySection = () => {
 	const [previewIndex, setPreviewIndex] = useState(null);

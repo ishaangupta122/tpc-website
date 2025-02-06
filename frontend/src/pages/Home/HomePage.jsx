@@ -1,12 +1,12 @@
-import Testimonials from './Testimonials';
-import Carousel from './Carousel';
-import PlacementCarousel from './Placements';
-import PrincipalCard from './PrincipalCard';
-import StaticData from './StaticData';
-import PlacementsData from './PlacementData';
-import GallerySection from './Gallery';
-import EventsSection from './Events';
-import AchievementsCarousel from './Achievements';
+import Carousel from '../../components/Carousel';
+import EventsSection from '../../components/Events';
+import GallerySection from '../../components/Gallery';
+import PlacementCarousel from '../../components/Placements';
+import PrincipalCard from '../../components/PrincipalCard';
+import StaticData from '../../components/StaticData';
+import Testimonials from '../../components/Testimonials';
+import AchievementsCarousel from '../../components/Achievements';
+import PlacementsData from '../../components/PlacementData';
 
 const HomePage = () => {
 	return (
