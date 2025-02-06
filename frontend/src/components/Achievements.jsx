@@ -61,13 +61,13 @@ const AchievementsCarousel = () => {
 	return (
 		<section
 			id='latest-achievements'
-			className='bg-white overflow-hidden flex justify-center items-start py-10'
+			className='bg-white overflow-hidden flex justify-center items-start px-6 py-10'
 		>
 			<div className='max-w-6xl mx-6 px-6 py-10 my-10 bg-gray-100 rounded-3xl container'>
 				{/* Heading And Buttons */}
-				<div className='w-full flex justify-between items-center mb-8 px-2'>
+				<div className='w-full flex justify-between items-center flex-wrap gap-2 mb-8 px-2'>
 					<div className='text-left w-fit'>
-						<h2 className='text-4xl font-medium text-emerald-900 '>
+						<h2 className='text-3xl md:text-4xl font-medium text-emerald-900 '>
 							College Achievements
 						</h2>
 					</div>
@@ -112,7 +112,7 @@ const AchievementsCarousel = () => {
 						{achievements.map((achievement, index) => (
 							<div
 								key={index}
-								className='w-full md:w-1/3  flex-shrink-0 px-2 py-5'
+								className='w-full md:w-1/2 lg:w-1/3  flex-shrink-0 px-2 py-5'
 							>
 								<div className='bg-white rounded-lg shadow-lg transform hover:-translate-y-1 transition-all duration-300 relative h-full'>
 									<div className='relative h-56 bg-[#143429]/20 rounded-t-md overflow-hidden border-b-[4px] border-emerald-900'>
