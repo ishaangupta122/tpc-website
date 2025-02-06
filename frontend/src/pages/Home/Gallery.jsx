@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import Faqs from '../../components/Faqs';
 import { ChevronLeft, ChevronRight, Loader, MoveRight, X } from 'lucide-react';
 import BASE_API from '../../../BASE_API/config';
 import InstaEmbed from '../../components/InstaEmbed';
@@ -92,7 +91,7 @@ const GallerySection = () => {
 				<InstaEmbed />
 
 				{/* Gallery Section or Loading State */}
-				<div className='w-full  lg:w-[60%]'>
+				<div className='w-full'>
 					{loading ? (
 						<div className='flex justify-center items-center min-h-[400px]'>
 							<div className='flex flex-col items-center gap-4'>
