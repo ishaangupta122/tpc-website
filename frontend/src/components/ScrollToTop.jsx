@@ -1,20 +1,54 @@
-import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 const ScrollToTop = () => {
-	const { pathname } = useLocation();
+  const location = useLocation();
 
-	useEffect(() => {
-		// Smooth scroll to top
-		window.scrollTo({
-			top: 0,
-			left: 0,
-			behavior: 'smooth',
-		});
-	}, [pathname]);
+  useEffect(() => {
+    // Store the current scroll position before navigation
+    if (window.history.state && window.history.state.scrollY) {
+      const { scrollY } = window.history.state;
+      // Restore scroll position if we're going back
+      window.scrollTo(0, scrollY);
+    } else {
+      // Scroll to top for new navigation
+      window.scrollTo(0, 0);
+    }
 
-	// This component doesn't render anything
-	return null;
+    // Save current scroll position before leaving the page
+    const handleScroll = () => {
+      const state = window.history.state || {};
+      window.history.replaceState(
+        {
+          ...state,
+          scrollY: window.scrollY,
+        },
+        ""
+      );
+    };
+
+    // Throttle scroll event listener
+    let timeout;
+    const throttledHandleScroll = () => {
+      if (!timeout) {
+        timeout = setTimeout(() => {
+          handleScroll();
+          timeout = null;
+        }, 100);
+      }
+    };
+
+    window.addEventListener("scroll", throttledHandleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", throttledHandleScroll);
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+    };
+  }, [location]);
+
+  return null;
 };
 
 export default ScrollToTop;

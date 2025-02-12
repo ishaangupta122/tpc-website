@@ -1,91 +1,90 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
 * {
-	font-family: Poppins, sans-serif;
-	scroll-behavior: smooth;
+  font-family: Poppins, sans-serif;
+  scroll-behavior: smooth;
 }
 
 ::-webkit-scrollbar {
-	width: 8px;
-	height: 8px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-	background: #e3e3e3;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-	background: #a4a4a4;
-	border-radius: 12px;
+  background: #a4a4a4;
+  border-radius: 12px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-	background: #898989;
+  background: #898989;
 }
 
 @keyframes ticker {
-	0% {
-		transform: translateX(0);
-	}
+  0% {
+    transform: translateX(0);
+  }
 
-	100% {
-		transform: translateX(-50%);
-	}
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 .animate-ticker {
-	animation: ticker 20s linear infinite;
+  animation: ticker 20s linear infinite;
 }
 
 @keyframes blink {
+  50%,
+  100% {
+    opacity: 1;
+  }
 
-	50%,
-	100% {
-		opacity: 1;
-	}
-
-	0% {
-		opacity: 0;
-	}
+  0% {
+    opacity: 0;
+  }
 }
 
 .blink-animation {
-	animation: blink 1s steps(2, start) infinite;
+  animation: blink 1s steps(2, start) infinite;
 }
 
 @keyframes slideIn {
-	0% {
-		transform: translateX(-100%);
-		opacity: 0;
-	}
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
 
-	100% {
-		transform: translateX(0);
-		opacity: 1;
-	}
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 .card-animation {
-	animation: slideIn 0.5s ease-out forwards;
+  animation: slideIn 0.5s ease-out forwards;
 }
 
 .welcome-text,
 .college-name {
-	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 @keyframes fade-in {
-	from {
-		opacity: 0;
-		transform: translateX(10rem);
-	}
+  from {
+    opacity: 0;
+    transform: translateX(10rem);
+  }
 
-	to {
-		opacity: 1;
-		transform: translateX(0);
-	}
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .animate-fade-in {
-	animation: fade-in 0.3s ease-out;
+  animation: fade-in 0.3s ease-out;
 }
