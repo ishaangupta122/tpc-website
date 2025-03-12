@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
-import { ChevronLeft, ChevronRight, Loader, MoveRight, X } from "lucide-react";
-import BASE_API from "../../BASE_API/config";
+import { ChevronLeft, ChevronRight, MoveRight, X } from "lucide-react";
 import InstaEmbed from "./InstaEmbed";
+import { fetchGalleryImages } from "../context/GalleryContext";
+import Loading from "./Loading";
 
 const GallerySection = () => {
   const [previewIndex, setPreviewIndex] = useState(null);
@@ -23,22 +23,11 @@ const GallerySection = () => {
   ];
 
   const fetchImages = async () => {
-    try {
-      setLoading(true);
-      const response = await axios.get(`${BASE_API}/gallery`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        timeout: 5000,
-      });
-      console.log(response.data);
-      const images = response.data.length === 0 ? staticImages : response.data;
-      setImages(images);
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setLoading(false);
-    }
+    setLoading(true);
+    const data = await fetchGalleryImages();
+    const images = data.length === 0 ? staticImages : data;
+    setImages(images);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -93,14 +82,9 @@ const GallerySection = () => {
         {/* Gallery Section or Loading State */}
         <div className='w-full'>
           {loading ? (
-            <div className='flex justify-center items-center min-h-[400px]'>
-              <div className='flex flex-col items-center gap-4'>
-                <Loader className='w-8 h-8 animate-spin text-emerald-900' />
-                <p className='text-emerald-900 font-medium'>
-                  Loading Images...
-                </p>
-              </div>
-            </div>
+            <>
+              <Loading title='Gallery Images' />
+            </>
           ) : (
             <>
               <div className='flex items-center justify-between mb-8'>

@@ -11,20 +11,13 @@ export class CreateEventDto {
 
   @IsNotEmpty()
   @IsString()
-  time: string;
-
-  @IsNotEmpty()
-  @IsString()
-  location: string;
-
-  @IsNotEmpty()
-  @IsString()
   description: string;
-
-  // @IsString()
-  // colorClass: string;
 
   @IsNotEmpty()
   @IsString()
   category: string;
+
+  @IsNotEmpty()
+  @IsString()
+  image: string;
 }

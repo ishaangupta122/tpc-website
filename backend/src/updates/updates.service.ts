@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { ConfigService } from '@nestjs/config';
 import { Model } from 'mongoose';
 import { unlinkSync } from 'fs';
-import { join } from 'path';  
+import { join } from 'path';
 import { Update } from '../schemas/updates/updates.schema';
 
 @Injectable()
@@ -19,7 +19,7 @@ export class UpdatesService {
 
   async findAll() {
     const updates = await this.updatesModel.find().lean().exec();
-    return updates.map(update => ({
+    return updates.map((update) => ({
       ...update,
       image: update.image ? `${this.baseUrl}${update.image}` : null,
     }));
@@ -38,7 +38,7 @@ export class UpdatesService {
 
   async create(createUpdateDto: any, file?: Express.Multer.File) {
     if (file) {
-      createUpdateDto.image = `uploads/updates/${file.filename}`;
+      createUpdateDto.image = `/uploads/updates/${file.filename}`;
     }
     const createdUpdate = new this.updatesModel(createUpdateDto);
     const savedUpdate = await createdUpdate.save();
@@ -60,7 +60,7 @@ export class UpdatesService {
       if (existingUpdate.image) {
         this.deleteImageFile(existingUpdate.image);
       }
-      updateUpdateDto.image = `uploads/updates/${file.filename}`;
+      updateUpdateDto.image = `/uploads/updates/${file.filename}`;
     }
 
     Object.assign(existingUpdate, updateUpdateDto);
@@ -68,7 +68,9 @@ export class UpdatesService {
 
     return {
       ...updatedUpdate.toObject(),
-      image: updatedUpdate.image ? `${this.baseUrl}${updatedUpdate.image}` : null,
+      image: updatedUpdate.image
+        ? `${this.baseUrl}${updatedUpdate.image}`
+        : null,
     };
   }
 
@@ -85,7 +87,9 @@ export class UpdatesService {
 
     return {
       ...deletedUpdate.toObject(),
-      image: deletedUpdate.image ? `${this.baseUrl}${deletedUpdate.image}` : null,
+      image: deletedUpdate.image
+        ? `${this.baseUrl}${deletedUpdate.image}`
+        : null,
     };
   }
 

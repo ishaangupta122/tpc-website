@@ -1,39 +1,31 @@
 import { useEffect, useState } from "react";
 import { Search } from "lucide-react";
 import HeroSection from "../../components/HeroSection";
-import axios from "axios";
-import BASE_API from "../../../BASE_API/config";
+import { fetchPlacements } from "../../context/PlacementsContext";
+import Loading from "../../components/Loading";
 
 const PlacementsTracker = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedYear, setSelectedYear] = useState("");
   const [placements, setPlacements] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const breadcrumbs = [
     { label: "Home", href: "/" },
-    { label: "Placements", href: "/placements-tabel" },
+    { label: "Placements", href: "/placements" },
   ];
 
-  const fetchPlacements = async () => {
-    try {
-      const response = await axios.get(`${BASE_API}/placements`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        timeout: 5000,
-      });
-      const data = response.data;
-      setPlacements(data);
-    } catch (err) {
-      console.log(err);
-    }
+  const fetchPlacement = async () => {
+    setLoading(true);
+    const data = await fetchPlacements();
+    setPlacements(data);
+    setLoading(false);
   };
 
   useEffect(() => {
-    fetchPlacements();
+    fetchPlacement();
   }, []);
 
-  // Filter placements based on selected year and search term
   const filteredPlacements = placements
     .filter((placement) =>
       selectedYear ? placement.year.toString() === selectedYear : true
@@ -91,12 +83,10 @@ const PlacementsTracker = () => {
             </div>
           </div>
 
-          {filteredPlacements.length === 0 ? (
-            <div className='border-2 border-gray-200 rounded-lg'>
-              <div className='px-6 py-8 text-center text-gray-500'>
-                <p className='text-base'>No results found</p>
-              </div>
-            </div>
+          {loading ? (
+            <>
+              <Loading title='Placements Data' />
+            </>
           ) : (
             filteredPlacements.map((placement) => (
               <div key={placement.year} className='mb-8'>

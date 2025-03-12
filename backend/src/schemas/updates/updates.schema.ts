@@ -4,25 +4,22 @@ import { Document } from 'mongoose';
 @Schema()
 export class Update extends Document {
   @Prop({ required: true })
-  tag: string;
-
-  // @Prop({ required: false })
-  // tagColor: string;
+  category: string;
 
   @Prop({ required: true })
-  time: string;
+  date: string;
 
   @Prop({ required: true })
   title: string;
 
   @Prop({ required: true })
-  content: string;
+  description: string;
 
   @Prop({ required: true })
   image: string;
 
   // @Prop({ required: true })
-  // publicId: string; 
+  // publicId: string;
 }
 
 export const UpdatesSchema = SchemaFactory.createForClass(Update);

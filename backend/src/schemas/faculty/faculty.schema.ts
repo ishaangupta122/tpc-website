@@ -7,9 +7,6 @@ export class Faculty extends Document {
   name: string;
 
   @Prop({ required: true })
-  title: string;
-
-  @Prop({ required: true })
   email: string;
 
   @Prop({ required: true })
@@ -34,7 +31,7 @@ export class Faculty extends Document {
   image: string;
 
   // @Prop({ required: true })
-  // publicId: string; 
+  // publicId: string;
 }
 
 export const FacultySchema = SchemaFactory.createForClass(Faculty);
