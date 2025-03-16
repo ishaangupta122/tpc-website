@@ -56,7 +56,7 @@ export const updateStory = async (id, storyData, imageFile) => {
     );
     if (imageFile) formData.append("image", imageFile);
 
-    const { data } = await API.put(`/${id}`, formData, {
+    const { data } = await API.patch(`/${id}`, formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
     return data;

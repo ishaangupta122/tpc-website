@@ -15,8 +15,8 @@ export class Event extends Document {
   @Prop({ required: true })
   category: string;
 
-  @Prop({ required: true })
-  image: string;
+  @Prop()
+  image?: string;
 }
 
 export const EventSchema = SchemaFactory.createForClass(Event);

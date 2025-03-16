@@ -11,10 +11,10 @@ const AddEventsModal = ({ isOpen, onClose, refreshData }) => {
   const [imageFile, setImageFile] = useState(null);
   const [formData, setFormData] = useState({
     title: "",
-    image: "",
     description: "",
     date: "",
     category: "",
+    image: null
   });
 
   const categoryOptions = [
@@ -35,13 +35,18 @@ const AddEventsModal = ({ isOpen, onClose, refreshData }) => {
   };
 
   const handleFileChange = (e) => {
-    setImageFile(e.target.files[0]);
+    const file = e.target.files[0];
+    setImageFile(file);
+    setFormData((prev) => ({ ...prev, image: file }));
   };
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    await createEvent(formData, imageFile);
+    console.log({ ...formData, image: imageFile });
+    
+    await createEvent({ ...formData, image: imageFile });
+    
     setImageFile(null);
     setFormData({
       title: "",
@@ -54,7 +59,7 @@ const AddEventsModal = ({ isOpen, onClose, refreshData }) => {
     onClose();
     setLoading(false);
   };
-
+  
   return (
     <Dialog
       header='Add New Event'

@@ -29,18 +29,32 @@ export const getEventById = async (id) => {
     throw error;
   }
 };
-
 export const createEvent = async (eventData, imageFile) => {
   try {
     const formData = new FormData();
-    Object.entries(eventData).forEach(([key, value]) =>
-      formData.append(key, value)
-    );
-    if (imageFile) formData.append("image", imageFile);
 
-    const { data } = await API.post("/", eventData, {
+    // Append all event data to the formData
+    Object.entries(eventData).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        formData.append(key, value);
+      }
+    });
+
+    // Append the file if available
+    if (imageFile) {
+      formData.append("image", imageFile);
+    }
+
+    console.log("FormData values:");
+    for (let pair of formData.entries()) {
+      console.log(pair[0] + ": " + pair[1]);
+    }
+
+    // Pass formData instead of eventData in the API call
+    const { data } = await API.post("/", formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
+
     return data;
   } catch (error) {
     console.error("Error creating event: \n", error);

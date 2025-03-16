@@ -216,7 +216,7 @@ const EventsCalendar = () => {
             header='IMAGE'
             body={(rowData) => (
               <img
-                src={rowData.imageUrl}
+                src={rowData.image}
                 alt='Image'
                 className='w-24 h-16 rounded-md border border-neutral-300'
               />
