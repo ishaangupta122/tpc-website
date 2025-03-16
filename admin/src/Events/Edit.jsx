@@ -11,10 +11,10 @@ const EditEventsModal = ({ isOpen, onClose, selectedEvent, refreshData }) => {
   const [imageFile, setImageFile] = useState(null);
   const [formData, setFormData] = useState({
     title: "",
-    image: "",
     description: "",
     date: "",
     category: "",
+    image: "",
   });
 
   const categoryOptions = [
@@ -47,7 +47,9 @@ const EditEventsModal = ({ isOpen, onClose, selectedEvent, refreshData }) => {
   };
 
   const handleFileChange = (e) => {
-    setImageFile(e.target.files[0]);
+    const file = e.target.files[0];
+    setImageFile(file);
+    setFormData((prev) => ({ ...prev, image: file }));
   };
 
   const handleSubmit = async (e) => {
@@ -89,7 +91,9 @@ const EditEventsModal = ({ isOpen, onClose, selectedEvent, refreshData }) => {
             />
           </div>
           <InputText
+            type='file'
             name='image'
+            accept='image/*'
             onChange={handleFileChange}
             className='w-full p-2'
           />

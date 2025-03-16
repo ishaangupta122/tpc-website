@@ -52,7 +52,7 @@ export const updateAchievement = async (id, achievementData, imageFile) => {
     });
     return data;
   } catch (error) {
-    console.error("Error updating achievement: \n", error);
+    console.error(`Error updating achievement with ID ${id}: \n`, error);
     throw error;
   }
 };

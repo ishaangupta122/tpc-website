@@ -22,7 +22,6 @@ const EditEventsModal = ({ isOpen, onClose, selectedEvent }) => {
         date: selectedEvent.date || "",
         category: selectedEvent.category || "",
       });
-      console.log(formData.image)
     }
   }, [selectedEvent]);
 

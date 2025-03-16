@@ -151,7 +151,7 @@ const FacultyList = () => {
           <option value='Architechtural Assitantship'>
             Architechtural Assitantship
           </option>
-          <option value='Computer Science'>Computer Science</option>
+          <option value='Computer Science Engineering'>Computer Science</option>
           <option value='Electrical Engineering'>Electrical Engineering</option>
           <option value='Mechanical Engineering'>Mechanical Engineering</option>
           <option value='Civil Engineering'>Civil Engineering</option>

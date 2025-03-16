@@ -69,7 +69,9 @@ const EditFacultyModal = ({
   };
 
   const handleFileChange = (e) => {
-    setImageFile(e.target.files[0]);
+    const file = e.target.files[0];
+    setImageFile(file);
+    setFormData((prev) => ({ ...prev, image: file }));
   };
 
   const handleAddEducation = () => {
@@ -203,6 +205,7 @@ const EditFacultyModal = ({
           <InputText
             type='file'
             name='image'
+            accept='image/*'
             onChange={handleFileChange}
             className='w-full p-2'
           />
