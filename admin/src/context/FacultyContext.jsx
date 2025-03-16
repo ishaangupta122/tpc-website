@@ -41,20 +41,35 @@ export const createFaculty = async (faculty, imageFile) => {
 export const updateFaculty = async (id, facultyData, imageFile) => {
   try {
     const formData = new FormData();
-    Object.entries(facultyData).forEach(([key, value]) =>
-      formData.append(key, value)
-    );
-    if (imageFile) formData.append("image", imageFile);
+    
+    // Convert `education` array to string before appending
+    Object.entries(facultyData).forEach(([key, value]) => {
+      if (key === 'education' && Array.isArray(value)) {
+        value.forEach((item) => {
+          formData.append('education[]', item);
+        });
+      } else {
+        formData.append(key, value);
+      }
+    });
+
+    if (imageFile) {
+      //formData.append('image', imageFile);
+    }
+
+    console.log('Sending data:', id, formData);
 
     const { data } = await API.put(`/${id}`, formData, {
-      headers: { "Content-Type": "multipart/form-data" },
+      headers: { 'Content-Type': 'multipart/form-data' },
     });
+
     return data;
   } catch (error) {
-    console.error("Error updating faculty: \n", error);
+    console.error('Error updating faculty: \n', error);
     throw error;
   }
 };
+
 
 export const deleteFaculty = async (id) => {
   try {
