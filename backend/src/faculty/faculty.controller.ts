@@ -2,13 +2,12 @@ import {
   Controller,
   Get,
   Post,
-  Patch,
+  Put,
   Delete,
   Param,
   Body,
   UploadedFile,
   UseInterceptors,
-  Put,
 } from '@nestjs/common';
 import { FacultyService } from './faculty.service';
 import { CreateFacultyDto } from '../schemas/faculty/create-faculty.dto';
@@ -34,22 +33,22 @@ export class FacultyController {
   @UseInterceptors(FileInterceptor('image', { storage: multerConfig.storage, ...multerOptions }))
   async createFaculty(
     @Body() createFacultyDto: CreateFacultyDto,
-    @UploadedFile() image: Express.Multer.File,
+    @UploadedFile() file: Express.Multer.File,
   ) {
-    const imageUrl = image ? `/uploads/${image.filename}` : null; // Local image path
-    console.log(image)
-    return this.facultyService.create({ ...createFacultyDto, image: imageUrl });
+    return this.facultyService.create(createFacultyDto, file);
   }
 
   @Put(':id')
-  @UseInterceptors(FileInterceptor('file'))
-  async update(
+  @UseInterceptors(FileInterceptor('image', { storage: multerConfig.storage, ...multerOptions }))
+  async updateFaculty(
     @Param('id') id: string,
     @Body() updateFacultyDto: UpdateFacultyDto,
-    @UploadedFile() file: Express.Multer.File,
+    @UploadedFile() file?: Express.Multer.File,
   ) {
+    console.log("data: ",updateFacultyDto, file)
     return this.facultyService.update(id, updateFacultyDto, file);
   }
+
   @Delete(':id')
   async deleteFaculty(@Param('id') id: string) {
     return this.facultyService.delete(id);

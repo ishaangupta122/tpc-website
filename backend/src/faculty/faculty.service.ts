@@ -40,8 +40,12 @@ export class FacultyService {
     };
   }
 
-  // Create a new faculty
-  async create(createFacultyDto: CreateFacultyDto): Promise<any> {
+  // Create a new faculty with file handling
+  async create(createFacultyDto: CreateFacultyDto, file?: Express.Multer.File): Promise<any> {
+    if (file) {
+      createFacultyDto.image = `/uploads/${file.filename}`; // Store relative path
+    }
+
     const newFaculty = new this.facultyModel(createFacultyDto);
     const savedFaculty = await newFaculty.save();
 
@@ -51,7 +55,7 @@ export class FacultyService {
     };
   }
 
-  // Update a faculty
+  // Update a faculty with file handling
   async update(id: string, updateFacultyDto: UpdateFacultyDto, file?: Express.Multer.File): Promise<any> {
     const existingFaculty = await this.facultyModel.findById(id).exec();
 
@@ -59,15 +63,15 @@ export class FacultyService {
       throw new NotFoundException('Faculty not found');
     }
 
-    // Handle image replacement
     if (file) {
+      // Delete existing image if it exists
       if (existingFaculty.image) {
         this.deleteImageFile(existingFaculty.image);
       }
-      updateFacultyDto.image = file.filename;
+      updateFacultyDto.image = `/uploads/${file.filename}`;
     }
 
-    Object.assign(existingFaculty, updateFacultyDto); // Merge updates
+    Object.assign(existingFaculty, updateFacultyDto);
     const updatedFaculty = await existingFaculty.save();
 
     return {
@@ -76,7 +80,7 @@ export class FacultyService {
     };
   }
 
-  // Delete a faculty
+  // Delete a faculty and associated image
   async delete(id: string): Promise<any> {
     const deletedFaculty = await this.facultyModel.findByIdAndDelete(id).exec();
 
@@ -84,7 +88,6 @@ export class FacultyService {
       throw new NotFoundException('Faculty not found');
     }
 
-    // Delete associated image if it exists
     if (deletedFaculty.image) {
       this.deleteImageFile(deletedFaculty.image);
     }
