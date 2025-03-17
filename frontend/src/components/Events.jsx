@@ -5,18 +5,27 @@ import { Link } from "react-router-dom";
 import SuccessStoriesCarousel from "./SuccessStories";
 import { fetchEvent } from "../context/EventsContext";
 import Loading from "./Loading";
+import NoDataFound from "./NoDataFound";
+import Error from "./Error";
 
 const EventsCarousel = () => {
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [events, setEvents] = useState([]);
   const [activeButton, setActiveButton] = useState(null);
   const scrollRef = useRef(null);
 
   const fetchEvents = async () => {
     setLoading(true);
-    const data = await fetchEvent();
-    setEvents(data);
-    setLoading(false);
+    setError(null);
+    try {
+      const data = await fetchEvent();
+      setEvents(data);
+    } catch (err) {
+      setError(err.message || "Failed to fetch events");
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -70,10 +79,14 @@ const EventsCarousel = () => {
       </div>
 
       {/* Carousel or Loading State */}
-      {loading ? (
+      {error ? (
+        <Error error={error} />
+      ) : loading ? (
         <>
           <Loading title='Events' />
         </>
+      ) : events.length === 0 ? (
+        <NoDataFound title='Events' />
       ) : (
         <div
           ref={scrollRef}

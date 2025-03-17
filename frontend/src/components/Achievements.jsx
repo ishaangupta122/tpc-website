@@ -4,21 +4,30 @@ import { Link } from "react-router-dom";
 import TruncateText from "./TruncateText";
 import { fetchAchievements } from "../context/AchievementsContext";
 import Loading from "./Loading";
+import NoDataFound from "./NoDataFound";
+import Error from "./Error";
 
 const AchievementsCarousel = () => {
   const [achievements, setAchievements] = useState([]);
+  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const scrollRef = useRef(null);
   const [activeButton, setActiveButton] = useState(null);
 
   const fetchAchievement = async () => {
     setLoading(true);
-    const data = await fetchAchievements();
-    const filteredAchievements = data.filter((achievement) =>
-      ["Student", "Faculty", "College"].includes(achievement.category)
-    );
-    setAchievements(filteredAchievements);
-    setLoading(false);
+    setError(null);
+    try {
+      const data = await fetchAchievements();
+      const filteredAchievements = data.filter((achievement) =>
+        ["Student", "Faculty", "College"].includes(achievement.category)
+      );
+      setAchievements(filteredAchievements);
+    } catch (err) {
+      setError(err.message || "Failed to fetch achievements");
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -78,10 +87,14 @@ const AchievementsCarousel = () => {
         </div>
 
         {/* Carousel or Loading State */}
-        {loading ? (
+        {error ? (
+          <Error error={error} />
+        ) : loading ? (
           <>
             <Loading title='Achievements' />
           </>
+        ) : achievements.length === 0 ? (
+          <NoDataFound title='Achievements' />
         ) : (
           <div
             ref={scrollRef}

@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import axios from "axios";
 import BASE_API from "../../../BASE_API/config";
 import { Link } from "react-router-dom";
+import NoDataFound from "../../components/NoDataFound";
 
 const AppliedScienceDepartment = () => {
   const [achievements, setAchievements] = useState([]);
@@ -219,19 +220,23 @@ const AppliedScienceDepartment = () => {
                 </h2>
               </div>
               <div className='space-y-4 max-h-[400px] overflow-y-auto pr-2'>
-                {achievements.map((achievement, index) => (
-                  <div
-                    key={index}
-                    className='border-b-2 border-gray-200 last:border-0 pb-2 last:pb-0'>
-                    <Link
-                      to={`achievements/${achievement._id}`}
-                      className='block hover:bg-gray-50 rounded-lg transition-colors duration-150 px-3 py-1'>
-                      <ul className='list-disc ml-2 text-sm font-normal text-black hover:text-emerald-800'>
-                        <li>{achievement.title}</li>
-                      </ul>
-                    </Link>
-                  </div>
-                ))}
+                {achievements.length === 0 ? (
+                  <NoDataFound title='Achievements' />
+                ) : (
+                  achievements.map((achievement, index) => (
+                    <div
+                      key={index}
+                      className='border-b-2 border-gray-200 last:border-0 pb-2 last:pb-0'>
+                      <Link
+                        to={`achievements/${achievement._id}`}
+                        className='block hover:bg-gray-50 rounded-lg transition-colors duration-150 px-3 py-1'>
+                        <ul className='list-disc ml-2 text-sm font-normal text-black hover:text-emerald-800'>
+                          <li>{achievement.title}</li>
+                        </ul>
+                      </Link>
+                    </div>
+                  ))
+                )}
               </div>
             </div>
 
@@ -243,19 +248,23 @@ const AppliedScienceDepartment = () => {
                 </h2>
               </div>
               <div className='space-y-4 max-h-[400px] overflow-y-auto pr-2'>
-                {events.map((events, index) => (
-                  <div
-                    key={index}
-                    className='border-b-2 border-gray-200 last:border-0 pb-2 last:pb-0'>
-                    <Link
-                      to={`events/${events._id}`}
-                      className='block hover:bg-gray-50 rounded-lg transition-colors duration-150 px-3 py-1'>
-                      <ul className='list-disc ml-2 text-sm font-normal text-black hover:text-emerald-800'>
-                        <li>{events.title}</li>
-                      </ul>
-                    </Link>
-                  </div>
-                ))}
+                {events.length === 0 ? (
+                  <NoDataFound title='Events' />
+                ) : (
+                  events.map((events, index) => (
+                    <div
+                      key={index}
+                      className='border-b-2 border-gray-200 last:border-0 pb-2 last:pb-0'>
+                      <Link
+                        to={`events/${events._id}`}
+                        className='block hover:bg-gray-50 rounded-lg transition-colors duration-150 px-3 py-1'>
+                        <ul className='list-disc ml-2 text-sm font-normal text-black hover:text-emerald-800'>
+                          <li>{events.title}</li>
+                        </ul>
+                      </Link>
+                    </div>
+                  ))
+                )}
               </div>
             </div>
           </div>

@@ -4,16 +4,25 @@ import { Link } from "react-router-dom";
 import TruncateText from "./TruncateText";
 import { fetchSuccessStories } from "../context/SuccessStoriesContext";
 import Loading from "./Loading";
+import NoDataFound from "./NoDataFound";
+import Error from "./Error";
 
 const SuccessStoriesCarousel = () => {
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [successStories, setSuccessStories] = useState([]);
 
   const fetchStories = async () => {
     setLoading(true);
-    const data = await fetchSuccessStories();
-    setSuccessStories(data);
-    setLoading(false);
+    setError(null);
+    try {
+      const data = await fetchSuccessStories();
+      setSuccessStories(data);
+    } catch (err) {
+      setError(err.message || "Failed to fetch success stories");
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -56,10 +65,14 @@ const SuccessStoriesCarousel = () => {
         </div>
 
         {/* Carousel or Loading State */}
-        {loading ? (
+        {error ? (
+          <Error error={error} />
+        ) : loading ? (
           <>
             <Loading title='Success Stories' />
           </>
+        ) : successStories.length === 0 ? (
+          <NoDataFound title='Success Stories' />
         ) : (
           <div
             ref={containerRef}
