@@ -23,19 +23,13 @@ const AddFacultyModal = ({ isOpen, onClose, refreshData }) => {
   });
 
   const departmentOptions = [
-    {
-      label: "Computer Science Engineering",
-      value: "Computer Science Engineering",
-    },
-    { label: "Applied Science", value: "Applied Science" },
     { label: "Admin Staff", value: "Admin Staff" },
-    { label: "Civil Engineering", value: "Civil Engineering" },
-    { label: "Mechanical Engineering", value: "Mechanical Engineering" },
-    { label: "Electrical Engineering", value: "Electrical Engineering" },
-    {
-      label: "Architectural Assistantship",
-      value: "Architectural Assistantship",
-    },
+    { label: "Applied Science", value: "Applied Science" },
+    { label: "Architectural Assistantship", value: "Architectural" },
+    { label: "Civil Engineering", value: "Civil" },
+    { label: "Computer Science Engineering", value: "CSE" },
+    { label: "Mechanical Engineering", value: "Mechanical" },
+    { label: "Electrical Engineering", value: "Electrical" },
   ];
 
   const handleChange = (e) => {

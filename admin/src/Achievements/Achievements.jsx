@@ -24,7 +24,7 @@ const Achievements = () => {
   const [loading, setLoading] = useState(false);
   const [achievements, setAchievement] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All Categories");
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -138,15 +138,15 @@ const Achievements = () => {
     <TruncateText text={rowData.description} maxLength={20} />
   );
 
-  const filteredAchievements = achievements.filter((achievement) => {
-    const matchesSearch =
-      achievement.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      achievement.category.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory =
-      selectedCategory === "All Categories" ||
-      achievement.category === selectedCategory;
-    return matchesSearch && matchesCategory;
-  });
+  const filteredAchievements = achievements.filter(
+    (achievement) =>
+      (achievement.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        achievement.description
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
+        achievement.date.toLowerCase().includes(searchQuery.toLowerCase())) &&
+      (selectedCategory === "" || achievement.category === selectedCategory)
+  );
 
   return (
     <section className='p-6 space-y-6 max-w-7xl'>
@@ -171,7 +171,7 @@ const Achievements = () => {
           <div className='relative flex-grow'>
             <input
               type='search'
-              placeholder='Search by title or tag...'
+              placeholder='Search by Achievements...'
               className='w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:border-green-500'
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -182,13 +182,16 @@ const Achievements = () => {
             className='px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:border-green-500'
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}>
-            <option>All Categories</option>
-            <option>Featured</option>
-            <option>Academic</option>
-            <option>Achievements</option>
-            <option>Events</option>
-            <option>Admissions</option>
-            <option>Placements</option>
+            <option value=''>All Categories</option>
+            <option value='College'>College</option>
+            <option value='Faculty'>Faculty</option>
+            <option value='Student'>Student</option>
+            <option value='Applied Science'>Applied Science</option>
+            <option value='Architectural'>Architectural Assistantship</option>
+            <option value='CSE'>Computer Science Engineering</option>
+            <option value='Civil'>Civil Engineering</option>
+            <option value='Electrical'>Electrical Engineering</option>
+            <option value='Mechanical'>Mechanical Engineering</option>
           </select>
         </div>
       </div>

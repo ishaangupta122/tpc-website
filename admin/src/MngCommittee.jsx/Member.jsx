@@ -143,7 +143,7 @@ const ManagingCommittee = () => {
         <div className='relative flex-grow'>
           <input
             type='search'
-            placeholder='Search member...'
+            placeholder='Search Committee Members...'
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className='w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:border-green-500'

@@ -52,7 +52,8 @@ const EditAchievementsModal = ({
   };
 
   const handleFileChange = (e) => {
-    setImageFile(e.target.files[0]);
+    const file = e.target.files[0];
+    if (file) setImageFile(file);
   };
 
   const handleSubmit = async (e) => {

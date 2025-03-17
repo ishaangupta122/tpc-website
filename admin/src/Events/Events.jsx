@@ -70,15 +70,6 @@ const EventsCalendar = () => {
     });
   };
 
-  const filteredEvents = events.filter(
-    (event) =>
-      (event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        event.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        event.date.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        event.location.toLowerCase().includes(searchTerm.toLowerCase())) &&
-      (selectedCategory === "" || event.category === selectedCategory)
-  );
-
   const actionTemplate = (rowData) => (
     <div className='flex gap-1'>
       <Button
@@ -144,6 +135,14 @@ const EventsCalendar = () => {
     <TruncateText text={rowData.description} maxLength={20} />
   );
 
+  const filteredEvents = events.filter(
+    (event) =>
+      (event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        event.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        event.date.toLowerCase().includes(searchTerm.toLowerCase())) &&
+      (selectedCategory === "" || event.category === selectedCategory)
+  );
+
   return (
     <section id='events-calendar' className='p-6 space-y-6 max-w-7xl'>
       <div className='flex justify-between items-center bg-white p-4 rounded-lg border border-neutral-200/60'>
@@ -167,7 +166,7 @@ const EventsCalendar = () => {
         <div className='relative flex-grow'>
           <input
             type='search'
-            placeholder='Search events...'
+            placeholder='Search Events...'
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className='w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:border-green-500'
@@ -175,17 +174,17 @@ const EventsCalendar = () => {
           <Search className='w-5 h-5 absolute left-3 top-2.5 text-neutral-400' />
         </div>
         <select
+          className='px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:border-green-500'
           value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value)}
-          className='px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:border-green-500'>
+          onChange={(e) => setSelectedCategory(e.target.value)}>
           <option value=''>All Categories</option>
           <option value='College'>College</option>
           <option value='Faculty'>Faculty</option>
           <option value='Student'>Student</option>
           <option value='Applied Science'>Applied Science</option>
           <option value='Architectural'>Architectural Assistantship</option>
-          <option value='Civil'>Civil Engineering</option>
           <option value='CSE'>Computer Science Engineering</option>
+          <option value='Civil'>Civil Engineering</option>
           <option value='Electrical'>Electrical Engineering</option>
           <option value='Mechanical'>Mechanical Engineering</option>
         </select>
@@ -197,7 +196,7 @@ const EventsCalendar = () => {
           paginator
           rows={10}
           loading={loading}
-          emptyMessage='No events found.'
+          emptyMessage='No Events Found.'
           responsiveLayout='scroll'>
           <Column
             header='S.NO'
@@ -212,7 +211,7 @@ const EventsCalendar = () => {
           />
           <Column field='date' header='DATE' sortable />
           <Column
-            field='imageUrl'
+            field='image'
             header='IMAGE'
             body={(rowData) => (
               <img

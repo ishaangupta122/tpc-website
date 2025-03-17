@@ -23,8 +23,8 @@ const EditEventsModal = ({ isOpen, onClose, selectedEvent, refreshData }) => {
     { label: "Student", value: "Student" },
     { label: "Applied Science", value: "Applied Science" },
     { label: "Architectural Assistantship", value: "Architectural" },
-    { label: "Civil Engineering", value: "Civil" },
     { label: "Computer Science Engineering", value: "CSE" },
+    { label: "Civil Engineering", value: "Civil" },
     { label: "Electrical Engineering", value: "Electrical" },
     { label: "Mechanical Engineering", value: "Mechanical" },
   ];
@@ -48,14 +48,17 @@ const EditEventsModal = ({ isOpen, onClose, selectedEvent, refreshData }) => {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    setImageFile(file);
-    setFormData((prev) => ({ ...prev, image: file }));
+    if (file) setImageFile(file);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    await updateEvent(selectedEvent._id, formData, imageFile);
+    const updatedFormData = {
+      ...formData,
+      image: imageFile ? imageFile : formData.image,
+    };
+    await updateEvent(selectedEvent._id, updatedFormData, imageFile);
     refreshData();
     onClose();
     setLoading(false);

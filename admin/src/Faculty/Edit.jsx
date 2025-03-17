@@ -28,19 +28,13 @@ const EditFacultyModal = ({
   });
 
   const departmentOptions = [
-    {
-      label: "Computer Science Engineering",
-      value: "Computer Science Engineering",
-    },
-    { label: "Applied Science", value: "Applied Science" },
     { label: "Admin Staff", value: "Admin Staff" },
-    { label: "Civil Engineering", value: "Civil Engineering" },
-    { label: "Mechanical Engineering", value: "Mechanical Engineering" },
-    { label: "Electrical Engineering", value: "Electrical Engineering" },
-    {
-      label: "Architectural Assistantship",
-      value: "Architectural Assistantship",
-    },
+    { label: "Applied Science", value: "Applied Science" },
+    { label: "Architectural Assistantship", value: "Architectural" },
+    { label: "Civil Engineering", value: "Civil" },
+    { label: "Computer Science Engineering", value: "CSE" },
+    { label: "Mechanical Engineering", value: "Mechanical" },
+    { label: "Electrical Engineering", value: "Electrical" },
   ];
 
   useEffect(() => {
@@ -56,8 +50,6 @@ const EditFacultyModal = ({
         experience: selectedFaculty.experience || "",
         education: Array.isArray(selectedFaculty.education)
           ? selectedFaculty.education
-          : selectedFaculty.education
-          ? [selectedFaculty.education]
           : [],
       });
     }
@@ -70,8 +62,7 @@ const EditFacultyModal = ({
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    setImageFile(file);
-    setFormData((prev) => ({ ...prev, image: file }));
+    if (file) setImageFile(file);
   };
 
   const handleAddEducation = () => {
@@ -94,7 +85,11 @@ const EditFacultyModal = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    await updateFaculty(selectedFaculty._id, formData, imageFile);
+    const updatedFormData = {
+      ...formData,
+      image: imageFile ? imageFile : formData.image,
+    };
+    await updateFaculty(selectedFaculty._id, updatedFormData, imageFile);
     refreshData();
     onClose();
     setLoading(false);

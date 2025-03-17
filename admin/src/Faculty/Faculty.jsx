@@ -99,13 +99,42 @@ const FacultyList = () => {
     </div>
   );
 
+  const departmentTemplate = (rowData) => {
+    return (
+      <>
+        {[
+          "CSE",
+          "Mechanical",
+          "Civil",
+          "Architectural",
+          "Applied Science",
+          "Electrical",
+        ].includes(rowData.department) && (
+          <div className='bg-green-100 text-green-700 px-3 py-1 rounded-full w-fit'>
+            {rowData.department}
+          </div>
+        )}
+        {["Admin Staff"].includes(rowData.department) && (
+          <div className='bg-yellow-100 text-yellow-700 px-3 py-2 rounded-full min-w-[8rem] text-center'>
+            {rowData.department}
+          </div>
+        )}
+      </>
+    );
+  };
+
   const experienceTemplate = (rowData) => {
-    return <span className=' text-gray-600'>{rowData.experience} Years</span>;
+    return (
+      <span className=' text-blue-600 bg-blue-100 px-3 py-2 rounded-full min-w-[8rem] text-center'>
+        {rowData.experience} Years
+      </span>
+    );
   };
 
   const filteredFaculty = facultyList.filter(
     (faculty) =>
       (faculty.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        faculty.department.toLowerCase().includes(searchTerm.toLowerCase()) ||
         faculty.email.toLowerCase().includes(searchTerm.toLowerCase())) &&
       (selectedDepartment === "" || faculty.department === selectedDepartment)
   );
@@ -134,7 +163,7 @@ const FacultyList = () => {
         <div className='relative flex-grow'>
           <input
             type='search'
-            placeholder='Search faculty...'
+            placeholder='Search Faculty...'
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className='w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:border-green-500'
@@ -148,13 +177,11 @@ const FacultyList = () => {
           <option value=''>All Departments</option>
           <option value='Admin Staff'>Admin Staff</option>
           <option value='Applied Science'>Applied Science</option>
-          <option value='Architechtural Assitantship'>
-            Architechtural Assitantship
-          </option>
-          <option value='Computer Science Engineering'>Computer Science</option>
-          <option value='Electrical Engineering'>Electrical Engineering</option>
-          <option value='Mechanical Engineering'>Mechanical Engineering</option>
-          <option value='Civil Engineering'>Civil Engineering</option>
+          <option value='Architechtural'>Architechtural Assitantship</option>
+          <option value='CSE'>Computer Science Engineering</option>
+          <option value='Civil'>Civil Engineering</option>
+          <option value='Electrical'>Electrical Engineering</option>
+          <option value='Mechanical'>Mechanical Engineering</option>
         </select>
       </div>
 
@@ -188,12 +215,17 @@ const FacultyList = () => {
             header='CONTACT DETAILS'
             body={contactTemplate}
           />
-          <Column field='department' header='DEPARTMENT' />
+          <Column
+            field='department'
+            header='DEPARTMENT'
+            body={departmentTemplate}
+          />
           <Column field='designation' header='DESIGNATION' />
           <Column
             field='experience'
             header='EXPERIENCE'
             body={experienceTemplate}
+            sortable
           />
           <Column field='joinedDate' header='JOINED DATE' />
           <Column field='education' header='EDUCATION' />

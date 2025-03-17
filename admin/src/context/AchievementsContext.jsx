@@ -13,7 +13,6 @@ const API = axios.create({
 export const fetchAchievement = async () => {
   try {
     const { data } = await API.get("/");
-    console.log(data);
     return data;
   } catch (error) {
     console.error("Error fetching achievements: \n", error);

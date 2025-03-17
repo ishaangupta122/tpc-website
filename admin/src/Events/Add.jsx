@@ -14,7 +14,7 @@ const AddEventsModal = ({ isOpen, onClose, refreshData }) => {
     description: "",
     date: "",
     category: "",
-    image: null
+    image: "",
   });
 
   const categoryOptions = [
@@ -23,8 +23,8 @@ const AddEventsModal = ({ isOpen, onClose, refreshData }) => {
     { label: "Student", value: "Student" },
     { label: "Applied Science", value: "Applied Science" },
     { label: "Architectural Assistantship", value: "Architectural" },
-    { label: "Civil Engineering", value: "Civil" },
     { label: "Computer Science Engineering", value: "CSE" },
+    { label: "Civil Engineering", value: "Civil" },
     { label: "Electrical Engineering", value: "Electrical" },
     { label: "Mechanical Engineering", value: "Mechanical" },
   ];
@@ -35,18 +35,13 @@ const AddEventsModal = ({ isOpen, onClose, refreshData }) => {
   };
 
   const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setImageFile(file);
-    setFormData((prev) => ({ ...prev, image: file }));
+    setImageFile(e.target.files[0]);
   };
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    console.log({ ...formData, image: imageFile });
-    
     await createEvent({ ...formData, image: imageFile });
-    
     setImageFile(null);
     setFormData({
       title: "",
@@ -59,7 +54,7 @@ const AddEventsModal = ({ isOpen, onClose, refreshData }) => {
     onClose();
     setLoading(false);
   };
-  
+
   return (
     <Dialog
       header='Add New Event'

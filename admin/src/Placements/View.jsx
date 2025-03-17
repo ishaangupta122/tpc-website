@@ -99,9 +99,16 @@ const Placements = () => {
           <div
             key={placement._id}
             className='bg-white rounded-lg shadow-sm border border-neutral-200 overflow-hidden p-6'>
-            <h2 className='text-lg font-semibold text-neutral-800 mb-4'>
-              {placement.year} Placements
-            </h2>
+            <div className='flex items-center justify-between mb-4'>
+              <h2 className='text-lg font-semibold text-neutral-800 '>
+                {placement.year} Placements
+              </h2>
+              <button
+                onClick={() => handleDeletePlacement(placement._id)}
+                className='text-red-600 hover:text-red-900 bg-red-100 p-2 rounded-lg'>
+                <Trash2 className='w-4 h-4' />
+              </button>
+            </div>
             <div className='overflow-x-auto'>
               <table className='min-w-full divide-y divide-neutral-200'>
                 <thead className='bg-gray-100'>
@@ -148,11 +155,6 @@ const Placements = () => {
                         {/* <button className="text-green-600 hover:text-green-900 bg-green-100 p-2 rounded-lg">
                           <Edit2 className="w-4 h-4" />
                         </button> */}
-                        <button
-                          onClick={() => handleDeletePlacement(placement._id)}
-                          className='text-red-600 hover:text-red-900 bg-red-100 p-2 rounded-lg'>
-                          <Trash2 className='w-4 h-4' />
-                        </button>
                       </td>
                     </tr>
                   ))}
