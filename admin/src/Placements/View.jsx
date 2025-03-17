@@ -92,7 +92,7 @@ const Placements = () => {
 
       {placements.length === 0 ? (
         <div className='bg-white p-6 rounded-lg border border-neutral-200 text-center text-neutral-600'>
-          No placements found.
+          No Placements Found.
         </div>
       ) : (
         placements.map((placement) => (

@@ -168,7 +168,7 @@ const ManagingCommittee = () => {
           paginator
           rows={10}
           loading={loading}
-          emptyMessage='No events found.'
+          emptyMessage='No Committe Members Found.'
           responsiveLayout='scroll'>
           <Column
             header='S.NO'

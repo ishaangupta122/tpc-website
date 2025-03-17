@@ -191,7 +191,7 @@ const FacultyList = () => {
           paginator
           rows={10}
           loading={loading}
-          emptyMessage='No events found.'
+          emptyMessage='No Faculty Found.'
           responsiveLayout='scroll'>
           <Column
             header='S.NO'
