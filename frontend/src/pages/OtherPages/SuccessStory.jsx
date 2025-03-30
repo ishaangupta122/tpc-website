@@ -3,11 +3,13 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchSuccessStoryById } from "../../context/SuccessStoriesContext";
 import Loading from "../../components/Loading";
+import Error from "../../components/Error";
 
 const SuccessStory = () => {
   const { storyId } = useParams();
   const [successStory, setSuccessStory] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const breadcrumbs = [
     { label: "Home", href: "/" },
@@ -19,9 +21,15 @@ const SuccessStory = () => {
 
   const fetchStory = async () => {
     setLoading(true);
-    const data = await fetchSuccessStoryById(storyId);
-    setSuccessStory(data);
-    setLoading(false);
+    setError(null);
+    try {
+      const data = await fetchSuccessStoryById(storyId);
+      setSuccessStory(data);
+    } catch (err) {
+      setError(err.message || "Failed to fetch success story");
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -35,7 +43,9 @@ const SuccessStory = () => {
         title='Success Story'
         breadcrumbs={breadcrumbs}
       />
-      {loading ? (
+      {error ? (
+        <Error error={error} />
+      ) : loading ? (
         <>
           <Loading title='Success Story Details' />
         </>

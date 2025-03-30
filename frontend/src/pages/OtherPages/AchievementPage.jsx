@@ -3,11 +3,13 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchAchievementsById } from "../../context/AchievementsContext";
 import Loading from "../../components/Loading";
+import Error from "../../components/Error";
 
 const AchievementPage = () => {
   const { achievementId } = useParams();
   const [achievement, setAchievement] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const breadcrumbs = [
     { label: "Home", href: "/" },
@@ -19,9 +21,15 @@ const AchievementPage = () => {
 
   const fetchAchievement = async () => {
     setLoading(true);
-    const data = await fetchAchievementsById(achievementId);
-    setAchievement(data);
-    setLoading(false);
+    setError(null);
+    try {
+      const data = await fetchAchievementsById(achievementId);
+      setAchievement(data);
+    } catch (err) {
+      setError(err.message || "Failed to fetch achievement");
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -40,7 +48,9 @@ const AchievementPage = () => {
         breadcrumbs={breadcrumbs}
       />
 
-      {loading ? (
+      {error ? (
+        <Error error={error} />
+      ) : loading ? (
         <>
           <Loading title='Achievement Details' />
         </>

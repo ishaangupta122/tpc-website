@@ -3,11 +3,13 @@ import { useEffect, useState } from "react";
 import HeroSection from "../../components/HeroSection";
 import { fetchEventById } from "../../context/EventsContext";
 import Loading from "../../components/Loading";
+import Error from "../../components/Error";
 
 const EventPage = () => {
   const { eventId } = useParams();
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const breadcrumbs = [
     { label: "Home", href: "/" },
@@ -16,9 +18,15 @@ const EventPage = () => {
 
   const fetchEvent = async () => {
     setLoading(true);
-    const data = await fetchEventById(eventId);
-    setEvent(data);
-    setLoading(false);
+    setError(null);
+    try {
+      const data = await fetchEventById(eventId);
+      setEvent(data);
+    } catch (err) {
+      setError(err.message || "Failed to fetch event");
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -33,7 +41,9 @@ const EventPage = () => {
         breadcrumbs={breadcrumbs}
       />
 
-      {loading ? (
+      {error ? (
+        <Error error={error} />
+      ) : loading ? (
         <>
           <Loading title='Event Details' />
         </>
