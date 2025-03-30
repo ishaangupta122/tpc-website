@@ -8,6 +8,7 @@ import {
   Menu,
   X,
   Rocket,
+  Image,
   BarChart4,
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
@@ -37,6 +38,8 @@ const Sidebar = () => {
       to: "/managing-committee",
       icon: Users,
     },
+    { name: "Gallery", to: "/gallery", icon: Image },
+
     { name: "Settings", to: "/settings", icon: Settings },
   ];
 

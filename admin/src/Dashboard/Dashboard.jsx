@@ -1,5 +1,13 @@
 import { useState } from "react";
-import { UserPlus, PlusCircle, Edit, Rocket, BarChart4 } from "lucide-react";
+import {
+  UserPlus,
+  PlusCircle,
+  Edit,
+  Rocket,
+  BarChart4,
+  Image,
+  Settings,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Dashboard = () => {
@@ -41,7 +49,13 @@ const Dashboard = () => {
       textColor: "text-yellow-600",
     },
     {
-      icon: <UserPlus size={24} />,
+      icon: <Image size={24} />,
+      label: "Add Gallery Images",
+      to: "/gallery",
+      textColor: "text-indigo-600",
+    },
+    {
+      icon: <Settings size={24} />,
       label: "Update Admin Credentials",
       to: "/settings",
       textColor: "text-red-600",

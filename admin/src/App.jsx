@@ -10,6 +10,7 @@ import FacultyList from "./Faculty/Faculty";
 import Dashboard from "./Dashboard/Dashboard";
 import Settings from "./Settings/Settings";
 import SuccessStory from "./SuccessStory/SuccessStory";
+import Gallery from "./Gallery/Gallery";
 
 // Dummy authentication status
 const isAuthenticated = localStorage.getItem("auth") === "true";
@@ -53,6 +54,10 @@ const App = () => {
             <Route
               path='/managing-committee'
               element={<ProtectedRoute element={<ManagingCommittee />} />}
+            />
+            <Route
+              path='/gallery'
+              element={<ProtectedRoute element={<Gallery />} />}
             />
             <Route
               path='/settings'

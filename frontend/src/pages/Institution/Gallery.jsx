@@ -3,10 +3,12 @@ import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import HeroSection from "../../components/HeroSection";
 import { fetchGalleryImages } from "../../context/GalleryContext";
 import Loading from "../../components/Loading";
+import Error from "../../components/Error";
 
 const GallerySection = () => {
   const [previewIndex, setPreviewIndex] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [images, setImages] = useState([]);
   const galleryRef = useRef(null);
@@ -35,12 +37,19 @@ const GallerySection = () => {
     { label: "Home", href: "/" },
     { label: "Gallery", href: "/gallery" },
   ];
+
   const fetchImages = async () => {
     setLoading(true);
-    const data = await fetchGalleryImages();
-    const images = data.length === 0 ? staticImages : data;
-    setImages(images);
-    setLoading(false);
+    setError(null);
+    try {
+      const data = await fetchGalleryImages();
+      const images = data.length === 0 ? staticImages : data;
+      setImages(images);
+    } catch (error) {
+      setError(error.message || "Failed to fetch images");
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -100,7 +109,11 @@ const GallerySection = () => {
         breadcrumbs={breadcrumbs}
       />
 
-      {loading ? (
+      {error ? (
+        <div className='flex justify-center items-center w-full h-[50vh]'>
+          <Error error={error} />
+        </div>
+      ) : loading ? (
         <>
           <Loading title='Gallery Images' />
         </>

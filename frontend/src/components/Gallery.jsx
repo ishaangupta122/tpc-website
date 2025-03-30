@@ -4,10 +4,12 @@ import { ChevronLeft, ChevronRight, MoveRight, X } from "lucide-react";
 import InstaEmbed from "./InstaEmbed";
 import { fetchGalleryImages } from "../context/GalleryContext";
 import Loading from "./Loading";
+import Error from "./Error";
 
 const GallerySection = () => {
   const [previewIndex, setPreviewIndex] = useState(null);
   const [gridColumns, setGridColumns] = useState(3);
+  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [images, setImages] = useState([]);
   const staticImages = [
@@ -24,10 +26,16 @@ const GallerySection = () => {
 
   const fetchImages = async () => {
     setLoading(true);
-    const data = await fetchGalleryImages();
-    const images = data.length === 0 ? staticImages : data;
-    setImages(images);
-    setLoading(false);
+    setError(null);
+    try {
+      const data = await fetchGalleryImages();
+      const images = data.length === 0 ? staticImages : data;
+      setImages(images);
+    } catch (error) {
+      setError(error.message || "Failed to fetch images");
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -81,25 +89,27 @@ const GallerySection = () => {
 
         {/* Gallery Section or Loading State */}
         <div className='w-full'>
-          {loading ? (
+          <div className='flex items-center justify-between mb-8'>
+            <h2 className='text-xl md:text-3xl font-semibold uppercase text-emerald-900 '>
+              College<span className='text-black'> Gallery</span>
+            </h2>
+            <Link
+              to='/gallery'
+              className='text-sm md:text-lg flex gap-1 items-center text-emerald-900 hover:underline  font-medium'>
+              View All{" "}
+              <span>
+                <MoveRight />
+              </span>
+            </Link>
+          </div>
+          {error ? (
+            <Error error={error} />
+          ) : loading ? (
             <>
               <Loading title='Gallery Images' />
             </>
           ) : (
             <>
-              <div className='flex items-center justify-between mb-8'>
-                <h2 className='text-xl md:text-3xl font-semibold uppercase text-emerald-900 '>
-                  College<span className='text-black'> Gallery</span>
-                </h2>
-                <Link
-                  to='/gallery'
-                  className='text-sm md:text-lg flex gap-1 items-center text-emerald-900 hover:underline  font-medium'>
-                  View All{" "}
-                  <span>
-                    <MoveRight />
-                  </span>
-                </Link>
-              </div>
               <div className={`grid grid-cols-${gridColumns} gap-2`}>
                 {displayedImages.map((img, index) => (
                   <div
