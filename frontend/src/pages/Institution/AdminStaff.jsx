@@ -67,7 +67,7 @@ const AdminStaff = () => {
         breadcrumbs={breadcrumbs}
       />
       <div className='flex items-center flex-col'>
-        <section className='px-6 lg:px-16 py-6 lg:py-16 max-w-7xl w-full'>
+        <section className='px-6 lg:px-16 py-20 max-w-7xl w-full'>
           <div className='mb-6 space-y-6'>
             <h1 className='text-2xl font-semibold mb-4 uppercase text-green-900'>
               Admin <span className='text-black'>Staff</span>

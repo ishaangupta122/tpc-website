@@ -31,7 +31,7 @@ const LibraryPage = () => {
         breadcrumbs={breadcrumbs}
       />
 
-      <div className='bg-white min-h-screen flex flex-col items-center py-10 px-4'>
+      <div className='bg-white min-h-screen flex flex-col items-center py-20 px-4'>
         <div className='max-w-7xl w-full'>
           {/* Header */}
           <div className='text-center mb-16'>
@@ -90,7 +90,7 @@ const LibraryPage = () => {
           </div>
 
           {/* Enhanced Faculty Section */}
-          <div className='mt-20 bg-gray-100 rounded-xl shadow-lg shadow-black/10 py-4 sm:py-16 px-4 mb-10 max-w-4xl mx-auto'>
+          <div className='mt-20 bg-gray-100 rounded-xl shadow-lg shadow-black/10 py-5 sm:py-16 px-4 mb-10 max-w-4xl mx-auto'>
             <div className='mx-auto'>
               <div className='text-center mb-10'>
                 <h1 className='text-2xl font-semibold mb-2 uppercase text-emerald-900'>
