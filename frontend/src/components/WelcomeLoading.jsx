@@ -1,6 +1,6 @@
 const WelcomeLoading = () => {
   return (
-    <div className='flex flex-col items-center gap-4 justify-center h-screen bg-gray-50'>
+    <div className='flex flex-col items-center gap-4 justify-center h-screen bg-gray-50 p-4'>
       {/* Circle Loader Animation with Sequential Bounce */}
       <div className='flex items-center space-x-2 mb-4'>
         <div className='w-5 h-5 bg-emerald-700 rounded-full animate-[bounce_1s_infinite_0.1s]'></div>
@@ -9,7 +9,7 @@ const WelcomeLoading = () => {
       </div>
 
       {/* Loading Text with Animation */}
-      <p className='text-2xl font-semibold text-emerald-700 animate-pulse'>
+      <p className='text-2xl font-semibold text-emerald-700 animate-pulse text-center'>
         Welcome to Thapar Polytechnic College
       </p>
 

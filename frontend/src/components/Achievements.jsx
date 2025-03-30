@@ -63,8 +63,8 @@ const AchievementsCarousel = () => {
   return (
     <section
       id='achievements'
-      className='bg-white overflow-hidden flex justify-center items-start px-6 py-10'>
-      <div className='max-w-6xl mx-6 px-6 py-10 my-10 bg-gray-100 rounded-3xl container'>
+      className='bg-white overflow-hidden flex justify-center items-start px-4 py-10'>
+      <div className='max-w-6xl md:mx-6 px-6 py-10 my-10 bg-gray-100 rounded-3xl container'>
         {/* Heading And Buttons */}
         <div className='w-full flex justify-between items-center flex-wrap gap-2 mb-8 px-2'>
           <div className='text-left w-fit'>
