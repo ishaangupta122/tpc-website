@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import HeroSection from "../../components/HeroSection";
 import { Link } from "react-router-dom";
-import axios from "axios";
-import BASE_API from "../../../BASE_API/config";
+import { fetchFaculty } from "../../context/FacultyContext";
 
 const LibraryPage = () => {
   const [faculty, setFaculty] = useState([]);
@@ -11,41 +10,17 @@ const LibraryPage = () => {
     { label: "Library", href: "/library" },
   ];
 
-  // Static data fallback
-  const staticFaculty = {
-    id: 1,
-    name: "Seema Sharma",
-    email: "seemarn72@yahoo.co.in",
-    phone: "+91 XXXXX-XXXXX",
-    designation: "Assistant Librarian",
-    joinedDate: "August 09, 2012",
-    education: ["M.Phil (Library)", "M.Lib", "B.Lib"],
-    experience: "19 Years",
-    image: "https://avatar.iran.liara.run/public",
-  };
-
-  const fetchFaculty = async () => {
-    try {
-      const response = await axios.get(`${BASE_API}/faculty`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        timeout: 5000,
-      });
-      const data = response.data;
-      const filteredFaculty = data.filter(
-        (faculty) => faculty.designation === "Assistant Librarian"
-      );
-      setFaculty(
-        filteredFaculty.length > 0 ? filteredFaculty[0] : staticFaculty
-      );
-    } catch (err) {
-      console.log(err);
-    }
+  const fetchLibrarian = async () => {
+    const response = await fetchFaculty();
+    const data = response.data;
+    const filteredFaculty = data.filter(
+      (faculty) => faculty.designation === "Assistant Librarian"
+    );
+    setFaculty(filteredFaculty);
   };
 
   useEffect(() => {
-    fetchFaculty();
+    fetchLibrarian();
   }, []);
 
   return (

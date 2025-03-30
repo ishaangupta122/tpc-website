@@ -10,19 +10,13 @@ export class Event extends Document {
   title: string;
 
   @Prop({ required: true })
-  time: string;
-
-  @Prop({ required: true })
-  location: string;
-
-  @Prop({ required: true })
   description: string;
-
-  // @Prop({ required: false })
-  // colorClass: string;
 
   @Prop({ required: true })
   category: string;
+
+  @Prop()
+  image?: string;
 }
 
 export const EventSchema = SchemaFactory.createForClass(Event);

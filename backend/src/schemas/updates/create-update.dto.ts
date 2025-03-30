@@ -3,14 +3,11 @@ import { IsString, IsNotEmpty, IsUrl } from 'class-validator';
 export class CreateUpdateDto {
   @IsString()
   @IsNotEmpty()
-  tag: string;
-
-  // @IsString()
-  // tagColor: string;
+  category: string;
 
   @IsString()
   @IsNotEmpty()
-  time: string;
+  date: string;
 
   @IsString()
   @IsNotEmpty()
@@ -18,10 +15,9 @@ export class CreateUpdateDto {
 
   @IsString()
   @IsNotEmpty()
-  content: string;
+  description: string;
 
-  @IsUrl()
+  @IsString()
   @IsNotEmpty()
   image: string;
-  
 }

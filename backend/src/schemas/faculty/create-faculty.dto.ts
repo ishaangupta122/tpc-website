@@ -1,13 +1,15 @@
-import { IsArray, IsEmail, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import {
+  IsArray,
+  IsEmail,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+} from 'class-validator';
 
 export class CreateFacultyDto {
   @IsString()
   @IsNotEmpty()
   name: string;
-
-  @IsString()
-  @IsNotEmpty()
-  title: string;
 
   @IsEmail()
   email: string;
@@ -37,6 +39,6 @@ export class CreateFacultyDto {
   experience: string;
 
   @IsString()
- // @IsNotEmpty()
+  // @IsNotEmpty()
   image: string;
 }

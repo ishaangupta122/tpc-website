@@ -23,6 +23,27 @@
   background: #898989;
 }
 
+.animate-ticker {
+  animation: ticker 20s linear infinite;
+}
+
+.blink-animation {
+  animation: blink 1s steps(2, start) infinite;
+}
+
+.card-animation {
+  animation: slideIn 0.5s ease-out forwards;
+}
+
+.welcome-text,
+.college-name {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+}
+
 @keyframes ticker {
   0% {
     transform: translateX(0);
@@ -31,10 +52,6 @@
   100% {
     transform: translateX(-50%);
   }
-}
-
-.animate-ticker {
-  animation: ticker 20s linear infinite;
 }
 
 @keyframes blink {
@@ -46,10 +63,6 @@
   0% {
     opacity: 0;
   }
-}
-
-.blink-animation {
-  animation: blink 1s steps(2, start) infinite;
 }
 
 @keyframes slideIn {
@@ -64,15 +77,6 @@
   }
 }
 
-.card-animation {
-  animation: slideIn 0.5s ease-out forwards;
-}
-
-.welcome-text,
-.college-name {
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-}
-
 @keyframes fade-in {
   from {
     opacity: 0;
@@ -83,8 +87,4 @@
     opacity: 1;
     transform: translateX(0);
   }
-}
-
-.animate-fade-in {
-  animation: fade-in 0.3s ease-out;
 }
