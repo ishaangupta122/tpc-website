@@ -37,59 +37,64 @@ const AddCommiteeModal = ({ isOpen, onClose, refreshData }) => {
 
   return (
     <Dialog
-      header='Add New Member'
+      header="Add New Member"
       visible={isOpen}
       onHide={onClose}
       style={{ width: "50vw" }}>
-      <form className='space-y-4' onSubmit={handleSubmit}>
+      <form className="space-y-4" onSubmit={handleSubmit}>
         <div>
-          <label className='block text-sm font-medium text-gray-700'>
-            Name
+          <label className="block text-sm font-medium text-gray-700">
+            Name*
           </label>
           <InputText
-            name='name'
+            name="name"
+            required
+            placeholder="Enter Member Name"
             value={formData.name}
             onChange={handleChange}
-            className='w-full p-2'
+            className="w-full p-2"
           />
         </div>
         <div>
-          <label className='block text-sm font-medium text-gray-700'>
-            Basic Information
+          <label className="block text-sm font-medium text-gray-700">
+            Basic Information*
           </label>
           <InputText
-            name='info'
+            name="info"
+            required
+            placeholder="Enter Member Information"
             value={formData.info}
             onChange={handleChange}
-            className='w-full p-2'
+            className="w-full p-2"
           />
         </div>
         <div>
-          <label className='block text-sm font-medium text-gray-700'>
-            Designation
+          <label className="block text-sm font-medium text-gray-700">
+            Designation*
           </label>
           <Dropdown
-            name='designation'
+            name="designation"
+            required
             value={formData.designation}
             options={designationOptions}
             onChange={(e) =>
               setFormData((prev) => ({ ...prev, designation: e.value }))
             }
-            placeholder='Select designation'
-            className='w-full p-2'
+            placeholder="Select designation"
+            className="w-full p-2"
           />
         </div>
-        <div className='flex justify-end gap-3'>
+        <div className="flex justify-end gap-3">
           <Button
-            label='Cancel'
-            className='p-button-danger'
+            label="Cancel"
+            className="p-button-danger"
             onClick={onClose}
             disabled={loading}
           />
           <Button
-            type='submit'
+            type="submit"
             label={loading ? "Adding..." : "Add Member"}
-            className='p-button-success'
+            className="p-button-success"
             disabled={loading}
           />
         </div>

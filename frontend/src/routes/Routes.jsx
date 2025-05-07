@@ -2,8 +2,6 @@ import ContactPage from "../pages/OtherPages/Contact";
 import EventPage from "../pages/OtherPages/EventPage";
 import AchievementPage from "../pages/OtherPages/AchievementPage";
 import Faculty from "../pages/Institution/Faculty";
-import FacultyProfile from "../pages/Users/Faculty";
-import StudentProfile from "../pages/Users/Student";
 import ManagingCommittee from "../pages/Institution/MngCommittee";
 import CollegePoliciesPage from "../pages/Academics/Admission";
 import PrincipalProfile from "../pages/Institution/Principal";
@@ -29,6 +27,7 @@ import AppliedScienceDepartment from "../pages/Departments/AppliedScience";
 import HomePage from "../pages/Home/HomePage";
 import AboutPage from "../pages/Institution/About";
 import SuccessStory from "../pages/OtherPages/SuccessStory";
+import FacultyProfile from "../pages/OtherPages/FacultyProfile";
 
 const departments = [
   { path: "/mechanical", component: <MechanicalDepartment /> },
@@ -51,7 +50,6 @@ export const routes = [
   { path: "/contact", element: <ContactPage /> },
   { path: "/faculty", element: <Faculty /> },
   { path: "/faculty/:facultyId", element: <FacultyProfile /> },
-  { path: "/student-profile", element: <StudentProfile /> },
   { path: "/managing-committee", element: <ManagingCommittee /> },
   { path: "/admission", element: <CollegePoliciesPage /> },
   { path: "/principal", element: <PrincipalProfile /> },

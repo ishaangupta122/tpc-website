@@ -36,58 +36,64 @@ const AddSuccessStoryModal = ({ isOpen, onClose, refreshData }) => {
 
   return (
     <Dialog
-      header='Add Success Story'
+      header="Add Success Story"
       visible={isOpen}
       onHide={onClose}
       style={{ width: "50vw" }}>
-      <form className='space-y-4' onSubmit={handleSubmit}>
+      <form className="space-y-4" onSubmit={handleSubmit}>
         <div>
-          <label className='block text-sm font-medium text-gray-700'>
-            Title
+          <label className="block text-sm font-medium text-gray-700">
+            Title*
           </label>
           <InputText
-            name='title'
+            name="title"
+            required
+            placeholder="Enter Story Title"
             value={formData.title}
             onChange={handleChange}
-            className='w-full p-2'
+            className="w-full p-2"
           />
         </div>
         <div>
-          <label className='block text-sm font-medium text-gray-700'>
-            Description
+          <label className="block text-sm font-medium text-gray-700">
+            Description*
           </label>
           <InputTextarea
-            name='description'
+            name="description"
+            required
+            placeholder="Enter Story Description"
             value={formData.description}
             onChange={handleChange}
             rows={5}
             cols={50}
-            className='w-full p-2'
+            className="w-full p-2"
           />
         </div>
         <div>
-          <label className='block text-sm font-medium text-gray-700'>
-            Image
+          <label className="block text-sm font-medium text-gray-700">
+            Image*
           </label>
           <InputText
-            type='file'
-            name='image'
-            accept='image/*'
+            type="file"
+            name="image"
+            required
+            placeholder="Upload Story Image"
+            accept="image/*"
             onChange={handleFileChange}
-            className='w-full p-2'
+            className="w-full p-2"
           />
         </div>
-        <div className='flex justify-end gap-3'>
+        <div className="flex justify-end gap-3">
           <Button
-            label='Cancel'
-            className='p-button-danger'
+            label="Cancel"
+            className="p-button-danger"
             onClick={onClose}
             disabled={loading}
           />
           <Button
-            type='submit'
+            type="submit"
             label={loading ? "Adding..." : "Add Success Story"}
-            className='p-button-success'
+            className="p-button-success"
             disabled={loading}
           />
         </div>

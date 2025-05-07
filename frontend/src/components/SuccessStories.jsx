@@ -44,21 +44,21 @@ const SuccessStoriesCarousel = () => {
   };
 
   return (
-    <div className='w-full lg:w-1/3'>
-      <div className='relative w-full'>
-        <div className='flex items-start xl:items-center justify-between mb-6'>
-          <h2 className='text-2xl font-semibold uppercase'>
-            <span className='text-emerald-900'>Success </span> Stories
+    <div className="w-full lg:w-1/3">
+      <div className="relative w-full">
+        <div className="flex items-start xl:items-center justify-between mb-6">
+          <h2 className="text-2xl font-semibold uppercase">
+            <span className="text-emerald-900">Success </span> Stories
           </h2>
-          <div className='flex gap-2'>
+          <div className="flex gap-2">
             <button
               onClick={handleScrollUp}
-              className='p-2 rounded-full bg-gradient-to-b from-emerald-800 to-emerald-950 text-white hover:bg-gradient-to-b hover:from-emerald-800/95 hover:to-emerald-950/95'>
+              className="p-2 rounded-full bg-gradient-to-b from-emerald-800 to-emerald-950 text-white hover:bg-gradient-to-b hover:from-emerald-800/95 hover:to-emerald-950/95">
               <ChevronUp size={24} />
             </button>
             <button
               onClick={handleScrollDown}
-              className='p-2 rounded-full bg-gradient-to-b from-emerald-800 to-emerald-950 text-white hover:bg-gradient-to-b hover:from-emerald-800/95 hover:to-emerald-950/95'>
+              className="p-2 rounded-full bg-gradient-to-b from-emerald-800 to-emerald-950 text-white hover:bg-gradient-to-b hover:from-emerald-800/95 hover:to-emerald-950/95">
               <ChevronDown size={24} />
             </button>
           </div>
@@ -69,40 +69,40 @@ const SuccessStoriesCarousel = () => {
           <Error error={error} />
         ) : loading ? (
           <>
-            <Loading title='Success Stories' />
+            <Loading title="Success Stories" />
           </>
         ) : successStories.length === 0 ? (
-          <NoDataFound title='Success Stories' />
+          <NoDataFound title="Success Stories" />
         ) : (
           <div
             ref={containerRef}
-            className='flex flex-col gap-4 h-[550px] w-full overflow-y-auto bg-gray-200 p-4 rounded-lg'
+            className="flex flex-col gap-4 h-[550px] w-full overflow-y-auto bg-gray-200 p-4 rounded-lg"
             style={{
               scrollBehavior: "smooth",
               msOverflowStyle: "none",
               scrollbarWidth: "none",
             }}>
-            {successStories.map((story, index) => (
+            {successStories.map((story) => (
               <div
-                key={index}
-                className='flex bg-white rounded-lg shadow-lg  min-h-56 w-full'>
-                <div className='overflow-hidden rounded-l-lg h-full w-1/2'>
+                key={story._id}
+                className="flex bg-white rounded-lg shadow-lg  min-h-56 w-full">
+                <div className="overflow-hidden rounded-l-lg h-full w-1/2">
                   <img
                     src={story.image}
                     alt={story.title}
-                    className='h-full w-full object-cover bg-emerald-100'
+                    className="h-full w-full object-cover bg-emerald-100"
                   />
                 </div>
-                <div className='w-1/2 px-3 py-4 flex flex-col gap-4'>
-                  <div className='text-sm font-semibold text-emerald-900'>
+                <div className="w-1/2 px-3 py-4 flex flex-col gap-4">
+                  <div className="text-sm font-semibold text-emerald-900">
                     <TruncateText text={story.title} maxLength={20} />
                   </div>
-                  <div className='text-gray-600 text-xs'>
+                  <div className="text-gray-600 text-xs">
                     <TruncateText text={story.description} maxLength={60} />
                   </div>
                   <Link
                     to={`/success-story/${story._id}`}
-                    className='text-emerald-900 text-sm hover:underline'>
+                    className="text-emerald-900 text-sm hover:underline">
                     Read More
                   </Link>
                 </div>

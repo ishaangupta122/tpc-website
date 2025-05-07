@@ -62,35 +62,48 @@ const Dashboard = () => {
     },
   ]);
 
+  const handleLogout = () => {
+    localStorage.removeItem("auth");
+    window.location.reload();
+  };
+
   return (
-    <section className='p-6 space-y-6 max-w-7xl'>
-      <div className='flex justify-between items-center bg-white p-4 rounded-lg border border-neutral-200/60'>
+    <section className="p-6 space-y-6 max-w-7xl">
+      <div className="flex justify-between items-center bg-white p-4 rounded-lg border border-neutral-200/60">
         <div>
-          <h1 className='text-2xl font-bold text-neutral-800'>
+          <h1 className="text-2xl font-bold text-neutral-800">
             Welcome, Admin
           </h1>
-          <p className='text-neutral-500'>
+          <p className="text-neutral-500">
             {"Manage College Data with Quick Actions"}
           </p>
+        </div>
+        <div>
+          <button
+            className="bg-red-600 text-white px-4 py-2 font-semibold rounded-md cursor-pointer mr-2 hover:bg-red-500 transition-colors"
+            type="button"
+            onClick={handleLogout}>
+            Log Out
+          </button>
         </div>
       </div>
 
       {/* Quick Actions */}
-      <div className='w-full'>
-        <div className='bg-white p-6 w-full rounded-lg border border-neutral-200/60'>
-          <h2 className='text-lg font-semibold text-neutral-800 mb-4'>
+      <div className="w-full">
+        <div className="bg-white p-6 w-full rounded-lg border border-neutral-200/60">
+          <h2 className="text-lg font-semibold text-neutral-800 mb-4">
             Quick Actions
           </h2>
-          <div className='flex flex-wrap justify-start items-center gap-4'>
+          <div className="flex flex-wrap justify-start items-center gap-4">
             {quickActions.map((action, index) => (
               <Link
                 key={index}
                 to={action.to}
-                className='flex items-center space-x-2 p-4 border border-neutral-300 rounded-lg hover:bg-neutral-50 transition-colors'>
+                className="flex items-center space-x-2 p-4 border border-neutral-300 rounded-lg hover:bg-neutral-50 transition-colors">
                 <span className={`w-6 h-6 ${action.textColor}`}>
                   {action.icon}
                 </span>
-                <span className='text-neutral-700'>{action.label}</span>
+                <span className="text-neutral-700">{action.label}</span>
               </Link>
             ))}
           </div>

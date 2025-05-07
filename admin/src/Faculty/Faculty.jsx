@@ -70,32 +70,32 @@ const FacultyList = () => {
   };
 
   const actionTemplate = (rowData) => (
-    <div className='flex gap-1'>
+    <div className="flex gap-1">
       <Button
         icon={<Eye />}
-        className='p-button-text p-button-info'
+        className="p-button-text p-button-info"
         onClick={() => handleViewFaculty(rowData)}
-        tooltip='View'
+        tooltip="View"
       />
       <Button
         icon={<PenBoxIcon />}
-        className='p-button-text p-button-warning'
+        className="p-button-text p-button-warning"
         onClick={() => handleEditFaculty(rowData)}
-        tooltip='Edit'
+        tooltip="Edit"
       />
       <Button
         icon={<Trash2 />}
-        className='p-button-text p-button-danger'
+        className="p-button-text p-button-danger"
         onClick={() => handleDeleteFaculty(rowData)}
-        tooltip='Delete'
+        tooltip="Delete"
       />
     </div>
   );
 
   const contactTemplate = (rowData) => (
-    <div className='flex flex-col'>
-      <span className=' text-gray-900'>{rowData.email}</span>
-      <span className=' text-gray-600'>{rowData.phone}</span>
+    <div className="flex flex-col">
+      <span className=" text-gray-900">{rowData.email}</span>
+      <span className=" text-gray-600">{rowData.phone}</span>
     </div>
   );
 
@@ -110,12 +110,12 @@ const FacultyList = () => {
           "Applied Science",
           "Electrical",
         ].includes(rowData.department) && (
-          <div className='bg-green-100 text-green-700 px-3 py-1 rounded-full w-fit'>
+          <div className="bg-green-100 text-green-700 px-3 py-1 rounded-full w-fit">
             {rowData.department}
           </div>
         )}
         {["Admin Staff"].includes(rowData.department) && (
-          <div className='bg-yellow-100 text-yellow-700 px-3 py-2 rounded-full min-w-[8rem] text-center'>
+          <div className="bg-yellow-100 text-yellow-700 px-3 py-2 rounded-full min-w-[8rem] text-center">
             {rowData.department}
           </div>
         )}
@@ -125,7 +125,7 @@ const FacultyList = () => {
 
   const experienceTemplate = (rowData) => {
     return (
-      <span className=' text-blue-600 bg-blue-100 px-3 py-2 rounded-full min-w-[8rem] text-center'>
+      <span className=" text-blue-600 bg-blue-100 px-3 py-2 rounded-full min-w-[8rem] text-center">
         {rowData.experience} Years
       </span>
     );
@@ -140,96 +140,96 @@ const FacultyList = () => {
   );
 
   return (
-    <section id='faculty-management' className='p-6 space-y-6 max-w-7xl'>
-      <div className='flex justify-between items-center bg-white p-4 rounded-lg border border-neutral-200/60'>
+    <section id="faculty-management" className="p-6 space-y-6 max-w-7xl">
+      <div className="flex justify-between items-center bg-white p-4 rounded-lg border border-neutral-200/60">
         <div>
-          <h1 className='text-2xl font-bold text-neutral-800'>
+          <h1 className="text-2xl font-bold text-neutral-800">
             Faculty Management
           </h1>
-          <p className='text-neutral-500'>
+          <p className="text-neutral-500">
             Manage and organize faculty members
           </p>
         </div>
         <Button
           icon={<Plus />}
           label={"Add New Faculty"}
-          className='p-button-success space-x-2'
+          className="p-button-success space-x-2"
           onClick={() => setIsAddDialogOpen(true)}
         />
       </div>
 
       {/* Filters and Search */}
-      <div className='flex flex-col sm:flex-row justify-between gap-4 bg-white p-4 rounded-lg border border-neutral-200/60'>
-        <div className='relative flex-grow'>
+      <div className="flex flex-col sm:flex-row justify-between gap-4 bg-white p-4 rounded-lg border border-neutral-200/60">
+        <div className="relative flex-grow">
           <input
-            type='search'
-            placeholder='Search Faculty...'
+            type="search"
+            placeholder="Search Faculty..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className='w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:border-green-500'
+            className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:border-green-500"
           />
-          <Search className='w-5 h-5 absolute left-3 top-2.5 text-neutral-400' />
+          <Search className="w-5 h-5 absolute left-3 top-2.5 text-neutral-400" />
         </div>
         <select
           value={selectedDepartment}
           onChange={(e) => setSelectedDepartment(e.target.value)}
-          className='px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:border-green-500'>
-          <option value=''>All Departments</option>
-          <option value='Admin Staff'>Admin Staff</option>
-          <option value='Applied Science'>Applied Science</option>
-          <option value='Architechtural'>Architechtural Assitantship</option>
-          <option value='CSE'>Computer Science Engineering</option>
-          <option value='Civil'>Civil Engineering</option>
-          <option value='Electrical'>Electrical Engineering</option>
-          <option value='Mechanical'>Mechanical Engineering</option>
+          className="px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:border-green-500">
+          <option value="">All Departments</option>
+          <option value="Admin Staff">Admin Staff</option>
+          <option value="Applied Science">Applied Science</option>
+          <option value="Architechtural">Architechtural Assitantship</option>
+          <option value="CSE">Computer Science Engineering</option>
+          <option value="Civil">Civil Engineering</option>
+          <option value="Electrical">Electrical Engineering</option>
+          <option value="Mechanical">Mechanical Engineering</option>
         </select>
       </div>
 
-      <div className='bg-white border border-neutral-200/30 rounded-md overflow-hidden'>
+      <div className="bg-white border border-neutral-200/30 rounded-md overflow-hidden">
         <DataTable
           value={filteredFaculty}
           paginator
           rows={10}
           loading={loading}
-          emptyMessage='No Faculty Found.'
-          responsiveLayout='scroll'>
+          emptyMessage="No Faculty Found."
+          responsiveLayout="scroll">
           <Column
-            header='S.NO'
+            header="S.NO"
             body={(rowData, { rowIndex }) => rowIndex + 1}
             style={{ textAlign: "center" }}
           />
           <Column
-            field='image'
-            header='IMAGE'
+            field="image"
+            header="IMAGE"
             body={(rowData) => (
               <img
-                src={rowData.image}
-                alt='image'
-                className='w-16 h-16 rounded-full border border-neutral-300'
+                src={rowData.image ? rowData.image : "/default_user_img.jpeg"}
+                alt="image"
+                className="w-12 h-12 object-cover rounded-full border border-neutral-300"
               />
             )}
           />
-          <Column field='name' header='NAME' sortable />
+          <Column field="name" header="NAME" sortable />
           <Column
-            field='contact'
-            header='CONTACT DETAILS'
+            field="contact"
+            header="CONTACT DETAILS"
             body={contactTemplate}
           />
           <Column
-            field='department'
-            header='DEPARTMENT'
+            field="department"
+            header="DEPARTMENT"
             body={departmentTemplate}
           />
-          <Column field='designation' header='DESIGNATION' />
+          <Column field="designation" header="DESIGNATION" />
           <Column
-            field='experience'
-            header='EXPERIENCE'
+            field="experience"
+            header="EXPERIENCE"
             body={experienceTemplate}
             sortable
           />
-          <Column field='joinedDate' header='JOINED DATE' />
-          <Column field='education' header='EDUCATION' />
-          <Column header='ACTIONS' body={actionTemplate} />
+          <Column field="joinedDate" header="JOINED DATE" />
+          <Column field="education" header="EDUCATION" />
+          <Column header="ACTIONS" body={actionTemplate} />
         </DataTable>
       </div>
 

@@ -5,6 +5,7 @@ import InstaEmbed from "./InstaEmbed";
 import { fetchGalleryImages } from "../context/GalleryContext";
 import Loading from "./Loading";
 import Error from "./Error";
+import { staticGalleryImages } from "../data/data";
 
 const GallerySection = () => {
   const [previewIndex, setPreviewIndex] = useState(null);
@@ -12,24 +13,13 @@ const GallerySection = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [images, setImages] = useState([]);
-  const staticImages = [
-    "/rec_gate.jpg",
-    "/ndli_award.jpg",
-    "/girls_hostel.jpg",
-    "/principal.jpeg",
-    "/image2.jpeg",
-    "/boys_hostel.jpg",
-    "/campus.webp",
-    "/image1.jpeg",
-    "/image3.jpeg",
-  ];
 
   const fetchImages = async () => {
     setLoading(true);
     setError(null);
     try {
       const data = await fetchGalleryImages();
-      const images = data.length === 0 ? staticImages : data;
+      const images = data.length === 0 ? staticGalleryImages : data;
       setImages(images);
     } catch (error) {
       setError(error.message || "Failed to fetch images");
@@ -79,8 +69,8 @@ const GallerySection = () => {
     gridColumns === 2 ? images.slice(0, 6) : images.slice(0, 9);
 
   return (
-    <section id='gallery' className='py-24 bg-slate-100'>
-      <div className='container mx-auto px-4 md:px-10 flex justify-between flex-wrap lg:flex-nowrap gap-8'>
+    <section id="gallery" className="py-24 bg-slate-100">
+      <div className="container mx-auto px-4 md:px-10 flex justify-between flex-wrap lg:flex-nowrap gap-8">
         {/* FAQ Section */}
         {/* <Faqs /> */}
 
@@ -88,14 +78,14 @@ const GallerySection = () => {
         <InstaEmbed />
 
         {/* Gallery Section or Loading State */}
-        <div className='w-full'>
-          <div className='flex items-center justify-between mb-8'>
-            <h2 className='text-xl md:text-3xl font-semibold uppercase text-emerald-900 '>
-              College<span className='text-black'> Gallery</span>
+        <div className="w-full">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-xl md:text-3xl font-semibold uppercase text-emerald-900 ">
+              College<span className="text-black"> Gallery</span>
             </h2>
             <Link
-              to='/gallery'
-              className='text-sm md:text-lg flex gap-1 items-center text-emerald-900 hover:underline  font-medium'>
+              to="/gallery"
+              className="text-sm md:text-lg flex gap-1 items-center text-emerald-900 hover:underline  font-medium">
               View All{" "}
               <span>
                 <MoveRight />
@@ -106,7 +96,7 @@ const GallerySection = () => {
             <Error error={error} />
           ) : loading ? (
             <>
-              <Loading title='Gallery Images' />
+              <Loading title="Gallery Images" />
             </>
           ) : (
             <>
@@ -114,7 +104,7 @@ const GallerySection = () => {
                 {displayedImages.map((img, index) => (
                   <div
                     key={index}
-                    className='group relative overflow-hidden rounded-sm shadow-md cursor-pointer'
+                    className="group relative overflow-hidden rounded-sm shadow-md cursor-pointer"
                     onClick={() => handlePreview(index)}>
                     <img
                       src={img}
@@ -123,7 +113,7 @@ const GallerySection = () => {
                         "h-32 lg:h-28 xl:h-32 w-full object-cover transition-transform duration-300 group-hover:scale-105 bg-emerald-200/50"
                       }
                     />
-                    <div className='absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300'></div>
+                    <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300"></div>
                   </div>
                 ))}
               </div>
@@ -134,26 +124,26 @@ const GallerySection = () => {
 
       {/* Image Preview Modal */}
       {previewIndex !== null && (
-        <div className='fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50'>
+        <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
           <button
-            className='absolute top-6 right-10 text-white hover:bg-white/20 text-3xl font-light'
+            className="absolute top-6 right-10 text-white hover:bg-white/20 text-3xl font-light"
             onClick={closePreview}>
-            <X className='h-8 w-8' />
+            <X className="h-8 w-8" />
           </button>
           <button
-            className='absolute left-5 text-white text-4xl hover:bg-white/20 rounded-full p-2'
+            className="absolute left-5 text-white text-4xl hover:bg-white/20 rounded-full p-2"
             onClick={showPrevious}>
-            <ChevronLeft className='h-8 w-8' />
+            <ChevronLeft className="h-8 w-8" />
           </button>
           <img
             src={images[previewIndex]}
             alt={`Preview Image ${previewIndex + 1}`}
-            className='max-w-[80vw] md:max-w-4xl md:max-h-[85vh] rounded-lg shadow-2xl text-white'
+            className="max-w-[80vw] md:max-w-4xl md:max-h-[85vh] rounded-lg shadow-2xl text-white"
           />
           <button
-            className='absolute right-5 text-white text-4xl hover:bg-white/20 rounded-full p-2'
+            className="absolute right-5 text-white text-4xl hover:bg-white/20 rounded-full p-2"
             onClick={showNext}>
-            <ChevronRight className='h-8 w-8' />
+            <ChevronRight className="h-8 w-8" />
           </button>
         </div>
       )}

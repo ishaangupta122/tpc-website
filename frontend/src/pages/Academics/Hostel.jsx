@@ -26,27 +26,27 @@ const HostelPage = () => {
     return items.map((item, index) => (
       <div
         key={index}
-        className='flex flex-col lg:flex-row items-start gap-6 mb-8 bg-gray-100 rounded-lg shadow-lg shadow-black/10 p-6'>
+        className="flex flex-col lg:flex-row items-start gap-6 mb-8 bg-gray-100 rounded-lg shadow-lg shadow-black/10 p-6">
         <img
           src={item.image}
           alt={item.title}
-          className='w-full lg:w-1/2 h-full object-cover rounded-lg shadow-lg shadow-black/20'
+          className="w-full lg:w-1/2 h-full object-cover rounded-lg shadow-lg shadow-black/20"
         />
-        <div className='flex-1'>
-          <h3 className='text-xl font-bold mb-4 text-emerald-900'>
+        <div className="flex-1">
+          <h3 className="text-xl font-bold mb-4 text-emerald-900">
             {item.title}
           </h3>
-          <p className='text-gray-800 mb-4'>
-            <span className='font-semibold text-emerald-900'>Overview:</span>{" "}
+          <p className="text-gray-800 mb-4">
+            <span className="font-semibold text-emerald-900">Overview:</span>{" "}
             {item.description}
           </p>
-          <p className='text-gray-800 mb-4'>
-            <span className='font-semibold text-emerald-900'>Capacity:</span>{" "}
+          <p className="text-gray-800 mb-4">
+            <span className="font-semibold text-emerald-900">Capacity:</span>{" "}
             {item.capacity}
           </p>
           <div>
-            <h4 className='font-semibold text-emerald-900'>Facilities:</h4>
-            <ul className='list-disc list-inside text-gray-800 space-y-1'>
+            <h4 className="font-semibold text-emerald-900">Facilities:</h4>
+            <ul className="list-disc list-inside text-gray-800 space-y-1">
               {item.facilities.map((facility, idx) => (
                 <li key={idx}>{facility}</li>
               ))}
@@ -60,21 +60,21 @@ const HostelPage = () => {
   return (
     <>
       <HeroSection
-        imageUrl='./rec_gate.jpg'
-        title='College Hostel'
+        imageUrl="./rec_gate.jpg"
+        title="College Hostel"
         breadcrumbs={breadcrumbs}
       />
 
-      <div className='min-h-screen bg-white'>
+      <div className="min-h-screen bg-white">
         {/* Navigation Tabs */}
-        <div className='max-w-7xl mx-auto px-4 sm:px-14 pb-8 pt-20 flex items-center justify-between flex-wrap gap-4'>
+        <div className="max-w-7xl mx-auto px-4 sm:px-14 pb-8 pt-20 flex items-center justify-between flex-wrap gap-4">
           <div>
-            <h1 className='text-3xl font-semibold uppercase text-emerald-900'>
-              Hostel <span className='text-black'>Information</span>
+            <h1 className="text-3xl font-semibold uppercase text-emerald-900">
+              Hostel <span className="text-black">Information</span>
             </h1>
           </div>
 
-          <div className='flex gap-2'>
+          <div className="flex gap-2">
             <button
               onClick={() => setActiveTab("boys")}
               className={`px-6 py-2 rounded-lg font-medium ${
@@ -97,27 +97,27 @@ const HostelPage = () => {
         </div>
 
         {/* Main Content */}
-        <div className='max-w-7xl mx-auto px-4 sm:px-14 py-8'>
+        <div className="max-w-7xl mx-auto px-4 sm:px-14 py-8">
           {
             <>
               {activeTab === "boys" && (
                 <div>
-                  <div className='mb-8 w-fit'>
-                    <h1 className='text-2xl font-semibold mb-2 text-emerald-900'>
+                  <div className="mb-8 w-fit">
+                    <h1 className="text-2xl font-semibold mb-2 text-emerald-900">
                       Boys Hostel
                     </h1>
-                    <div className='w-28 h-1 bg-[#FDB714] rounded-full mx-auto'></div>
+                    <div className="w-28 h-1 bg-[#FDB714] rounded-full mx-auto"></div>
                   </div>
                   {renderItems(hostelData.boys)}
                 </div>
               )}
               {activeTab === "girls" && (
                 <div>
-                  <div className='mb-8 w-fit'>
-                    <h1 className='text-2xl font-semibold mb-2 text-emerald-900'>
+                  <div className="mb-8 w-fit">
+                    <h1 className="text-2xl font-semibold mb-2 text-emerald-900">
                       Girls Hostel
                     </h1>
-                    <div className='w-28 h-1 bg-[#FDB714] rounded-full mx-auto'></div>
+                    <div className="w-28 h-1 bg-[#FDB714] rounded-full mx-auto"></div>
                   </div>
                   {renderItems(hostelData.girls)}
                 </div>

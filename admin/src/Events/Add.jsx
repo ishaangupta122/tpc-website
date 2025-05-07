@@ -57,85 +57,93 @@ const AddEventsModal = ({ isOpen, onClose, refreshData }) => {
 
   return (
     <Dialog
-      header='Add New Event'
+      header="Add New Event"
       visible={isOpen}
       onHide={onClose}
       style={{ width: "50vw" }}>
-      <form className='space-y-4' onSubmit={handleSubmit}>
+      <form className="space-y-4" onSubmit={handleSubmit}>
         <div>
-          <label className='block text-sm font-medium text-gray-700'>
-            Event Title
+          <label className="block text-sm font-medium text-gray-700">
+            Event Title*
           </label>
           <InputText
-            name='title'
+            name="title"
+            required
+            placeholder="Enter Event Title"
             value={formData.title}
             onChange={handleChange}
-            className='w-full p-2'
+            className="w-full p-2"
           />
         </div>
         <div>
-          <label className='block text-sm font-medium text-gray-700'>
-            Image
+          <label className="block text-sm font-medium text-gray-700">
+            Image*
           </label>
           <InputText
-            name='image'
-            type='file'
-            accept='image/*'
+            name="image"
+            required
+            placeholder="Upload Event Image"
+            type="file"
+            accept="image/*"
             onChange={handleFileChange}
-            className='w-full p-2'
+            className="w-full p-2"
           />
         </div>
         <div>
-          <label className='block text-sm font-medium text-gray-700'>
-            Description
+          <label className="block text-sm font-medium text-gray-700">
+            Description*
           </label>
           <InputTextarea
-            name='description'
+            name="description"
+            required
+            placeholder="Enter Event Description"
             value={formData.description}
             onChange={handleChange}
             rows={5}
             cols={50}
-            className='w-full p-2'
+            className="w-full p-2"
           />
         </div>
         <div>
-          <label className='block text-sm font-medium text-gray-700'>
-            Date
+          <label className="block text-sm font-medium text-gray-700">
+            Date*
           </label>
           <InputText
-            name='date'
-            type='date'
+            name="date"
+            type="date"
+            required
             value={formData.date}
             onChange={handleChange}
-            className='w-full p-2'
+            className="w-full p-2"
           />
         </div>
         <div>
-          <label className='block text-sm font-medium text-gray-700'>
-            Category
+          <label className="block text-sm font-medium text-gray-700">
+            Category*
           </label>
           <Dropdown
-            name='category'
+            name="category"
+            required
             value={formData.category}
             options={categoryOptions}
             onChange={(e) =>
               setFormData((prev) => ({ ...prev, category: e.value }))
             }
-            placeholder='Select Category'
-            className='w-full p-2'
+            placeholder="Select Category"
+            className="w-full p-2"
           />
         </div>
-        <div className='flex justify-end gap-3'>
+        <div className="flex justify-end gap-3">
           <Button
-            label='Cancel'
-            className='p-button-danger'
+            label="Cancel"
+            className="p-button-danger"
             onClick={onClose}
             disabled={loading}
           />
           <Button
-            type='submit'
+            type="submit"
             label={loading ? "Adding..." : "Add Event"}
-            className='p-button-success'
+            className="p-button-success"
             disabled={loading}
           />
         </div>

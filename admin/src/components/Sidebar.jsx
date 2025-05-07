@@ -44,15 +44,15 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className='flex flex-col lg:flex-row h-full'>
+    <div className="flex flex-col lg:flex-row h-full">
       {/* Desktop Sidebar */}
-      <nav className='hidden lg:flex flex-col w-64 bg-white shadow-lg border-r border-neutral-200'>
-        <div className='p-2 border-b border-neutral-300'>
-          <img src='tpc-logo.png' alt='Logo' className='h-16 w-auto' />
+      <nav className="hidden lg:flex flex-col w-64 bg-white shadow-lg border-r border-neutral-200">
+        <div className="p-2 border-b border-neutral-300">
+          <img src="tpc-logo.png" alt="Logo" className="h-16 w-auto" />
         </div>
 
         {/* Scrollable Links Section */}
-        <div className='flex-1 overflow-y-auto'>
+        <div className="flex-1 overflow-y-auto">
           {menuItems.map((item, index) => (
             <Link
               key={index}
@@ -62,45 +62,45 @@ const Sidebar = () => {
                   ? "bg-green-100 text-green-600 hover:bg-green-100"
                   : "hover:bg-gray-100 text-gray-700"
               }`}>
-              <item.icon className='w-5 h-5' />
+              <item.icon className="w-5 h-5" />
               <span>{item.name}</span>
             </Link>
           ))}
         </div>
 
         {/* Admin Credentials - Fixed at Bottom */}
-        <div className='p-4 border-t border-neutral-300 flex items-center'>
+        <div className="p-4 border-t border-neutral-300 flex items-center">
           <img
-            src='https://avatar.iran.liara.run/public'
-            alt='User'
-            className='w-10 h-10 rounded-full'
+            src="/default_user_img.jpeg"
+            alt="User"
+            className="w-10 h-10 rounded-full"
           />
-          <div className='ml-3'>
-            <p className='text-sm font-medium text-gray-700'>Admin</p>
-            <p className='text-xs text-gray-500'>admin@food.com</p>
+          <div className="ml-3">
+            <p className="text-sm font-medium text-gray-700">Admin</p>
+            <p className="text-xs text-gray-500">tpcadmin@mail.com</p>
           </div>
         </div>
       </nav>
 
       {/* Mobile Menu Button */}
       <button
-        type='button'
-        className='lg:hidden fixed top-4 right-4 z-20 p-2 rounded-md bg-gray-100 text-gray-700  hover:bg-gray-200'
+        type="button"
+        className="lg:hidden fixed top-4 right-4 z-20 p-2 rounded-md bg-gray-100 text-gray-700  hover:bg-gray-200"
         onClick={() => setIsOpen(!isOpen)}>
-        {isOpen ? <X className='h-6 w-6' /> : <Menu className='h-6 w-6' />}
+        {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
       </button>
 
       {/* Mobile Sidebar */}
       {isOpen && (
         <div
-          className='lg:hidden fixed inset-0 z-10 bg-neutral-800/80 backdrop-blur-lg'
+          className="lg:hidden fixed inset-0 z-10 bg-neutral-800/80 backdrop-blur-lg"
           onClick={() => setIsOpen(false)}>
-          <div className='fixed inset-y-0 left-0 w-64 bg-white shadow-lg flex flex-col'>
-            <div className='p-4 border-b border-neutral-300'>
-              <div className='text-2xl font-bold text-gray-800'>FoodAdmin</div>
+          <div className="fixed inset-y-0 left-0 w-64 bg-white shadow-lg flex flex-col">
+            <div className="p-4 border-b border-neutral-300">
+              <div className="text-2xl font-bold text-gray-800">Menu</div>
             </div>
 
-            <div className='flex-1 overflow-y-auto'>
+            <div className="flex-1 overflow-y-auto">
               {menuItems.map((item) => (
                 <Link
                   key={item.to}
@@ -111,20 +111,20 @@ const Sidebar = () => {
                       : "hover:bg-gray-100 text-gray-700"
                   }`}
                   onClick={() => setIsOpen(false)}>
-                  <item.icon className='w-5 h-5' /> <span>{item.name}</span>{" "}
+                  <item.icon className="w-5 h-5" /> <span>{item.name}</span>{" "}
                 </Link>
               ))}
             </div>
 
-            <div className='p-2 border-t border-neutral-300 flex items-center'>
+            <div className="p-2 border-t border-neutral-300 flex items-center">
               <img
-                src='https://avatar.iran.liara.run/public'
-                alt='User'
-                className='w-10 h-10 rounded-full'
+                src="/default_user_img.jpeg"
+                alt="User"
+                className="w-10 h-10 rounded-full"
               />
-              <div className='ml-3'>
-                <p className='text-sm font-medium text-gray-700'>Admin</p>
-                <p className='text-xs text-gray-500'>admin@food.com</p>
+              <div className="ml-3">
+                <p className="text-sm font-medium text-gray-700">Admin</p>
+                <p className="text-xs text-gray-500">tpcadmin@mail.com</p>
               </div>
             </div>
           </div>

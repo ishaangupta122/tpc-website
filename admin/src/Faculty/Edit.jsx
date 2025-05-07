@@ -97,142 +97,142 @@ const EditFacultyModal = ({
 
   return (
     <Dialog
-      header='Update Faculty'
+      header="Update Faculty"
       visible={isOpen}
       onHide={onClose}
       style={{ width: "50vw" }}>
-      <form className='space-y-4' onSubmit={handleSubmit}>
+      <form className="space-y-4" onSubmit={handleSubmit}>
         <div>
-          <label className='block text-sm font-medium text-gray-700'>
+          <label className="block text-sm font-medium text-gray-700">
             Name
           </label>
           <InputText
-            name='name'
+            name="name"
             value={formData.name}
             onChange={handleChange}
-            className='w-full p-2'
+            className="w-full p-2"
           />
         </div>
         <div>
-          <label className='block text-sm font-medium text-gray-700'>
+          <label className="block text-sm font-medium text-gray-700">
             Email
           </label>
           <InputText
-            type='email'
-            name='email'
+            type="email"
+            name="email"
             value={formData.email}
             onChange={handleChange}
-            className='w-full p-2'
+            className="w-full p-2"
           />
         </div>
         <div>
-          <label className='block text-sm font-medium text-gray-700'>
+          <label className="block text-sm font-medium text-gray-700">
             Phone
           </label>
           <InputText
-            type='phone'
-            name='phone'
+            type="phone"
+            name="phone"
             value={formData.phone}
             onChange={handleChange}
-            className='w-full p-2'
+            className="w-full p-2"
           />
         </div>
         <div>
-          <label className='block text-sm font-medium text-gray-700'>
+          <label className="block text-sm font-medium text-gray-700">
             Experience
           </label>
           <InputText
-            name='experience'
+            name="experience"
             value={formData.experience}
             onChange={handleChange}
-            className='w-full p-2'
+            className="w-full p-2"
           />
         </div>
         <div>
-          <label className='block text-sm font-medium text-gray-700'>
+          <label className="block text-sm font-medium text-gray-700">
             Joined Date
           </label>
           <InputText
-            type='date'
-            name='joinedDate'
+            type="date"
+            name="joinedDate"
             value={formData.joinedDate}
             onChange={handleChange}
-            className='w-full p-2'
+            className="w-full p-2"
           />
         </div>
         <div>
-          <label className='block text-sm font-medium text-gray-700'>
+          <label className="block text-sm font-medium text-gray-700">
             Designation
           </label>
           <InputText
-            name='designation'
+            name="designation"
             value={formData.designation}
             onChange={handleChange}
-            className='w-full p-2'
+            className="w-full p-2"
           />
         </div>
         <div>
-          <label className='block text-sm font-medium text-gray-700'>
+          <label className="block text-sm font-medium text-gray-700">
             Department
           </label>
           <Dropdown
-            name='department'
+            name="department"
             value={formData.department}
             options={departmentOptions}
             onChange={(e) =>
               setFormData((prev) => ({ ...prev, department: e.value }))
             }
-            placeholder='Select Department'
-            className='w-full p-2'
+            placeholder="Select Department"
+            className="w-full p-2"
           />
         </div>
         <div>
-          <label className='block text-sm font-medium text-gray-700'>
+          <label className="block text-sm font-medium text-gray-700">
             Image
           </label>
-          <div className='h-48 w-1/2 mb-4'>
+          <div className="h-48 w-1/2 mb-4">
             <img
-              src={formData.image}
-              alt={formData.image}
-              className='h-full w-full border border-neutral-300 object-cover rounded-md'
+              src={formData.image ? formData.image : ""}
+              alt={formData.image || "No Image Provided"}
+              className="h-full w-full border border-neutral-300 object-contain rounded-md"
             />
           </div>
           <InputText
-            type='file'
-            name='image'
-            accept='image/*'
+            type="file"
+            name="image"
+            accept="image/*"
             onChange={handleFileChange}
-            className='w-full p-2'
+            className="w-full p-2"
           />
         </div>
         <div>
-          <label className='block text-sm font-medium text-gray-700'>
+          <label className="block text-sm font-medium text-gray-700">
             Education
           </label>
-          <div className='flex gap-2 mb-2'>
+          <div className="flex gap-2 mb-2">
             <InputText
               value={newEducation}
               onChange={(e) => setNewEducation(e.target.value)}
-              placeholder='Add education qualification'
-              className='flex-1 p-2'
+              placeholder="Add education qualification"
+              className="flex-1 p-2"
             />
             <Button
-              type='button'
-              label='Add'
-              className='p-button-success'
+              type="button"
+              label="Add"
+              className="p-button-success"
               onClick={handleAddEducation}
             />
           </div>
-          <div className='space-y-2'>
+          <div className="space-y-2">
             {formData.education.map((edu, index) => (
               <div
                 key={index}
-                className='flex items-center gap-2 bg-gray-50 p-2 rounded'>
-                <span className='flex-1'>{edu}</span>
+                className="flex items-center gap-2 bg-gray-50 p-2 rounded">
+                <span className="flex-1">{edu}</span>
                 <Button
-                  type='button'
+                  type="button"
                   icon={<Trash2 />}
-                  className='p-button-danger p-button-text'
+                  className="p-button-danger p-button-text"
                   onClick={() => handleDeleteEducation(index)}
                 />
               </div>
@@ -240,17 +240,17 @@ const EditFacultyModal = ({
           </div>
         </div>
 
-        <div className='flex justify-end gap-3'>
+        <div className="flex justify-end gap-3">
           <Button
-            label='Cancel'
-            className='p-button-danger'
+            label="Cancel"
+            className="p-button-danger"
             onClick={onClose}
             disabled={loading}
           />
           <Button
-            type='submit'
+            type="submit"
             label={loading ? "Updating..." : "Update Faculty"}
-            className='p-button-warning'
+            className="p-button-warning"
             disabled={loading}
           />
         </div>
