@@ -36,6 +36,7 @@ const EditAchievementsModal = ({
 
   useEffect(() => {
     if (selectedAchievement) {
+      setImageFile(null);
       setFormData({
         title: selectedAchievement.title || "",
         image: selectedAchievement.image || "",
@@ -71,89 +72,89 @@ const EditAchievementsModal = ({
       visible={isOpen}
       onHide={onClose}
       style={{ width: "50vw" }}>
-      <form className='space-y-4' onSubmit={handleSubmit}>
+      <form className="space-y-4" onSubmit={handleSubmit}>
         <div>
-          <label className='block text-sm font-medium text-gray-700'>
+          <label className="block text-sm font-medium text-gray-700">
             Achievement Title
           </label>
           <InputText
-            name='title'
+            name="title"
             value={formData.title}
             onChange={handleChange}
-            className='w-full p-2'
+            className="w-full p-2"
           />
         </div>
         <div>
-          <label className='block text-sm font-medium text-gray-700'>
+          <label className="block text-sm font-medium text-gray-700">
             Image
           </label>
-          <div className='h-48 w-1/2 mb-4'>
+          <div className="h-48 w-1/2 mb-4">
             <img
               src={formData.image}
               alt={formData.image}
-              className='h-full w-full border border-neutral-300 object-cover rounded-md'
+              className="h-full w-full border border-neutral-300 object-cover rounded-md"
             />
           </div>
           <InputText
-            type='file'
-            name='image'
-            accept='image/*'
+            type="file"
+            name="image"
+            accept="image/*"
             onChange={handleFileChange}
-            className='w-full p-2'
+            className="w-full p-2"
           />
         </div>
         <div>
-          <label className='block text-sm font-medium text-gray-700'>
+          <label className="block text-sm font-medium text-gray-700">
             Description
           </label>
           <InputTextarea
-            name='description'
+            name="description"
             value={formData.description}
             onChange={handleChange}
             rows={5}
             cols={50}
-            className='w-full p-2'
+            className="w-full p-2"
           />
         </div>
 
         <div>
-          <label className='block text-sm font-medium text-gray-700'>
+          <label className="block text-sm font-medium text-gray-700">
             Date
           </label>
           <InputText
-            name='date'
-            type='date'
+            name="date"
+            type="date"
             value={formData.date}
             onChange={handleChange}
-            className='w-full p-2'
+            className="w-full p-2"
           />
         </div>
         <div>
-          <label className='block text-sm font-medium text-gray-700'>
+          <label className="block text-sm font-medium text-gray-700">
             Category
           </label>
           <Dropdown
-            name='category'
+            name="category"
             value={formData.category}
             options={categoryOptions}
             onChange={(e) =>
               setFormData((prev) => ({ ...prev, category: e.value }))
             }
-            placeholder='Select Category'
-            className='w-full p-2'
+            placeholder="Select Category"
+            className="w-full p-2"
           />
         </div>
-        <div className='flex justify-end gap-3'>
+        <div className="flex justify-end gap-3">
           <Button
-            label='Cancel'
-            className='p-button-danger'
+            label="Cancel"
+            className="p-button-danger"
             onClick={onClose}
             disabled={loading}
           />
           <Button
-            type='submit'
+            type="submit"
             label={loading ? "Updating..." : "Update Achievement"}
-            className='p-button-warning'
+            className="p-button-warning"
             disabled={loading}
           />
         </div>

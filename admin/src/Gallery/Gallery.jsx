@@ -12,7 +12,7 @@ import TruncateText from "../components/TruncateText";
 
 const Gallery = () => {
   const [loading, setLoading] = useState(false);
-  const [image, setImage] = useState([]);
+  const [images, setImages] = useState([]);
   const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
@@ -25,7 +25,9 @@ const Gallery = () => {
   const fetchImages = async () => {
     setLoading(true);
     const data = await getAllImages();
-    setImage(data);
+    console.log(data);
+
+    setImages(data);
     setLoading(false);
   };
 
@@ -62,24 +64,24 @@ const Gallery = () => {
   };
 
   const actionTemplate = (rowData) => (
-    <div className='flex gap-1'>
+    <div className="flex gap-1">
       <Button
         icon={<Eye />}
-        className='p-button-text p-button-info'
+        className="p-button-text p-button-info"
         onClick={() => handleViewImage(rowData)}
-        tooltip='View'
+        tooltip="View"
       />
       <Button
         icon={<PenBoxIcon />}
-        className='p-button-text p-button-warning'
+        className="p-button-text p-button-warning"
         onClick={() => handleEditImage(rowData)}
-        tooltip='Edit'
+        tooltip="Edit"
       />
       <Button
         icon={<Trash2 />}
-        className='p-button-text p-button-danger'
+        className="p-button-text p-button-danger"
         onClick={() => handleDeleteImage(rowData)}
-        tooltip='Delete'
+        tooltip="Delete"
       />
     </div>
   );
@@ -88,51 +90,55 @@ const Gallery = () => {
     <TruncateText text={rowData.description} maxLength={30} />
   );
 
+  const displayImages = images.map((image) => {
+    return image;
+  });
+
   return (
-    <section className='p-6 space-y-6 max-w-7xl'>
-      <div className='flex justify-between items-center bg-white p-4 rounded-lg border border-neutral-200/60'>
+    <section className="p-6 space-y-6 max-w-7xl">
+      <div className="flex justify-between items-center bg-white p-4 rounded-lg border border-neutral-200/60">
         <div>
-          <h1 className='text-2xl font-bold text-neutral-800'>Gallery</h1>
-          <p className='text-neutral-500'>Manage and organize gallery images</p>
+          <h1 className="text-2xl font-bold text-neutral-800">Gallery</h1>
+          <p className="text-neutral-500">Manage and organize gallery images</p>
         </div>
         <Button
           icon={<Plus />}
           label={"Add Gallery Images"}
-          className='p-button-success space-x-2'
+          className="p-button-success space-x-2"
           onClick={() => setIsAddDialogOpen(true)}
         />
       </div>
 
-      <div className='bg-white border border-neutral-200/30 rounded-md overflow-hidden'>
+      <div className="bg-white border border-neutral-200/30 rounded-md overflow-hidden">
         <DataTable
-          value={image}
+          value={displayImages}
           paginator
           rows={10}
           loading={loading}
-          emptyMessage='No Images Found.'
-          responsiveLayout='scroll'>
+          emptyMessage="No Images Found."
+          responsiveLayout="scroll">
           <Column
-            header='S.NO'
+            header="S.NO"
             body={(rowData, { rowIndex }) => rowIndex + 1}
             style={{ textAlign: "center" }}
           />
           <Column
-            field='imageUrl'
-            header='IMAGE'
+            field="imageUrl"
+            header="IMAGE"
             body={(rowData) => (
               <img
                 src={rowData.imageUrl}
                 alt={rowData.imageUrl}
-                className='w-24 h-16 rounded-md border border-neutral-300'
+                className="w-24 h-16 object-cover rounded-md border border-neutral-300"
               />
             )}
           />
           <Column
-            field='description'
-            header='DESCRIPTION'
+            field="description"
+            header="DESCRIPTION"
             body={descriptionTemplate}
           />
-          <Column header='ACTIONS' body={actionTemplate} />
+          <Column header="ACTIONS" body={actionTemplate} />
         </DataTable>
       </div>
 

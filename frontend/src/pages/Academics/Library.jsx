@@ -5,7 +5,7 @@ import { fetchFaculty } from "../../context/FacultyContext";
 import { staticLibrarian } from "../../data/data";
 
 const LibraryPage = () => {
-  const [faculty, setFaculty] = useState([]);
+  const [faculty, setFaculty] = useState(staticLibrarian);
   const breadcrumbs = [
     { label: "Home", href: "/" },
     { label: "Library", href: "/library" },
@@ -13,10 +13,14 @@ const LibraryPage = () => {
 
   const fetchLibrarian = async () => {
     const response = await fetchFaculty();
-    const filteredFaculty = response.filter(
-      (faculty) => faculty?.designation === "Assistant Librarian"
-    );
-    setFaculty(filteredFaculty.length > 0 ? filteredFaculty : staticLibrarian);
+    if (response) {
+      const filteredFaculty = response.filter(
+        (faculty) => faculty.designation === "Assistant Librarian"
+      );
+      setFaculty(
+        filteredFaculty.length > 0 ? filteredFaculty[0] : staticLibrarian
+      );
+    }
   };
 
   useEffect(() => {

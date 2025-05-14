@@ -131,6 +131,10 @@ const FacultyList = () => {
     );
   };
 
+  const educationTemplate = (rowData) => {
+    return <span>{rowData.education.join(", ")}</span>;
+  };
+
   const filteredFaculty = facultyList.filter(
     (faculty) =>
       (faculty.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -228,7 +232,11 @@ const FacultyList = () => {
             sortable
           />
           <Column field="joinedDate" header="JOINED DATE" />
-          <Column field="education" header="EDUCATION" />
+          <Column
+            field="education"
+            header="EDUCATION"
+            body={educationTemplate}
+          />
           <Column header="ACTIONS" body={actionTemplate} />
         </DataTable>
       </div>
