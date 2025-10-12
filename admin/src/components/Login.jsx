@@ -13,7 +13,7 @@ const AdminLogin = () => {
   const navigate = useNavigate();
 
   const dummyCredentials = {
-    email: "karmansingharora01@gmail.com",
+    email: "tpc.admin@gmail.com",
     password: "12345",
   };
 

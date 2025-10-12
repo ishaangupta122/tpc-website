@@ -109,7 +109,7 @@ const Settings = () => {
         </p>
       </div>
 
-      <div
+      {/* <div
         className={`bg-white rounded-lg border p-6 ${
           isEditing ? "border-red-300" : "border-neutral-200/60"
         }`}>
@@ -315,7 +315,7 @@ const Settings = () => {
             </button>
           )}
         </div>
-      </div>
+      </div> */}
     </section>
   );
 };

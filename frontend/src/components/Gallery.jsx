@@ -6,6 +6,7 @@ import { fetchGalleryImages } from "../context/GalleryContext";
 import Loading from "./Loading";
 import Error from "./Error";
 import { staticGalleryImages } from "../data/data";
+import NoDataFound from "./NoDataFound";
 
 const GallerySection = () => {
   const [previewId, setPreviewId] = useState(null);
@@ -20,7 +21,7 @@ const GallerySection = () => {
     try {
       const data = await fetchGalleryImages();
       const images = data.length === 0 ? staticGalleryImages : data;
-      setImages(images);
+      setImages([]);
     } catch (error) {
       setError(error.message || "Failed to fetch images");
     } finally {
@@ -80,7 +81,7 @@ const GallerySection = () => {
 
   return (
     <section id="gallery" className="py-24 bg-slate-100">
-      <div className="container mx-auto px-4 md:px-10 flex justify-between flex-wrap lg:flex-nowrap gap-8">
+      <div className="container mx-auto px-4 md:px-10 flex justify-between flex-wrap lg:flex-nowrap gap-8 w-full h-full">
         {/* Instagram Embed */}
         <InstaEmbed />
 
@@ -101,6 +102,8 @@ const GallerySection = () => {
             <Error error={error} />
           ) : loading ? (
             <Loading title="Gallery Images" />
+          ) : images.length === 0 ? (
+            <NoDataFound title="Images" height="200px" />
           ) : (
             <div className={`grid grid-cols-${gridColumns} gap-2`}>
               {displayedImages.map((img) => (

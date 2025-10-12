@@ -109,6 +109,8 @@ const GallerySection = () => {
         </div>
       ) : loading ? (
         <Loading title="Gallery Images" />
+      ) : images.length === 0 ? (
+        <NoDataFound title="Images" height="200px" />
       ) : (
         <section id="gallery" ref={galleryRef} className="py-24 bg-slate-100">
           <div className="container mx-auto px-4 md:px-10 flex flex-col gap-8">
