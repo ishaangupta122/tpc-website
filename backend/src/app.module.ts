@@ -5,7 +5,6 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UsersModule } from './users/users.module';
 import { EventsModule } from './events/events.module';
 import { FacultyModule } from './faculty/faculty.module';
-import { Placements } from './schemas/placements/placements.schema';
 import { UpdatesModule } from './updates/updates.module';
 import { PlacementsModule } from './placements/placements.module';
 import { JwtModule } from '@nestjs/jwt';
