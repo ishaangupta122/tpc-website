@@ -1,4 +1,9 @@
-import { IsString, IsOptional, IsArray } from 'class-validator';
+import {
+  IsArray,
+  IsISO8601,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class UpdateFacultyDto {
   @IsOptional()
@@ -24,10 +29,6 @@ export class UpdateFacultyDto {
 
   @IsOptional()
   @IsString()
-  experience?: string;
-
-  @IsOptional()
-  @IsString()
   designation?: string;
 
   @IsOptional()
@@ -35,6 +36,9 @@ export class UpdateFacultyDto {
   department?: string;
 
   @IsOptional()
-  @IsString()
+  @IsISO8601(
+    { strict: true },
+    { message: 'joinedDate must be a valid date in YYYY-MM-DD format' },
+  )
   joinedDate?: string;
 }

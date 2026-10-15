@@ -1,29 +1,36 @@
-import { Controller, Post, Body, Headers } from '@nestjs/common'; 
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  Post,
+  Req,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
+import { Throttle } from '@nestjs/throttler';
 import { AuthService } from './auth.service';
-import { CreateUserDto } from '../schemas/users/create-user.dto';
-import { LoginDto } from '../schemas/auth/login.dto';
+import { LoginDto } from './login.dto';
+import { Public, RequiresAuth } from './public.decorator';
 
 @Controller('auth')
+@UsePipes(new ValidationPipe({ whitelist: true }))
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post('signup')
-  async signUp(@Body() createUserDto: CreateUserDto) {
-    return this.authService.signUp(createUserDto);
-  }
-
+  // Brute-force protection: 5 attempts per minute per IP.
+  @Public()
+  @Throttle({ default: { limit: 5, ttl: 60_000 } })
   @Post('login')
-  async login(@Body() loginDto: LoginDto) {
-    return this.authService.login(loginDto);
+  @HttpCode(200)
+  login(@Body() dto: LoginDto) {
+    return this.authService.login(dto);
   }
 
-  @Post('verify-email')
-  async verifyEmail(@Headers('Authorization') token: string) {
-    return this.authService.verifyEmail(token);
-  }
-
-  @Post('forgot-password')
-  async forgotPassword(@Body('email') email: string) {
-    return this.authService.forgotPassword(email);
+  /** The signed-in admin (also a cheap way to check a stored token is still valid). */
+  @RequiresAuth()
+  @Get('me')
+  me(@Req() request: { user: { userId: string } }) {
+    return this.authService.profile(request.user.userId);
   }
 }

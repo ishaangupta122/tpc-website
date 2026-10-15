@@ -24,9 +24,6 @@ export class Faculty extends Document {
   @Prop({ type: [String], required: false })
   education: string[];
 
-  @Prop({ required: true })
-  experience: string;
-
   @Prop({ required: false })
   image: string;
 

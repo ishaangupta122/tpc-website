@@ -12,9 +12,6 @@ export class Event extends Document {
   @Prop({ required: true })
   description: string;
 
-  @Prop({ required: true })
-  category: string;
-
   @Prop()
   image?: string;
 }

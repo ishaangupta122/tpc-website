@@ -8,14 +8,18 @@ import {
   Body,
   UploadedFile,
   UseInterceptors,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { FacultyService } from './faculty.service';
 import { CreateFacultyDto } from '../schemas/faculty/create-faculty.dto';
 import { UpdateFacultyDto } from '../schemas/faculty/update-faculty.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { multerConfig, multerOptions } from '../config/multer.config';
+import { imageUploadOptions } from '../storage/storage.util';
+import { IMAGE_FOLDERS } from '../storage/storage.constants';
 
 @Controller('faculty')
+@UsePipes(new ValidationPipe({ whitelist: true }))
 export class FacultyController {
   constructor(private readonly facultyService: FacultyService) {}
 
@@ -30,7 +34,7 @@ export class FacultyController {
   }
 
   @Post()
-  @UseInterceptors(FileInterceptor('image', { storage: multerConfig.storage, ...multerOptions }))
+  @UseInterceptors(FileInterceptor('image', imageUploadOptions(IMAGE_FOLDERS.faculty)))
   async createFaculty(
     @Body() createFacultyDto: CreateFacultyDto,
     @UploadedFile() file: Express.Multer.File,
@@ -39,13 +43,12 @@ export class FacultyController {
   }
 
   @Put(':id')
-  @UseInterceptors(FileInterceptor('image', { storage: multerConfig.storage, ...multerOptions }))
+  @UseInterceptors(FileInterceptor('image', imageUploadOptions(IMAGE_FOLDERS.faculty)))
   async updateFaculty(
     @Param('id') id: string,
     @Body() updateFacultyDto: UpdateFacultyDto,
     @UploadedFile() file?: Express.Multer.File,
   ) {
-    console.log("data: ",updateFacultyDto, file)
     return this.facultyService.update(id, updateFacultyDto, file);
   }
 

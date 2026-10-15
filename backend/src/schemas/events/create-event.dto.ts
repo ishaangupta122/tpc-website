@@ -13,10 +13,6 @@ export class CreateEventDto {
   @IsString()
   description: string;
 
-  //@IsNotEmpty()
-  @IsString()
-  category: string;
-
   // @IsNotEmpty()
   @IsString()
   image?: string;

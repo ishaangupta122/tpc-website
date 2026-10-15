@@ -8,32 +8,17 @@ import {
   Delete,
   UploadedFile,
   UseInterceptors,
-  BadRequestException,
 } from '@nestjs/common';
 import { EventsService } from './events.service';
 import { CreateEventDto } from '../schemas/events/create-event.dto';
 import { UpdateEventDto } from '../schemas/events/update-event.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import { extname } from 'path';
+import { imageUploadOptions, toAbsoluteUrl, toPublicPath } from '../storage/storage.util';
+import { IMAGE_FOLDERS } from '../storage/storage.constants';
 
 @Controller('events')
 export class EventsController {
-  private static multerOptions = {
-    storage: diskStorage({
-      destination: './uploads',
-      filename: (req, file, callback) => {
-        const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
-        callback(null, `${file.fieldname}-${uniqueSuffix}${extname(file.originalname)}`);
-      },
-    }),
-    fileFilter: (req, file, callback) => {
-      if (!file.mimetype.match(/\/(jpg|jpeg|png)$/)) {
-        return callback(new BadRequestException('Only image files are allowed!'), false);
-      }
-      callback(null, true);
-    },
-  };
+  private static multerOptions = imageUploadOptions(IMAGE_FOLDERS.events);
 
   constructor(private readonly eventsService: EventsService) {}
 
@@ -43,10 +28,10 @@ export class EventsController {
     @Body() createEventDto: CreateEventDto,
     @UploadedFile() file?: Express.Multer.File
   ) {
-    if (file) {
-      createEventDto.image = `${process.env.BASE_URL}/uploads/${file.filename}`;
-    }
-    console.log('DATA:', createEventDto);
+    // The image is whatever was uploaded, never a path from the request body.
+    createEventDto.image = file
+      ? toAbsoluteUrl(toPublicPath(IMAGE_FOLDERS.events, file.filename))
+      : undefined;
     return this.eventsService.create(createEventDto);
   }
 
@@ -67,9 +52,9 @@ export class EventsController {
     @Body() updateEventDto: UpdateEventDto,
     @UploadedFile() file?: Express.Multer.File
   ) {
-    if (file) {
-      updateEventDto.image = `${process.env.BASE_URL}/uploads/${file.filename}`;
-    }
+    updateEventDto.image = file
+      ? toAbsoluteUrl(toPublicPath(IMAGE_FOLDERS.events, file.filename))
+      : undefined;
     return this.eventsService.update(id, updateEventDto);
   }
 

@@ -5,8 +5,20 @@ import { Model } from 'mongoose';
 import { Faculty } from '../schemas/faculty/faculty.schema';
 import { CreateFacultyDto } from '../schemas/faculty/create-faculty.dto';
 import { UpdateFacultyDto } from '../schemas/faculty/update-faculty.dto';
-import { unlinkSync } from 'fs';
-import { join } from 'path';
+import { deleteUploadedFile, toPublicPath } from '../storage/storage.util';
+import { IMAGE_FOLDERS } from '../storage/storage.constants';
+
+/** Whole years completed since `joinedDate` (null when the date is missing/invalid). */
+export const yearsSince = (joinedDate?: string, now = new Date()): number | null => {
+  const joined = new Date(joinedDate);
+  if (!joinedDate || isNaN(joined.getTime()) || joined > now) return null;
+  let years = now.getFullYear() - joined.getFullYear();
+  const anniversaryPassed =
+    now.getMonth() > joined.getMonth() ||
+    (now.getMonth() === joined.getMonth() && now.getDate() >= joined.getDate());
+  if (!anniversaryPassed) years--;
+  return Math.max(years, 0);
+};
 
 @Injectable()
 export class FacultyService {
@@ -19,13 +31,19 @@ export class FacultyService {
     this.baseUrl = this.configService.get<string>('BASE_URL');
   }
 
+  /** Adds the absolute image URL and the auto-calculated experience. */
+  private serialize(faculty: any) {
+    return {
+      ...faculty,
+      image: faculty.image ? `${this.baseUrl}${faculty.image}` : null,
+      experience: yearsSince(faculty.joinedDate),
+    };
+  }
+
   // Get all faculties
   async findAll(): Promise<any[]> {
     const faculties = await this.facultyModel.find().lean().exec();
-    return faculties.map(faculty => ({
-      ...faculty,
-      image: faculty.image ? `${this.baseUrl}${faculty.image}` : null,
-    }));
+    return faculties.map((faculty) => this.serialize(faculty));
   }
 
   // Get a single faculty by ID
@@ -34,25 +52,19 @@ export class FacultyService {
     if (!faculty) {
       throw new NotFoundException('Faculty not found');
     }
-    return {
-      ...faculty,
-      image: faculty.image ? `${this.baseUrl}${faculty.image}` : null,
-    };
+    return this.serialize(faculty);
   }
 
   // Create a new faculty with file handling
   async create(createFacultyDto: CreateFacultyDto, file?: Express.Multer.File): Promise<any> {
     if (file) {
-      createFacultyDto.image = `/uploads/${file.filename}`; // Store relative path
+      createFacultyDto.image = toPublicPath(IMAGE_FOLDERS.faculty, file.filename); // Store relative path
     }
 
     const newFaculty = new this.facultyModel(createFacultyDto);
     const savedFaculty = await newFaculty.save();
 
-    return {
-      ...savedFaculty.toObject(),
-      image: savedFaculty.image ? `${this.baseUrl}${savedFaculty.image}` : null,
-    };
+    return this.serialize(savedFaculty.toObject());
   }
 
   // Update a faculty with file handling
@@ -66,18 +78,15 @@ export class FacultyService {
     if (file) {
       // Delete existing image if it exists
       if (existingFaculty.image) {
-        this.deleteImageFile(existingFaculty.image);
+        deleteUploadedFile(existingFaculty.image);
       }
-      updateFacultyDto.image = `/uploads/${file.filename}`;
+      updateFacultyDto.image = toPublicPath(IMAGE_FOLDERS.faculty, file.filename);
     }
 
     Object.assign(existingFaculty, updateFacultyDto);
     const updatedFaculty = await existingFaculty.save();
 
-    return {
-      ...updatedFaculty.toObject(),
-      image: updatedFaculty.image ? `${this.baseUrl}${updatedFaculty.image}` : null,
-    };
+    return this.serialize(updatedFaculty.toObject());
   }
 
   // Delete a faculty and associated image
@@ -89,22 +98,9 @@ export class FacultyService {
     }
 
     if (deletedFaculty.image) {
-      this.deleteImageFile(deletedFaculty.image);
+      deleteUploadedFile(deletedFaculty.image);
     }
 
-    return {
-      ...deletedFaculty.toObject(),
-      image: deletedFaculty.image ? `${this.baseUrl}${deletedFaculty.image}` : null,
-    };
-  }
-
-  // Helper to delete the image file
-  private deleteImageFile(imagePath: string): void {
-    try {
-      const fullPath = join(__dirname, '../../..', imagePath);
-      unlinkSync(fullPath);
-    } catch (err) {
-      console.error('Error deleting image file:', err.message);
-    }
+    return this.serialize(deletedFaculty.toObject());
   }
 }

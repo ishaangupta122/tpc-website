@@ -1,26 +1,19 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, model } from 'mongoose';
+import { Document } from 'mongoose';
 
-@Schema()
+// Admin accounts. There is no public sign-up: the first admin is created from
+// ADMIN_EMAIL / ADMIN_PASSWORD (see auth/admin-seed.service.ts).
+@Schema({ timestamps: true })
 export class User extends Document {
-  @Prop({ required: true })
+  @Prop({ required: true, trim: true })
   name: string;
 
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true, unique: true, lowercase: true, trim: true })
   email: string;
 
-  @Prop({required: true, unique:false})
-  password:string;
-
+  /** bcrypt hash, never the plain password. */
   @Prop({ required: true })
-  firebaseUid: string;
-
-  @Prop({required: false})
-  phonenumber:string;
-
-  @Prop({ default: false }) 
-  verified: boolean;
+  password: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
-export const UserModel = model<User>('users', UserSchema);

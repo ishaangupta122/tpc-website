@@ -54,3 +54,9 @@ pids
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# Uploaded files (images and PDFs) live on the server, not in git.
+# The folder layout is kept with .gitkeep files.
+/uploads/**/*
+!/uploads/**/
+!/uploads/**/.gitkeep

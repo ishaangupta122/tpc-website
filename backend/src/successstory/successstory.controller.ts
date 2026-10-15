@@ -8,32 +8,17 @@ import {
   Delete,
   UploadedFile,
   UseInterceptors,
-  BadRequestException,
 } from '@nestjs/common';
 import { SuccessStoryService } from './successstory.service';
 import { CreateSuccessStoryDto } from '../schemas/successstory/create-successstory.dto';
 import { UpdateSuccessStoryDto } from '../schemas/successstory/update-successstory.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import { extname } from 'path';
+import { imageUploadOptions, toAbsoluteUrl, toPublicPath } from '../storage/storage.util';
+import { IMAGE_FOLDERS } from '../storage/storage.constants';
 
 @Controller('successstory')
 export class SuccessStoryController {
-  private static multerOptions = {
-    storage: diskStorage({
-      destination: './uploads',
-      filename: (req, file, callback) => {
-        const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
-        callback(null, `${file.fieldname}-${uniqueSuffix}${extname(file.originalname)}`);
-      },
-    }),
-    fileFilter: (req, file, callback) => {
-      if (!file.mimetype.match(/\/(jpg|jpeg|png)$/)) {
-        return callback(new BadRequestException('Only image files are allowed!'), false);
-      }
-      callback(null, true);
-    },
-  };
+  private static multerOptions = imageUploadOptions(IMAGE_FOLDERS.successStories);
 
   constructor(private readonly service: SuccessStoryService) {}
 
@@ -43,10 +28,10 @@ export class SuccessStoryController {
     @Body() dto: CreateSuccessStoryDto,
     @UploadedFile() file?: Express.Multer.File
   ) {
-    if (file) {
-      dto.image = `${process.env.BASE_URL}/uploads/${file.filename}`;
-    }
-    console.log('DATA:', dto);
+    // The image is whatever was uploaded, never a path from the request body.
+    dto.image = file
+      ? toAbsoluteUrl(toPublicPath(IMAGE_FOLDERS.successStories, file.filename))
+      : undefined;
     return this.service.create(dto);
   }
 
@@ -67,9 +52,10 @@ export class SuccessStoryController {
     @Body() dto: UpdateSuccessStoryDto,
     @UploadedFile() file?: Express.Multer.File
   ) {
-    if (file) {
-      dto.image = `${process.env.BASE_URL}/uploads/${file.filename}`;
-    }
+    // The image is whatever was uploaded, never a path from the request body.
+    dto.image = file
+      ? toAbsoluteUrl(toPublicPath(IMAGE_FOLDERS.successStories, file.filename))
+      : undefined;
     return this.service.update(id, dto);
   }
 

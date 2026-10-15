@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { Event } from '../schemas/events/event.schema';
 import { CreateEventDto } from '../schemas/events/create-event.dto';
 import { UpdateEventDto } from '../schemas/events/update-event.dto';
+import { deleteUploadedFile } from '../storage/storage.util';
 
 @Injectable()
 export class EventsService {
@@ -27,13 +28,21 @@ export class EventsService {
   }
 
   async update(id: string, updateEventDto: UpdateEventDto): Promise<Event> {
-    const updatedEvent = await this.eventModel
-      .findByIdAndUpdate(id, updateEventDto, { new: true })
-      .exec();
-    if (!updatedEvent) {
+    const previous = await this.eventModel.findById(id).exec();
+    if (!previous) {
+      // The new upload (if any) has nowhere to live: don't keep it.
+      deleteUploadedFile(updateEventDto.image);
       throw new NotFoundException(`Event with ID "${id}" not found.`);
     }
-    return updatedEvent;
+    const previousImage = previous.image;
+    const updated = await this.eventModel
+      .findByIdAndUpdate(id, updateEventDto, { new: true })
+      .exec();
+    // The old picture is only removed once the new one is saved.
+    if (updateEventDto.image && previousImage !== updateEventDto.image) {
+      deleteUploadedFile(previousImage);
+    }
+    return updated;
   }
 
   async remove(id: string): Promise<void> {
@@ -41,5 +50,6 @@ export class EventsService {
     if (!result) {
       throw new NotFoundException(`Event with ID "${id}" not found.`);
     }
+    deleteUploadedFile(result.image);
   }
 }

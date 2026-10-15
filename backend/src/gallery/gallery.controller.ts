@@ -13,9 +13,8 @@ import {
 import { GalleryService } from './gallery.service';
 import { CreateGalleryDto } from '../schemas/gallery/create-gallery.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import { v4 as uuidv4 } from 'uuid';
-import * as path from 'path';
+import { imageUploadOptions, toAbsoluteUrl, toPublicPath } from '../storage/storage.util';
+import { IMAGE_FOLDERS } from '../storage/storage.constants';
 
 @Controller('gallery')
 export class GalleryController {
@@ -23,15 +22,7 @@ export class GalleryController {
 
   @Post()
   @UseInterceptors(
-    FileInterceptor('image', {
-      storage: diskStorage({
-        destination: './uploads/gallery',
-        filename: (req, file, callback) => {
-          const filename: string = uuidv4() + path.extname(file.originalname);
-          callback(null, filename);
-        },
-      }),
-    }),
+    FileInterceptor('image', imageUploadOptions(IMAGE_FOLDERS.gallery)),
   )
   async create(
     @Body() createGalleryDto: CreateGalleryDto,
@@ -41,7 +32,7 @@ export class GalleryController {
       throw new BadRequestException('Image file is required');
     }
 
-    const imageUrl = `http://localhost:3000/uploads/gallery/${file.filename}`;
+    const imageUrl = toAbsoluteUrl(toPublicPath(IMAGE_FOLDERS.gallery, file.filename));
 
     const galleryData = { ...createGalleryDto, imageUrl };
     return this.galleryService.create(galleryData);
@@ -59,25 +50,17 @@ export class GalleryController {
 
   @Put(':id')
   @UseInterceptors(
-    FileInterceptor('image', {
-      storage: diskStorage({
-        destination: './uploads/gallery',
-        filename: (req, file, callback) => {
-          const filename: string = uuidv4() + path.extname(file.originalname);
-          callback(null, filename);
-        },
-      }),
-    }),
+    FileInterceptor('image', imageUploadOptions(IMAGE_FOLDERS.gallery)),
   )
   async update(
     @Param('id') id: string,
     @Body() updateGalleryDto: CreateGalleryDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    if (file) {
-      const imageUrl = `http://localhost:3000/uploads/gallery/${file.filename}`;
-      updateGalleryDto.imageUrl = imageUrl;
-    }
+    // The image is whatever was uploaded, never a path from the request body.
+    updateGalleryDto.imageUrl = file
+      ? toAbsoluteUrl(toPublicPath(IMAGE_FOLDERS.gallery, file.filename))
+      : undefined;
 
     return this.galleryService.update(id, updateGalleryDto);
   }
