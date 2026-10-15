@@ -1,103 +1,88 @@
-import axios from "axios";
-import { BASE_API } from "../BASE_API/config";
+import { useCallback, useMemo } from "react";
+import { placementsApi } from "../api";
+import { createResourceContext } from "./createResourceContext";
+import { useCrudState } from "./useCrudState";
 
-const PLACEMENTS_URL = `${BASE_API}/placements`;
-
-const API = axios.create({
-  baseURL: PLACEMENTS_URL,
-  headers: {
-    "Content-Type": "application/json",
-  },
+const toDepartmentPayload = (form) => ({
+  department: form.department.trim(),
+  approvedIntake: Number(form.approvedIntake),
+  companiesVisited: Number(form.companiesVisited),
+  studentsPlaced: Number(form.studentsPlaced),
+  avgPackage: String(form.avgPackage),
 });
 
-export const createPlacement = async (placementData) => {
-  try {
-    const { data } = await API.post(PLACEMENTS_URL, placementData);
-    return data;
-  } catch (error) {
-    console.error("Error creating placement: \n", error);
-    throw error;
-  }
-};
-
-export const getAllPlacements = async () => {
-  try {
-    const { data } = await API.get(PLACEMENTS_URL);
-    return data;
-  } catch (error) {
-    console.error("Error fetching placements: \n", error);
-    throw error;
-  }
-};
-
-export const getPlacementById = async (id) => {
-  try {
-    const { data } = await API.get(`${PLACEMENTS_URL}/${id}`);
-    return data;
-  } catch (error) {
-    console.error("Error fetching placement: \n", error);
-    throw error;
-  }
-};
-
-export const updatePlacement = async (id, placementData) => {
-  try {
-    const { data } = await API.put(`${PLACEMENTS_URL}/${id}`, placementData);
-    return data;
-  } catch (error) {
-    console.error("Error updating placement: \n", error);
-    throw error;
-  }
-};
-
-export const deletePlacement = async (id) => {
-  try {
-    const { data } = await API.delete(`${PLACEMENTS_URL}/${id}`);
-    return data;
-  } catch (error) {
-    console.error("Error deleting placement: \n", error);
-    throw error;
-  }
-};
-
-export const addDepartmentToPlacement = async (id, departmentData) => {
-  try {
-    const { data } = await API.post(
-      `${PLACEMENTS_URL}/${id}/departments`,
-      departmentData
+// The backend stores one record per year with a list of departments; the
+// admin works with one row per department. The hook returns:
+//   { rows, years, loading, error, refresh, addRow, updateRow, removeRow }
+export const { Provider: PlacementsProvider, useResource: usePlacements } =
+  createResourceContext("Placements", () => {
+    const { items, loading, error, refresh, ensureLoaded } = useCrudState(
+      placementsApi.list
     );
-    return data;
-  } catch (error) {
-    console.error("Error adding department: \n", error);
-    throw error;
-  }
-};
 
-export const updateDepartmentInPlacement = async (
-  id,
-  departmentId,
-  departmentData
-) => {
-  try {
-    const { data } = await API.put(
-      `${PLACEMENTS_URL}/${id}/departments/${departmentId}`,
-      departmentData
+    const rows = useMemo(
+      () =>
+        items
+          .flatMap((placement) =>
+            placement.departments.map((dept) => ({
+              ...dept,
+              year: placement.year,
+              placementId: placement._id,
+              isOnlyDepartment: placement.departments.length === 1,
+            }))
+          )
+          .sort((a, b) => String(b.year).localeCompare(String(a.year))),
+      [items]
     );
-    return data;
-  } catch (error) {
-    console.error("Error updating department: \n", error);
-    throw error;
-  }
-};
 
-export const removeDepartmentFromPlacement = async (id, departmentId) => {
-  try {
-    const { data } = await API.delete(
-      `${PLACEMENTS_URL}/${id}/departments/${departmentId}`
+    const years = useMemo(() => [...new Set(rows.map((r) => r.year))], [rows]);
+
+    // Adding to an existing year merges the department into that year.
+    const addRow = useCallback(
+      async (form) => {
+        await placementsApi.addDepartment(
+          form.year.trim(),
+          toDepartmentPayload(form)
+        );
+        await refresh();
+      },
+      [refresh]
     );
-    return data;
-  } catch (error) {
-    console.error("Error removing department: \n", error);
-    throw error;
-  }
-};
+
+    const updateRow = useCallback(
+      async (row, form) => {
+        await placementsApi.updateDepartment(
+          row.placementId,
+          row._id,
+          toDepartmentPayload(form)
+        );
+        await refresh();
+      },
+      [refresh]
+    );
+
+    // Removing a year's last department removes the (empty) year too.
+    const removeRow = useCallback(
+      async (row) => {
+        if (row.isOnlyDepartment) await placementsApi.remove(row.placementId);
+        else await placementsApi.removeDepartment(row.placementId, row._id);
+        await refresh();
+      },
+      [refresh]
+    );
+
+    return useMemo(
+      () => ({
+        rows,
+        years,
+        loading,
+        error,
+        refresh,
+        ensureLoaded,
+        addRow,
+        updateRow,
+        removeRow,
+      }),
+      [rows, years, loading, error, refresh, ensureLoaded, addRow, updateRow, removeRow]
+    );
+  });
