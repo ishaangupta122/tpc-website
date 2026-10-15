@@ -24,5 +24,3 @@ backend/src/auth/*.json
 *.log
 npm-debug.log*
 
-# Scratch
-sampleFrontend
