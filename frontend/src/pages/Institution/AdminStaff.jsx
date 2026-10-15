@@ -1,79 +1,62 @@
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import { Search } from "lucide-react";
 import HeroSection from "../../components/HeroSection";
 import { Link } from "react-router-dom";
-import { fetchFaculty } from "../../context/FacultyContext";
+import { useFaculty } from "../../hooks/useResources";
 import Loading from "../../components/Loading";
 import NoDataFound from "../../components/NoDataFound";
 import Error from "../../components/Error";
 
+// Same list as the designation dropdown in the admin Faculty form.
+const DESIGNATIONS = [
+  "Superintendent",
+  "PA to Principal",
+  "Sr. Asstt.",
+  "Jr. Asstt.",
+  "Clerk",
+  "Assistant Librarian",
+];
+
 const AdminStaff = () => {
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [facultyList, setFacultyList] = useState([]);
+  const { data: allStaff, loading, error, refresh } = useFaculty();
+  const facultyList = useMemo(
+    () => allStaff.filter((member) => member.department === "Admin Staff"),
+    [allStaff]
+  );
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedDepartment, setSelectedDepartment] = useState("");
+  const [selectedDesignation, setSelectedDesignation] = useState("");
   const breadcrumbs = [
     { label: "Home", href: "/" },
     { label: "Admin-Staff", href: "/admin-staff" },
   ];
 
-  const fetchFacultyList = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await fetchFaculty();
-      const adminStaff = data.filter(
-        (faculty) => faculty.department === "Admin Staff"
-      );
-      setFacultyList(adminStaff);
-    } catch (err) {
-      setError(err.message || "Failed to fetch admin staff");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchFacultyList();
-  }, []);
-
-  const departments = [
-    "All",
-    "Superintendent",
-    "PA to Principal",
-    "Sr. Asstt.",
-    "Jr. Asstt.",
-    "Clerk",
-  ];
-
   const filteredFaculty = facultyList.filter((faculty) => {
+    const query = searchQuery.toLowerCase();
     const matchesSearch =
-      faculty.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      faculty.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      faculty.designation.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesDepartment =
-      !selectedDepartment ||
-      selectedDepartment === "All" ||
-      faculty.designation === selectedDepartment;
-    return matchesSearch && matchesDepartment;
+      (faculty.name || "").toLowerCase().includes(query) ||
+      (faculty.email || "").toLowerCase().includes(query) ||
+      (faculty.designation || "").toLowerCase().includes(query);
+    const matchesDesignation =
+      !selectedDesignation ||
+      (faculty.designation || "").trim().toLowerCase() === selectedDesignation;
+    return matchesSearch && matchesDesignation;
   });
 
   return (
     <>
       <HeroSection
-        imageUrl="./rec_gate.jpg"
+        imageUrl="/rec_gate.jpg"
         title="Admin Staff"
         breadcrumbs={breadcrumbs}
       />
       <div className="flex items-center flex-col">
-        <section className="px-6 lg:px-16 py-20 max-w-7xl w-full">
+        <section className="site-container py-20">
           <div className="mb-6 space-y-6">
-            <h1 className="text-2xl font-semibold mb-4 uppercase text-green-900">
+            <h1 className="page-title mb-4">
               Admin <span className="text-black">Staff</span>
             </h1>
             {error ? (
-              <Error error={error} />
+              <Error error={error} onRetry={refresh} />
             ) : loading ? (
               <Loading title="Admin Staff" />
             ) : (
@@ -91,17 +74,15 @@ const AdminStaff = () => {
                     <Search className="w-5 h-5 absolute left-3 top-2.5 text-neutral-400" />
                   </div>
                   <select
-                    value={selectedDepartment}
-                    onChange={(e) => setSelectedDepartment(e.target.value)}
+                    value={selectedDesignation}
+                    onChange={(e) => setSelectedDesignation(e.target.value)}
                     className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-800 bg-white">
                     <option value="">All Designations</option>
-                    {departments
-                      .filter((designation) => designation !== "All")
-                      .map((designation) => (
-                        <option key={designation} value={designation}>
-                          {designation}
-                        </option>
-                      ))}
+                    {DESIGNATIONS.map((designation) => (
+                      <option key={designation} value={designation.toLowerCase()}>
+                        {designation}
+                      </option>
+                    ))}
                   </select>
                 </div>
                 {/* No Data Found */}
@@ -111,7 +92,7 @@ const AdminStaff = () => {
                   <>
                     {/* Faculty List */}
                     <div className="flex items-center justify-center w-full">
-                      <div className="max-w-7xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 w-full gap-x-4 gap-y-6 justify-items-center">
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 w-full gap-x-4 gap-y-6 justify-items-center">
                         {filteredFaculty.map((faculty) => (
                           <div
                             key={faculty._id}
@@ -167,7 +148,9 @@ const AdminStaff = () => {
                               <div className="flex gap-2 justify-start items-center font-medium">
                                 <h3 className="text-green-800">Experience:</h3>
                                 <p className="text-gray-800">
-                                  {faculty.experience}
+                                  {faculty.experience == null
+                                    ? "N/A"
+                                    : `${faculty.experience} ${faculty.experience === 1 ? "Year" : "Years"}`}
                                 </p>
                               </div>
                             </div>

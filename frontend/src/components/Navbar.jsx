@@ -45,7 +45,7 @@ const Navbar = () => {
 
       {/* Main Navbar */}
       <nav className='bg-white shadow-md'>
-        <div className='max-w-7xl mx-auto px-4'>
+        <div className='site-container'>
           <div className='flex items-center justify-between h-24'>
             {/* Logo */}
             <div className='flex items-center h-20 gap-4'>
@@ -277,7 +277,7 @@ const Navbar = () => {
             href='/'
             onClick={handleLinkClick}
             className='flex items-center'>
-            <img src='./tpc-logo.png' alt='Logo' className='h-12 w-auto' />
+            <img src='/tpc-logo.png' alt='Logo' className='h-12 w-auto' />
           </Link>
           <button
             onClick={toggleSidebar}

@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Search } from "lucide-react";
 import HeroSection from "../../components/HeroSection";
-import { fetchPlacements } from "../../context/PlacementsContext";
+import { usePlacements } from "../../hooks/useResources";
 import Loading from "../../components/Loading";
 import NoDataFound from "../../components/NoDataFound";
 import Error from "../../components/Error";
@@ -9,31 +9,12 @@ import Error from "../../components/Error";
 const PlacementsTracker = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedYear, setSelectedYear] = useState("");
-  const [placements, setPlacements] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { data: placements, loading, error, refresh } = usePlacements();
 
   const breadcrumbs = [
     { label: "Home", href: "/" },
     { label: "Placements", href: "/placements" },
   ];
-
-  const fetchPlacement = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await fetchPlacements();
-      setPlacements(data);
-    } catch (err) {
-      setError(err.message || "Failed to fetch placements");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchPlacement();
-  }, []);
 
   const filteredPlacements = placements
     .filter((placement) =>
@@ -52,19 +33,19 @@ const PlacementsTracker = () => {
   return (
     <>
       <HeroSection
-        imageUrl="./rec_gate.jpg"
+        imageUrl="/rec_gate.jpg"
         title="College Placements"
         breadcrumbs={breadcrumbs}
       />
 
       <div className="flex justify-center items-center ">
-        <div className="p-6 px-4 sm:px-14 my-10 max-w-7xl w-full">
+        <div className="site-container py-6 my-10">
           <div className="mb-6 space-y-6">
-            <h1 className="text-2xl font-semibold uppercase text-green-900">
+            <h1 className="page-title">
               College <span className="text-black">Placements</span>
             </h1>
             {error ? (
-              <Error error={error} />
+              <Error error={error} onRetry={refresh} />
             ) : loading ? (
               <Loading title="Placements Data" />
             ) : (
@@ -105,7 +86,7 @@ const PlacementsTracker = () => {
                     {/* Data List */}
                     {filteredPlacements.map((placement) => (
                       <div key={placement.year} className="mb-8">
-                        <h3 className="text-lg font-semibold text-gray-800 mb-4">
+                        <h3 className="card-title mb-4">
                           {placement.year} Placements
                         </h3>
                         <div className="border border-gray-200 rounded-lg">

@@ -1,91 +1,62 @@
-import { useState, useEffect } from "react";
 import HeroSection from "../../components/HeroSection";
 import { Link } from "react-router-dom";
-import { fetchFaculty } from "../../context/FacultyContext";
-import { staticLibrarian } from "../../data/data";
+import { Mail, Phone, CalendarDays, Briefcase, MoveRight } from "lucide-react";
+import { useFaculty } from "../../hooks/useResources";
 
 const LibraryPage = () => {
-  const [faculty, setFaculty] = useState(staticLibrarian);
+  const { data: staff } = useFaculty();
+  // Shown only when a librarian exists in the data: no placeholder otherwise.
+  const faculty = staff.find((member) =>
+    (member.designation || "").toLowerCase().includes("librarian")
+  );
   const breadcrumbs = [
     { label: "Home", href: "/" },
     { label: "Library", href: "/library" },
   ];
 
-  const fetchLibrarian = async () => {
-    const response = await fetchFaculty();
-    if (response) {
-      const filteredFaculty = response.filter(
-        (faculty) => faculty.designation === "Assistant Librarian"
-      );
-      setFaculty(
-        filteredFaculty.length > 0 ? filteredFaculty[0] : staticLibrarian
-      );
-    }
-  };
-
-  useEffect(() => {
-    fetchLibrarian();
-  }, []);
-
   return (
     <>
       <HeroSection
-        imageUrl="./rec_gate.jpg"
+        imageUrl="/rec_gate.jpg"
         title="College Library"
         breadcrumbs={breadcrumbs}
       />
 
-      <div className="bg-white min-h-screen flex flex-col items-center py-20 px-4">
-        <div className="max-w-7xl w-full">
+      <div className="bg-white">
+        <div className="site-container py-10 md:py-14">
           {/* Header */}
-          <div className="text-center mb-16">
-            <h1 className="text-3xl font-semibold mb-4 uppercase text-emerald-900">
-              Polytechnic <span className="text-black">Library</span>
+          <div className="mb-8">
+            <h1 className="page-title mb-6">
+              Inside TPC&apos;s <span className="text-black">Library</span>
             </h1>
-            <div className="w-28 h-1 bg-[#FDB714] mx-auto rounded-full"></div>
-
-            <p className="text-lg text-gray-700 mt-4">
+            <p className="text-lg text-gray-700">
               A temple of learning and a lighthouse in the spread of knowledge.
             </p>
           </div>
 
-          {/* Main Content */}
-          <div className="grid lg:grid-cols-2 gap-5 items-start justify-center">
-            {/* Image Section */}
-            <div className="flex justify-center">
-              <img
-                src="https://imgs.search.brave.com/-f8aCLURNC-a-cl5xjMqN7f4AgqvMp4Lf7q1rUaH2KQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/cHJlbWl1bS1waG90/by9vbGQtdW5pdmVy/c2l0eS1saWJyYXJ5/LWZhY3VsdHktZ2Vv/Z3JhcGh5LWhpc3Rv/cnlfMTM2ODc1LTQ2/Ni5qcGc_c2VtdD1h/aXNfaHlicmlk"
-                alt="Polytechnic Library"
-                className="rounded-lg shadow-lg w-full max-w-lg object-cover h-[80vh] max-h-[600px]"
-              />
-            </div>
-
-            {/* Description Section */}
-            <div className="text-gray-800">
-              <h2 className="text-2xl font-semibold text-emerald-900 mb-4">
-                About Our Library
-              </h2>
-              <p className="text-base leading-7 mb-4">
-                The library is a temple of learning, a lighthouse, and a chief
-                agency in the spread of knowledge. Our polytechnic library
-                boasts an open access system, an uncommon feature compared to
-                the closed shelf system prevalent in other Northern Region
-                Polytechnics.
-              </p>
-              <p className="text-base leading-7 mb-4">
+          {/* Description */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
+            <p className="lg:col-span-5 text-xl text-gray-900 leading-9">
+              The library is a temple of learning, a lighthouse, and a chief
+              agency in the spread of knowledge. Our polytechnic library boasts
+              an open access system, an uncommon feature compared to the closed
+              shelf system prevalent in other Northern Region Polytechnics.
+            </p>
+            <div className="lg:col-span-7 space-y-4 text-gray-700 leading-7">
+              <p>
                 Managed efficiently by an Assistant Librarian and an attendant,
                 the library provides excellent services to staff and students
                 alike. The Student Aid Books facility benefits a large number of
                 students every year.
               </p>
-              <p className="text-base leading-7 mb-4">
+              <p>
                 Currently, the library houses 3,566 titles, comprising 16,800
                 volumes. It is continually updated with the latest editions of
                 books, technical and non-technical magazines, and journals
                 covering all branches of study. Approximately 16,162 books are
                 issued and consulted annually, showcasing its extensive usage.
               </p>
-              <p className="text-base leading-7 mb-4">
+              <p>
                 A large number of students visit the library daily to gain
                 expertise in their respective fields, making it a cornerstone of
                 academic excellence in our institution.
@@ -93,85 +64,88 @@ const LibraryPage = () => {
             </div>
           </div>
 
-          {/* Enhanced Faculty Section */}
-          <div className="mt-20 bg-gray-100 rounded-xl shadow-lg shadow-black/10 py-5 sm:py-16 px-4 mb-10 max-w-4xl mx-auto">
-            <div className="mx-auto">
-              <div className="text-center mb-10">
-                <h1 className="text-2xl font-semibold mb-2 uppercase text-emerald-900">
-                  Meet <span className="text-black">Our Faculty</span>
-                </h1>
-                <div className="w-28 h-1 bg-[#FDB714] mx-auto rounded-full"></div>
-                <p className="mt-4 text-gray-800 max-w-2xl mx-auto">
-                  {`Our library is managed by dedicated professionals who are committed to fostering an
-								environment of learning and intellectual growth. Meet the expert behind our
-								library's success.`}
-                </p>
-              </div>
+          {/* Librarian (only when one is found) */}
+          {faculty && (
+          <section
+            className="mt-16 md:mt-24 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center"
+            aria-labelledby="librarian-heading">
+            <div className="lg:col-span-5">
+              <h2 id="librarian-heading" className="section-title mb-4">
+                Meet <span className="text-black">Our Faculty</span>
+              </h2>
+              <p className="text-gray-700 leading-7">
+                Our library is managed by dedicated professionals who are
+                committed to fostering an environment of learning and
+                intellectual growth. Meet the expert behind our library&apos;s
+                success.
+              </p>
+            </div>
 
-              <div className="flex items-center justify-center w-full">
-                <div className="max-w-sm w-full">
-                  <div className="bg-white rounded-lg shadow-lg overflow-hidden w-full ">
-                    {/* Header Section */}
-                    <div className="bg-gradient-to-b from-emerald-800 to-emerald-950 text-white px-6 py-4">
-                      <Link
-                        to={
-                          faculty._id === null
-                            ? "/library"
-                            : `/faculty/${faculty._id}`
-                        }>
-                        <div className="flex items-center gap-4">
-                          <img
-                            src={faculty.image}
-                            alt="Profile"
-                            className="w-20 h-20 rounded-full object-cover border-4 border-white"
-                            loading="lazy"
-                          />
-                          <div>
-                            <h2 className="text-lg font-semibold hover:underline">
-                              {faculty.name}
-                            </h2>
-                            <p className="text-sm font-normal text-green-200">
-                              {faculty.designation}
-                            </p>
-                          </div>
-                        </div>
-                      </Link>
-                    </div>
-
-                    {/* Details Section */}
-                    <div className="py-6 px-4 space-y-2 text-sm">
-                      {/* Email */}
-                      <div className="flex gap-2 justify-start items-center font-medium">
-                        <h3 className=" text-green-800 ">Email:</h3>
-                        <a
-                          href={`mailto:${faculty.email}`}
-                          className="text-green-800 underline ">
-                          {faculty.email}
-                        </a>
-                      </div>
-                      {/* Phone */}
-                      <div className="flex gap-2 justify-start items-center font-medium">
-                        <h3 className=" text-green-800 ">Phone:</h3>
-                        <p className="text-gray-800  ">{faculty.phone}</p>
-                      </div>
-                      {/* Joined Date */}
-                      <div className="flex gap-2 justify-start items-center font-medium">
-                        <h3 className=" text-green-800 ">Joined Date:</h3>
-                        <p className="text-gray-800  ">{faculty.joinedDate}</p>
-                      </div>
-                      {/* Experience */}
-                      <div className="flex gap-2 justify-start items-center font-medium">
-                        <h3 className=" text-green-800  ">Experience:</h3>
-                        <p className="text-gray-800 ">
-                          {faculty.experience} Years
-                        </p>
-                      </div>
-                    </div>
-                  </div>
+            <article className="lg:col-span-7 bg-white rounded-lg border border-gray-300 border-t-4 border-t-emerald-800 shadow-lg overflow-hidden flex flex-col sm:flex-row">
+              {/* Photo and name */}
+              <div className="sm:w-2/5 bg-gradient-to-b from-emerald-800 to-emerald-950 text-white p-6 flex flex-col items-center justify-center text-center gap-3">
+                <img
+                  src={faculty.image || "/default_user_img.jpeg"}
+                  alt={faculty.name}
+                  loading="lazy"
+                  className="w-28 h-28 rounded-full object-cover border-4 border-white"
+                />
+                <div>
+                  <h3 className="text-lg font-semibold">{faculty.name}</h3>
+                  <p className="text-sm text-green-200">{faculty.designation}</p>
                 </div>
               </div>
-            </div>
-          </div>
+
+              {/* Details */}
+              <div className="flex-1 p-6 flex flex-col justify-between gap-5">
+                <ul className="space-y-3 text-sm text-gray-800">
+                  {[
+                    [Mail, "Email", faculty.email, `mailto:${faculty.email}`],
+                    [Phone, "Phone", faculty.phone],
+                    [CalendarDays, "Joined", faculty.joinedDate],
+                    [
+                      Briefcase,
+                      "Experience",
+                      faculty.experience == null
+                        ? "N/A"
+                        : `${faculty.experience} ${
+                            faculty.experience === 1 ? "year" : "years"
+                          }`,
+                    ],
+                  ].map(([Icon, label, value, href]) => (
+                    <li key={label} className="flex items-start gap-3">
+                      <Icon
+                        className="w-5 h-5 shrink-0 text-emerald-800 mt-0.5"
+                        aria-hidden="true"
+                      />
+                      <div className="min-w-0">
+                        <p className="text-xs uppercase tracking-wide text-gray-500">
+                          {label}
+                        </p>
+                        {href ? (
+                          <a
+                            href={href}
+                            className="font-medium text-emerald-800 underline break-all">
+                            {value}
+                          </a>
+                        ) : (
+                          <p className="font-medium">{value}</p>
+                        )}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+
+                <Link
+                  to={`/faculty/${faculty._id}`}
+                  className="text-emerald-800 w-fit flex items-center gap-1 font-medium hover:underline focus-visible:underline focus-visible:outline-none">
+                  View full profile
+                  <MoveRight className="w-5 h-5" />
+                </Link>
+              </div>
+            </article>
+          </section>
+          )}
         </div>
       </div>
     </>

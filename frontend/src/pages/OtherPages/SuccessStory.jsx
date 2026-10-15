@@ -1,15 +1,12 @@
 import HeroSection from "../../components/HeroSection";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { fetchSuccessStoryById } from "../../context/SuccessStoriesContext";
+import { useSuccessStory } from "../../hooks/useResources";
 import Loading from "../../components/Loading";
 import Error from "../../components/Error";
 
 const SuccessStory = () => {
   const { storyId } = useParams();
-  const [successStory, setSuccessStory] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { data: successStory, loading, error, refresh } = useSuccessStory(storyId);
 
   const breadcrumbs = [
     { label: "Home", href: "/" },
@@ -19,23 +16,6 @@ const SuccessStory = () => {
     },
   ];
 
-  const fetchStory = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await fetchSuccessStoryById(storyId);
-      setSuccessStory(data);
-    } catch (err) {
-      setError(err.message || "Failed to fetch success story");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchStory();
-  }, [storyId]);
-
   return (
     <>
       <HeroSection
@@ -44,7 +24,7 @@ const SuccessStory = () => {
         breadcrumbs={breadcrumbs}
       />
       {error ? (
-        <Error error={error} />
+        <Error error={error} onRetry={refresh} />
       ) : loading ? (
         <>
           <Loading title="Success Story Details" />
@@ -60,7 +40,7 @@ const SuccessStory = () => {
               />
             </div>
             <div className="w-full md:w-1/2 ">
-              <h2 className="text-3xl font-semibold text-green-900 mb-4 flex items-center">
+              <h2 className="detail-title mb-4 flex items-center">
                 {successStory.title}
               </h2>
               <p className="text-gray-700 text-md leading-relaxed">

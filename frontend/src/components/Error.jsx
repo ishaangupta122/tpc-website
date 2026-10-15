@@ -1,17 +1,33 @@
-import { AlertCircle } from "lucide-react";
+import { AlertTriangle, RotateCw } from "lucide-react";
+import StatePanel, { IconBadge } from "./StatePanel";
 
-const Error = ({ error = "Unexpected Error Occurerd" }) => {
-  return (
-    <>
-      <div className="flex justify-center items-center min-h-[200px] bg-red-100 border border-red-400 rounded-lg p-6">
-        <div className="flex flex-col items-center gap-4">
-          <AlertCircle className="w-8 h-8 text-red-900" />
-          <p className="text-red-800 font-medium">An Error Occurred...</p>
-          <p className="text-red-800 font-medium">{error}</p>
-        </div>
-      </div>
-    </>
-  );
-};
+// Shown when a request fails. `error` is the (already user-friendly) message;
+// `onRetry` adds a "Try again" button.
+const Error = ({
+  error = "We couldn't load this content. Please try again.",
+  onRetry,
+}) => (
+  <StatePanel
+    role="alert"
+    icon={
+      <IconBadge tone="danger">
+        <AlertTriangle className="h-6 w-6" />
+      </IconBadge>
+    }
+    title="Something went wrong"
+    message={error}
+    action={
+      onRetry && (
+        <button
+          type="button"
+          onClick={onRetry}
+          className="inline-flex items-center gap-2 rounded-lg bg-emerald-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2">
+          <RotateCw className="h-4 w-4" />
+          Try again
+        </button>
+      )
+    }
+  />
+);
 
 export default Error;

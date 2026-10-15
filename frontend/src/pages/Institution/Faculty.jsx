@@ -1,50 +1,32 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Search } from "lucide-react";
 import HeroSection from "../../components/HeroSection";
 import { Link } from "react-router-dom";
 import TruncateText from "../../components/TruncateText";
-import { fetchFaculty } from "../../context/FacultyContext";
+import { useFaculty } from "../../hooks/useResources";
 import Loading from "../../components/Loading";
 import NoDataFound from "../../components/NoDataFound";
 import Error from "../../components/Error";
 
 const Faculty = () => {
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { data: facultyList, loading, error, refresh } = useFaculty();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedDepartment, setSelectedDepartment] = useState("");
-  const [facultyList, setFacultyList] = useState([]);
 
   const breadcrumbs = [
     { label: "Home", href: "/" },
     { label: "Faculty", href: "/faculty" },
   ];
 
-  const fetchFacultyList = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await fetchFaculty();
-      setFacultyList(data);
-    } catch (err) {
-      setError(err.message || "Failed to fetch faculty");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchFacultyList();
-  }, []);
-
+  // `value` is what the admin stores in each faculty record (see the admin
+  // Faculty form), so the filter compares like with like.
   const departments = [
-    "All",
-    "Applied Science",
-    "Computer Science Engineering",
-    "Civil Engineering",
-    "Mechanical Engineering",
-    "Electrical Engineering",
-    "Architechural Assitantship",
+    { label: "Applied Science", value: "Applied Science" },
+    { label: "Architectural Assistantship", value: "Architectural" },
+    { label: "Civil Engineering", value: "Civil" },
+    { label: "Computer Science Engineering", value: "CSE" },
+    { label: "Mechanical Engineering", value: "Mechanical" },
+    { label: "Electrical Engineering", value: "Electrical" },
   ];
 
   const filteredFaculty = facultyList.filter((faculty) => {
@@ -53,27 +35,25 @@ const Faculty = () => {
       faculty.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
       faculty.department.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesDepartment =
-      !selectedDepartment ||
-      selectedDepartment === "All" ||
-      faculty.department === selectedDepartment;
+      !selectedDepartment || faculty.department === selectedDepartment;
     return matchesSearch && matchesDepartment;
   });
 
   return (
     <>
       <HeroSection
-        imageUrl="./rec_gate.jpg"
+        imageUrl="/rec_gate.jpg"
         title="Faculty"
         breadcrumbs={breadcrumbs}
       />
       <div className="flex items-center flex-col">
-        <section className="px-6 lg:px-16 py-20 max-w-7xl w-full">
+        <section className="site-container py-20">
           <div className="mb-6 space-y-6">
-            <h1 className="text-2xl font-semibold mb-4 uppercase text-green-900">
+            <h1 className="page-title mb-4">
               College <span className="text-black">Faculty</span>
             </h1>
             {error ? (
-              <Error error={error} />
+              <Error error={error} onRetry={refresh} />
             ) : loading ? (
               <Loading title="Faculty List" />
             ) : (
@@ -95,13 +75,11 @@ const Faculty = () => {
                     onChange={(e) => setSelectedDepartment(e.target.value)}
                     className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-800 bg-white">
                     <option value="">All Departments</option>
-                    {departments
-                      .filter((designation) => designation !== "All")
-                      .map((designation) => (
-                        <option key={designation} value={designation}>
-                          {designation}
-                        </option>
-                      ))}
+                    {departments.map(({ label, value }) => (
+                      <option key={value} value={value}>
+                        {label}
+                      </option>
+                    ))}
                   </select>
                 </div>
 
@@ -112,7 +90,7 @@ const Faculty = () => {
                   <>
                     {/* Faculty List */}
                     <div className="flex items-center justify-center w-full ">
-                      <div className="max-w-7xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 w-full gap-x-4 gap-y-6 justify-items-center ">
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 w-full gap-x-4 gap-y-6 justify-items-center ">
                         {filteredFaculty.map((faculty) => (
                           <div
                             key={faculty.id}
@@ -180,7 +158,9 @@ const Faculty = () => {
                                   Experience:
                                 </h3>
                                 <p className="text-gray-800 ">
-                                  {faculty.experience} Years
+                                  {faculty.experience == null
+                                    ? "N/A"
+                                    : `${faculty.experience} ${faculty.experience === 1 ? "Year" : "Years"}`}
                                 </p>
                               </div>
                             </div>

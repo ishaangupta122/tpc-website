@@ -14,27 +14,27 @@ const Carousel = () => {
 
   const [quickLinks] = useState([
     {
-      icon: <Trophy className="h-12 w-12" />,
+      icon: <Trophy className="h-8 w-8" />,
       title: "Achievements",
       href: "#achievements",
     },
     {
-      icon: <CalendarDays className="h-12 w-12" />,
+      icon: <CalendarDays className="h-8 w-8" />,
       title: "Events",
       href: "#events",
     },
     {
-      icon: <GraduationCapIcon className="h-12 w-12" />,
+      icon: <GraduationCapIcon className="h-8 w-8" />,
       title: "Placements",
       href: "#placements",
     },
     {
-      icon: <Images className="h-12 w-12" />,
+      icon: <Images className="h-8 w-8" />,
       title: "Gallery",
       href: "#gallery",
     },
     {
-      icon: <Quote className="h-12 w-12" />,
+      icon: <Quote className="h-8 w-8" />,
       title: "Testimonials",
       href: "#testimonials",
     },
@@ -59,8 +59,8 @@ const Carousel = () => {
   };
 
   return (
-    <div className="relative w-full h-[90vh] max-h-[600px] mb-10">
-      <div className="absolute inset-0 bg-gradient-to-b from-emerald-800/40 to-emerald-950/20 h-full z-10" />
+    <div className="relative w-full h-[90vh] max-h-[600px] mb-14">
+      <div className="absolute inset-0 bg-gradient-to-b from-black/25 to-emerald-950/10 h-full z-10" />
       <div className="relative w-full overflow-hidden h-full">
         <div
           className="flex transition-transform duration-500 ease-in-out h-full"
@@ -91,19 +91,27 @@ const Carousel = () => {
         </div>
       </div>
       <div className="absolute -bottom-10 z-20 md:flex hidden items-center justify-center w-full">
-        <div className="grid lg:grid-cols-5 md:grid-cols-2 max-w-5xl">
+        <div className="grid lg:grid-cols-5 md:grid-cols-2 max-w-4xl">
           {quickLinks.map((item, index) => (
             <a
               key={index}
               href={item.href}
+              onClick={(e) => {
+                const el = document.querySelector(item.href);
+                if (el) {
+                  e.preventDefault();
+                  el.scrollIntoView({ behavior: "smooth", block: "start" });
+                  window.history.replaceState(null, "", item.href);
+                }
+              }}
               style={{ animationDelay: `${index * 200}ms` }}
-              className={`flex items-center justify-center md:flex-row lg:flex-col gap-4 py-10 px-14 ${getCardStyle(
+              className={`flex items-center justify-center md:flex-row lg:flex-col gap-3 py-7 px-8 ${getCardStyle(
                 index
-              )} min-w-[200px] lg:min-w-[150px] transition-all duration-300 ease-in-out hover:shadow-lg  cursor-pointer ${
+              )} min-w-[180px] lg:min-w-[150px] transition-all duration-300 ease-in-out hover:shadow-lg  cursor-pointer ${
                 index + 1 === 5 && "hidden lg:flex"
               }`}>
               {item.icon}
-              <span className="font-light text-lg uppercase">{item.title}</span>
+              <span className="font-light text-sm tracking-wide uppercase">{item.title}</span>
             </a>
           ))}
         </div>

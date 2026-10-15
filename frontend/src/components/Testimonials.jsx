@@ -3,13 +3,12 @@ import { testimonials } from "../data/data";
 
 const Testimonials = () => {
   return (
-    <section id="testimonials" className="bg-[#FFFFFF] py-24 px-4">
-      <div className="max-w-[1400px] mx-auto">
+    <section id="testimonials" className="bg-[#FFFFFF] py-24">
+      <div className="site-container">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-semibold uppercase text-emerald-800 mb-4">
+          <h2 className="section-title with-rule text-center mb-6">
             Testimonials
           </h2>
-          <div className="w-28 h-1 bg-[#FDB714] mx-auto rounded-full"></div>
         </div>
 
         <div className="relative flex items-center">

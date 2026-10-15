@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Search } from "lucide-react";
 import HeroSection from "../../components/HeroSection";
-import { fetchMembers } from "../../context/MemberContext";
+import { useMembers } from "../../hooks/useResources";
 import Loading from "../../components/Loading";
 import NoDataFound from "../../components/NoDataFound";
 import Error from "../../components/Error";
@@ -9,31 +9,12 @@ import Error from "../../components/Error";
 const ManagingCommittee = () => {
   const [searchName, setSearchName] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [committeeMembers, setCommitteeMembers] = useState([]);
+  const { data: committeeMembers, loading, error, refresh } = useMembers();
 
   const breadcrumbs = [
     { label: "Home", href: "/" },
     { label: "Managing-Committee", href: "/managing-committee" },
   ];
-
-  const fetchCommitteeMembers = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await fetchMembers();
-      setCommitteeMembers(data);
-    } catch (err) {
-      setError(err.message || "Failed to fetch committee members");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchCommitteeMembers();
-  }, []);
 
   const filteredData = committeeMembers.filter((member) => {
     const nameMatch = member.name
@@ -57,19 +38,19 @@ const ManagingCommittee = () => {
   return (
     <>
       <HeroSection
-        imageUrl="./rec_gate.jpg"
+        imageUrl="/rec_gate.jpg"
         title="Management Committee"
         breadcrumbs={breadcrumbs}
       />
 
       <div className="flex justify-center items-center ">
-        <div className="px-6 lg:px-16 py-20 max-w-7xl w-full">
+        <div className="site-container py-20">
           <div className="mb-6 space-y-6">
-            <h1 className="text-2xl font-semibold mb-4 uppercase text-green-900">
+            <h1 className="page-title mb-4">
               Management <span className="text-black">Committee</span>
             </h1>
             {error ? (
-              <Error error={error} />
+              <Error error={error} onRetry={refresh} />
             ) : loading ? (
               <Loading title="Management Committee List" />
             ) : (

@@ -88,3 +88,43 @@
     transform: translateX(0);
   }
 }
+
+/* Hero: text and quick links fade up once, staggered via --hero-delay. */
+.hero-reveal {
+  opacity: 0;
+  animation: heroReveal 0.9s cubic-bezier(0.2, 0.7, 0.2, 1)
+    var(--hero-delay, 0s) forwards;
+}
+
+@keyframes heroReveal {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Home page sections reached from the hero quick links: leave room for the
+   sticky navbar so the section heading is not hidden underneath it. */
+#achievements,
+#events,
+#placements,
+#gallery,
+#testimonials {
+  scroll-margin-top: 6rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto;
+  }
+
+  .hero-reveal {
+    animation: none;
+    opacity: 1;
+  }
+}

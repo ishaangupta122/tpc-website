@@ -38,21 +38,9 @@ export const topbarLinks = [
 ];
 
 export const homePageCarousel = [
-  {
-    image: "./boys_hostel.jpg",
-    title: "Slide 1",
-    description: "Description for slide 1",
-  },
-  {
-    image: "./girls_hostel.jpg",
-    title: "Slide 2",
-    description: "Description for slide 2",
-  },
-  {
-    image: "./campus.webp",
-    title: "Slide 3",
-    description: "Description for slide 3",
-  },
+  { image: "/boys_hostel.jpg", title: "Slide 1" },
+  { image: "/girls_hostel.jpg", title: "Slide 2" },
+  { image: "/campus.webp", title: "Slide 3" },
 ];
 
 export const staticGalleryImages = [
@@ -81,7 +69,7 @@ export const testimonials = [
     id: 1,
     name: "Monika Gupta",
     role: "Programmer",
-    image: "./monika.jpg",
+    image: "/monika.jpg",
     quote:
       "I have been associated with TPC since 2008. To me, it has always been a pleasure to serve the institute.",
   },
@@ -89,7 +77,7 @@ export const testimonials = [
     id: 2,
     name: "Kunnal Thapa",
     role: "Alumni",
-    image: "./kunnal.jpg",
+    image: "/kunnal.jpg",
     quote:
       "My alma mater, there has been a much better improvement overall after the new building started operating.",
   },
@@ -97,7 +85,7 @@ export const testimonials = [
     id: 3,
     name: "Gurmehak Kaur",
     role: "Lecturer",
-    image: "./gurmehak.jpg",
+    image: "/gurmehak.jpg",
     quote:
       "We take extreme pleasure in getting associated with TPC. We anticipate your extended service for fulfilling our manpower requirements in a long run.",
   },
@@ -105,7 +93,7 @@ export const testimonials = [
     id: 4,
     name: "Arsheen Kaur",
     role: "Lecturer",
-    image: "./arsheen.jpg",
+    image: "/arsheen.jpg",
     quote:
       "The faculty support and resources available have been instrumental in my academic journey.",
   },
@@ -113,54 +101,23 @@ export const testimonials = [
     id: 5,
     name: "Deepak Batish",
     role: "Lecturer",
-    image: "./deepak.jpg",
+    image: "/deepak.jpg",
     quote:
       "The collaborative environment and state-of-the-art facilities make this institution truly special.",
   },
 ];
 
 export const companies = [
-  { id: 1, name: "Accenture", logo: "./accenture.jpg" },
-  { id: 2, name: "Godrej", logo: "./godrej.jpg" },
-  { id: 3, name: "Wipro", logo: "./wipro.jpg" },
-  { id: 4, name: "Larsen & Toubro", logo: "./larsen.jpg" },
-  { id: 5, name: "Schlumberger", logo: "./schlumberger.jpg" },
-  { id: 6, name: "Owens", logo: "./owens.jpeg" },
-  { id: 7, name: "United Spirits", logo: "./United_Spirits.jpg" },
-  { id: 8, name: "Bhushan Steel", logo: "./Bhushan_Steel.jpg" },
+  { id: 1, name: "Accenture", logo: "/accenture.jpg" },
+  { id: 2, name: "Godrej", logo: "/godrej.jpg" },
+  { id: 3, name: "Wipro", logo: "/wipro.jpg" },
+  { id: 4, name: "Larsen & Toubro", logo: "/larsen.jpg" },
+  { id: 5, name: "Schlumberger", logo: "/schlumberger.jpg" },
+  { id: 6, name: "Owens", logo: "/owens.jpeg" },
+  { id: 7, name: "United Spirits", logo: "/United_Spirits.jpg" },
+  { id: 8, name: "Bhushan Steel", logo: "/Bhushan_Steel.jpg" },
 ];
 
-export const faqs = [
-  {
-    id: 1,
-    question: "What programs does the college offer?",
-    answer:
-      "We offer a variety of undergraduate and postgraduate programs in engineering, sciences, and humanities.",
-  },
-  {
-    id: 2,
-    question: "How can I apply for admission?",
-    answer:
-      "You can apply online through our official website or visit the admissions office.",
-  },
-  {
-    id: 3,
-    question: "Does the college provide hostel facilities?",
-    answer:
-      "Yes, we offer hostel facilities for both boys and girls with modern amenities.",
-  },
-  {
-    id: 4,
-    question: "What are the campus facilities?",
-    answer:
-      "We offer state-of-the-art laboratories, library, sports complex, and modern hostel facilities.",
-  },
-  {
-    id: 5,
-    question: "Whom to contact for admission related queries?",
-    answer: "75088-55997, 90563-40134 OR tpcadmissions@thapar.edu",
-  },
-];
 
 export const courses = [
   {
@@ -193,53 +150,36 @@ export const courses = [
 export const HostelData = {
   boys: [
     {
-      title: "Block A - Pearl House",
-      description:
-        "Boys hostel has 40 rooms. It is located within the campus with lush green lawns. Hostel fee is ₹25,450 per annum (room rent) + ₹5,000 (refundable security). 24-hour security is provided with guards on rotation duty.",
-      capacity:
-        "The hostel accommodates 120 students in three-seated rooms, totaling 40 rooms.",
-      facilities: [
-        "Color TV and Newspaper",
-        "Table Tennis Room",
-        "RO Water Purifier and Water Cooler",
-        "Geysers in bathrooms for hot water",
-        "Playground",
-        "24/7 Water and Electricity supply",
+      title: "Boys Hostel",
+      description: [
+        "The boys' hostel of Thapar Polytechnic College stands inside the campus, surrounded by green lawns, and is a short walk from the classrooms, labs and library.",
+        "Students stay in shared rooms in a calm setting that suits both study and rest. Guards are on duty round the clock, so parents can be assured of their ward's safety.",
       ],
-      image: "./boys_hostel.jpg",
+      facilities: [
+        "24-hour security",
+        "RO drinking water",
+        "Hot water in bathrooms",
+        "Playground",
+      ],
+      image: "/boys_hostel.jpg",
     },
   ],
   girls: [
     {
-      title: "Block B - Sapphire House",
-      description:
-        "Girls hostel has 10 rooms. It is located within the campus with lush green lawns. Hostel fee is ₹25,450 per annum (room rent) + ₹5,000 (refundable security). 24-hour security is provided with guards on rotation duty.",
-      capacity:
-        "The hostel accommodates 30 students in three-seated rooms, totaling 10 rooms.",
-      facilities: [
-        "Color TV and Newspaper",
-        "Fully Automatic Washing Machine",
-        "165 L Capacity Fridge",
-        "RO Water Purifier and Water Cooler",
-        "Geysers in bathrooms for hot water",
-        "Power Backup (Generator)",
-        "24/7 Water and Electricity supply",
+      title: "Girls Hostel",
+      description: [
+        "The girls' hostel of Thapar Polytechnic College is located inside the campus among green lawns, close to the academic blocks.",
+        "The hostel offers a safe and comfortable home away from home, with guards on duty round the clock and a peaceful environment for students to focus on their studies.",
       ],
-      image: "./girls_hostel.jpg",
+      facilities: [
+        "24-hour security",
+        "RO drinking water",
+        "Hot water in bathrooms",
+        "Power backup",
+      ],
+      image: "/girls_hostel.jpg",
     },
   ],
-};
-
-export const staticLibrarian = {
-  _id: null,
-  name: "Unknown Librarian",
-  designation: "Assistant Librarian",
-  email: "unknown@mail.com",
-  phone: "XXXXX-XXXXX",
-  joinedDate: "0000-00-00",
-  experience: "0",
-  image: "/default_user_img.jpeg",
-  department: "Library",
 };
 
 export const policyContent = [
@@ -338,7 +278,7 @@ export const principalKeyHighlights = [
     id: 2,
     title: "Academic Excellence",
     points: [
-      "Offering Diploma in seven branches of Engineering since 1956",
+      "Offering Offering Diploma in seven branches of Engineering since 1956",
       "Co-located with renowned Thapar University in a lush green campus",
     ],
   },
@@ -360,14 +300,24 @@ export const principalKeyHighlights = [
   },
 ];
 
+// College contact details: the one place to edit. Used by the footer, the top
+// bar and the Contact page. `tel` is the dialable form, `display` what is shown.
+export const collegeContact = {
+  name: "Thapar Polytechnic College",
+  addressLines: [
+    "Thapar Technology Campus, Bhadson Road,",
+    "Patiala, Punjab - 147001, India",
+  ],
+  phones: [
+    { display: "75088-55997", tel: "+917508855997" },
+    { display: "90563-40134", tel: "+919056340134" },
+  ],
+  email: "tpcadmissions@thapar.edu",
+  hours: "Monday – Friday: 9:00 AM – 5:00 PM",
+};
+
+// Only the photo and name are shown (Principal page and home page card).
 export const principalContactInfo = {
   image: "/principal.jpeg",
   name: "Dr. Ankush Kansal",
-  mail: "principaltpc@thapar.edu",
-  phone: "91 XXXXX-XXXXX",
-  timmings: "9:00 AM - 5:00 PM",
-  linkedinURL: "",
-  instagramURL: "",
-  twitterURL: "",
-  facebookURL: "",
 };

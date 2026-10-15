@@ -1,33 +1,40 @@
-import ContactPage from "../pages/OtherPages/Contact";
-import EventPage from "../pages/OtherPages/EventPage";
-import AchievementPage from "../pages/OtherPages/AchievementPage";
-import Faculty from "../pages/Institution/Faculty";
-import ManagingCommittee from "../pages/Institution/MngCommittee";
-import CollegePoliciesPage from "../pages/Academics/Admission";
-import PrincipalProfile from "../pages/Institution/Principal";
-import AdminStaff from "../pages/Institution/AdminStaff";
-import HostelPage from "../pages/Academics/Hostel";
-import LibraryPage from "../pages/Academics/Library";
-import PlacementsTracker from "../pages/Academics/Placements";
-import AICTE_Courses from "../pages/Academics/AICTE_Courses";
-import GallerySection from "../pages/Institution/Gallery";
-import CollgeMagazines from "../pages/OtherPages/Magazines";
-import FormsDownload from "../pages/OtherPages/FormsDownload";
-import MentorsList from "../pages/OtherPages/MentorsList";
-import MandatoryDisclosure from "../pages/OtherPages/MandatoryDisclosure";
-import TPCNewsletter from "../pages/OtherPages/TPCNewsletter";
-import EOA from "../pages/OtherPages/EOA";
-import SafeWorkingEnv from "../pages/OtherPages/SafeWorkingEnv";
-import MechanicalDepartment from "../pages/Departments/Mechanical";
-import CSEDepartment from "../pages/Departments/CSE";
-import ArchitecturalDepartment from "../pages/Departments/Architectural";
-import CivilDepartment from "../pages/Departments/Civil";
-import ElectricalDepartment from "../pages/Departments/Electrical";
-import AppliedScienceDepartment from "../pages/Departments/AppliedScience";
-import HomePage from "../pages/Home/HomePage";
-import AboutPage from "../pages/Institution/About";
-import SuccessStory from "../pages/OtherPages/SuccessStory";
-import FacultyProfile from "../pages/OtherPages/FacultyProfile";
+import { lazy } from "react";
+
+// Pages are code-split: each one is downloaded the first time it is visited.
+const ContactPage = lazy(() => import("../pages/OtherPages/Contact"));
+const EventPage = lazy(() => import("../pages/OtherPages/EventPage"));
+const AchievementPage = lazy(() => import("../pages/OtherPages/AchievementPage"));
+const Faculty = lazy(() => import("../pages/Institution/Faculty"));
+const ManagingCommittee = lazy(() => import("../pages/Institution/MngCommittee"));
+const CollegePoliciesPage = lazy(() => import("../pages/Academics/Admission"));
+const PrincipalProfile = lazy(() => import("../pages/Institution/Principal"));
+const AdminStaff = lazy(() => import("../pages/Institution/AdminStaff"));
+const HostelPage = lazy(() => import("../pages/Academics/Hostel"));
+const LibraryPage = lazy(() => import("../pages/Academics/Library"));
+const PlacementsTracker = lazy(() => import("../pages/Academics/Placements"));
+const AICTE_Courses = lazy(() => import("../pages/Academics/AICTE_Courses"));
+const GallerySection = lazy(() => import("../pages/Institution/Gallery"));
+const CollgeMagazines = lazy(() => import("../pages/OtherPages/Magazines"));
+const FormsDownload = lazy(() => import("../pages/OtherPages/FormsDownload"));
+const MentorsList = lazy(() => import("../pages/OtherPages/MentorsList"));
+const MandatoryDisclosure = lazy(() => import("../pages/OtherPages/MandatoryDisclosure"));
+const TPCNewsletter = lazy(() => import("../pages/OtherPages/TPCNewsletter"));
+const EOA = lazy(() => import("../pages/OtherPages/EOA"));
+const SafeWorkingEnv = lazy(() => import("../pages/OtherPages/SafeWorkingEnv"));
+const MechanicalDepartment = lazy(() => import("../pages/Departments/Mechanical"));
+const CSEDepartment = lazy(() => import("../pages/Departments/CSE"));
+const ArchitecturalDepartment = lazy(() => import("../pages/Departments/Architectural"));
+const CivilDepartment = lazy(() => import("../pages/Departments/Civil"));
+const ElectricalDepartment = lazy(() => import("../pages/Departments/Electrical"));
+const AppliedScienceDepartment = lazy(() => import("../pages/Departments/AppliedScience"));
+const HomePage = lazy(() => import("../pages/Home/HomePage"));
+const AboutPage = lazy(() => import("../pages/Institution/About"));
+const SuccessStory = lazy(() => import("../pages/OtherPages/SuccessStory"));
+const FacultyProfile = lazy(() => import("../pages/OtherPages/FacultyProfile"));
+// Development-only: not even bundled into production builds.
+const StatesPreview = import.meta.env.DEV
+  ? lazy(() => import("../pages/Dev/StatesPreview"))
+  : null;
 
 const departments = [
   { path: "/mechanical", component: <MechanicalDepartment /> },
@@ -70,4 +77,8 @@ export const routes = [
   { path: "/events/:eventId", element: <EventPage /> },
   { path: "/achievements/:achievementId", element: <AchievementPage /> },
   ...departmentRoutes, // Merge Department-Specific Routes Dynamically
+  // Development-only gallery of the loading / error / empty states.
+  ...(import.meta.env.DEV
+    ? [{ path: "/states-preview", element: <StatesPreview /> }]
+    : []),
 ];

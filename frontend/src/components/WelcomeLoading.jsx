@@ -1,3 +1,5 @@
+// Splash screen. Not used by the app at the moment (see App.jsx); kept so it
+// can be switched back on.
 const WelcomeLoading = () => {
   return (
     <div className="flex flex-col items-center gap-4 justify-center h-screen p-4">

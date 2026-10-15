@@ -1,5 +1,25 @@
 import HeroSection from "../../components/HeroSection";
 
+// Quick facts, all taken from the introduction text.
+const facts = [
+  ["Established", "1956, by Late Lala Karam Chand Thapar"],
+  ["Campus", "Thapar Technology Campus, Patiala"],
+  [
+    "Affiliation",
+    "Punjab State Board of Technical Education and Industrial Training, Chandigarh",
+  ],
+  ["Programmes", "3-year diplomas in 5 branches"],
+  ["Annual intake", "360 students"],
+  ["Recognition", "Best Polytechnic in the Northern Region (1999-2000, 2005-06)"],
+];
+
+const mission = [
+  "Advance the cause of technical education through innovative teaching and learning methodologies.",
+  "Produce globally competent engineers with entrepreneurial skills and strong ethical values.",
+  "Promote rural development and community service through skill development programs and training initiatives.",
+  "Collaborate with industry partners to address contemporary technical challenges and societal needs.",
+];
+
 const AboutPage = () => {
   const breadcrumbs = [
     { label: "Home", href: "/" },
@@ -9,82 +29,93 @@ const AboutPage = () => {
   return (
     <>
       <HeroSection
-        imageUrl={"./girls_hostel.jpg"}
+        imageUrl={"/girls_hostel.jpg"}
         title={"About Us"}
         breadcrumbs={breadcrumbs}
       />
-      <div className="flex justify-center">
-        <div className="max-w-6xl py-10 px-6">
-          {/* About Us */}
-          <div className="w-full px-4 md:px-16 mx-auto text-center my-10">
-            <h1 className="text-4xl font-semibold text-green-900 mb-4 uppercase">
-              About Us
+      <div className="bg-white">
+        <div className="site-container py-10 md:py-14 flex flex-col gap-10 md:gap-14">
+          {/* Introduction */}
+          <section>
+            <h1 className="page-title mb-6">
+              About <span className="text-black">Us</span>
             </h1>
-            <div className="h-1 bg-[#DFB714] rounded-lg mb-6 w-28 mx-auto"></div>
-            <p className="text-gray-600 text-md leading-relaxed">
+            <p className="text-lg text-gray-900 leading-8 max-w-4xl mb-8">
               Established in 1956 by the visionary Late Lala Karam Chand Thapar,
               Thapar Polytechnic College (TPC) has a rich legacy of excellence
-              in technical education. As part of the Thapar Technology Campus,
-              alongside the Thapar Institute of Engineering and Technology and
-              the Thapar Centre for Industrial Research & Development, TPC has
-              played a pivotal role in shaping future technocrats. With
-              affiliations to the Punjab State Board of Technical Education and
-              Industrial Training, Chandigarh, and support as a privately
-              managed, government-aided institution, TPC offers 3-year diploma
-              programs in Civil Engineering, Electrical Engineering, Mechanical
-              Engineering, Computer Engineering, and Architectural
-              Assistantship. Boasting an annual intake of 360 students, TPC has
-              been recognized as the Best Polytechnic in the Northern Region
-              twice, in 1999-2000 and 2005-06, underscoring its commitment to
-              quality education and innovation.
+              in technical education.
             </p>
-          </div>
-          <div className="flex flex-wrap lg:flex-nowrap justify-between items-start gap-6 py-10">
-            {/* Image */}
-            <div className="w-full lg:w-1/2 bg-green-400 rounded-2xl h-[70vh] max-h-[400px] overflow-hidden">
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
+              <div className="lg:col-span-7 space-y-4 text-gray-700 leading-7">
+                <p>
+                  As part of the Thapar Technology Campus, alongside the Thapar
+                  Institute of Engineering and Technology and the Thapar Centre
+                  for Industrial Research &amp; Development, TPC has played a
+                  pivotal role in shaping future technocrats. With affiliations
+                  to the Punjab State Board of Technical Education and
+                  Industrial Training, Chandigarh, and support as a privately
+                  managed, government-aided institution, TPC offers 3-year
+                  diploma programs in Civil Engineering, Electrical Engineering,
+                  Mechanical Engineering, Computer Engineering, and
+                  Architectural Assistantship.
+                </p>
+                <p>
+                  Boasting an annual intake of 360 students, TPC has been
+                  recognized as the Best Polytechnic in the Northern Region
+                  twice, in 1999-2000 and 2005-06, underscoring its commitment
+                  to quality education and innovation.
+                </p>
+              </div>
+
+              <aside className="lg:col-span-5" aria-label="Quick facts">
+                <dl>
+                  {facts.map(([label, value]) => (
+                    <div
+                      key={label}
+                      className="flex items-start gap-6 py-3 border-b border-gray-200 first:pt-0 last:border-b-0 text-sm">
+                      <dt className="w-32 shrink-0 font-semibold text-gray-900">
+                        {label}
+                      </dt>
+                      <dd className="text-gray-700">{value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </aside>
+            </div>
+          </section>
+
+          {/* Mission and vision */}
+          <section className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-stretch">
+            <div className="rounded-lg overflow-hidden min-h-[320px]">
               <img
-                src="./rec_gate.jpg"
+                src="/rec_gate.jpg"
                 alt="Thapar Polytechnic College Entrance"
                 className="w-full h-full object-cover object-center"
+                loading="lazy"
               />
             </div>
-            {/* Mission and Vision Section */}
-            <div className="w-full lg:w-1/2 mx-auto">
-              <div className="bg-green-50 shadow-lg rounded-lg p-4">
-                <h2 className="text-2xl font-semibold text-green-900 mb-2">
-                  Our Mission
-                </h2>
-                <div className="border-b-2 border-[#DFB714] mb-4 w-24"></div>
-                <ul className="list-disc text-gray-600 mb-4 text-sm space-y-2">
-                  <li className="ml-2">
-                    Advance the cause of technical education through innovative
-                    teaching and learning methodologies.
-                  </li>
-                  <li className="ml-2">
-                    Produce globally competent engineers with entrepreneurial
-                    skills and strong ethical values.
-                  </li>
-                  <li className="ml-2">
-                    Promote rural development and community service through
-                    skill development programs and training initiatives.
-                  </li>
-                  <li className="ml-2">
-                    Collaborate with industry partners to address contemporary
-                    technical challenges and societal needs.
-                  </li>
+
+            <div className="flex flex-col justify-center gap-10">
+              <div className="border-l-4 border-emerald-800 pl-6">
+                <h2 className="section-title mb-4">Our Mission</h2>
+                <ul className="list-disc ml-5 space-y-3 text-gray-700 leading-7 marker:text-emerald-800">
+                  {mission.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
                 </ul>
-                <h2 className="text-2xl font-semibold text-green-900 mb-2">
-                  Our Vision
-                </h2>
-                <div className="border-b-2 border-[#DFB714] mb-4 w-24"></div>
-                <p className="text-gray-600 text-sm leading-relaxed">
+              </div>
+
+              <div className="border-l-4 border-[#FDB714] pl-6">
+                <h2 className="section-title mb-4">Our Vision</h2>
+                <p className="text-gray-700 leading-7">
                   To be a globally recognized leader in technical education,
                   fostering innovation, skill development, and societal progress
                   to meet the aspirations of future generations.
                 </p>
               </div>
             </div>
-          </div>
+          </section>
         </div>
       </div>
     </>

@@ -1,15 +1,12 @@
 import HeroSection from "../../components/HeroSection";
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { fetchAchievementsById } from "../../context/AchievementsContext";
+import { useAchievement } from "../../hooks/useResources";
 import Loading from "../../components/Loading";
 import Error from "../../components/Error";
 
 const AchievementPage = () => {
   const { achievementId } = useParams();
-  const [achievement, setAchievement] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { data: achievement, loading, error, refresh } = useAchievement(achievementId);
 
   const breadcrumbs = [
     { label: "Home", href: "/" },
@@ -18,27 +15,6 @@ const AchievementPage = () => {
       href: `/achievements/${achievementId}`,
     },
   ];
-
-  const fetchAchievement = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await fetchAchievementsById(achievementId);
-      setAchievement(data);
-    } catch (err) {
-      setError(err.message || "Failed to fetch achievement");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchAchievement();
-  }, [achievementId]);
-
-  if (loading) {
-    return;
-  }
 
   return (
     <>
@@ -49,7 +25,7 @@ const AchievementPage = () => {
       />
 
       {error ? (
-        <Error error={error} />
+        <Error error={error} onRetry={refresh} />
       ) : loading ? (
         <>
           <Loading title="Achievement Details" />
@@ -60,7 +36,7 @@ const AchievementPage = () => {
             <p className="text-gray-600 mb-2 tracking-wide uppercase text-sm font-medium">
               {achievement.category}
             </p>
-            <h1 className="text-3xl font-medium text-gray-900 mb-6">
+            <h1 className="detail-title mb-6">
               {achievement.title}
             </h1>
           </div>

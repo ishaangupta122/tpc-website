@@ -6,7 +6,6 @@ import PrincipalCard from '../../components/PrincipalCard';
 import StaticData from '../../components/StaticData';
 import Testimonials from '../../components/Testimonials';
 import AchievementsCarousel from '../../components/Achievements';
-import PlacementsData from '../../components/PlacementData';
 
 const HomePage = () => {
 	return (
@@ -16,7 +15,6 @@ const HomePage = () => {
 			<PrincipalCard />
 			<StaticData />
 			<EventsSection />
-			<PlacementsData />
 			<GallerySection />
 			<PlacementCarousel />
 			<Testimonials />

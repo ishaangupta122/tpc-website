@@ -1,37 +1,17 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
 import HeroSection from "../../components/HeroSection";
-import { fetchEventById } from "../../context/EventsContext";
+import { useEvent } from "../../hooks/useResources";
 import Loading from "../../components/Loading";
 import Error from "../../components/Error";
 
 const EventPage = () => {
   const { eventId } = useParams();
-  const [event, setEvent] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { data: event, loading, error, refresh } = useEvent(eventId);
 
   const breadcrumbs = [
     { label: "Home", href: "/" },
     { label: event?.title || "Event Details", href: `/events/${eventId}` },
   ];
-
-  const fetchEvent = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await fetchEventById(eventId);
-      setEvent(data);
-    } catch (err) {
-      setError(err.message || "Failed to fetch event");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchEvent();
-  }, [eventId]);
 
   return (
     <>
@@ -42,7 +22,7 @@ const EventPage = () => {
       />
 
       {error ? (
-        <Error error={error} />
+        <Error error={error} onRetry={refresh} />
       ) : loading ? (
         <>
           <Loading title="Event Details" />
@@ -53,7 +33,7 @@ const EventPage = () => {
             <p className="text-gray-600 mb-2 tracking-wide uppercase text-sm font-medium">
               {event.date}
             </p>
-            <h1 className="text-3xl font-medium text-gray-900 mb-6">
+            <h1 className="detail-title mb-6">
               {event.title}
             </h1>
           </div>

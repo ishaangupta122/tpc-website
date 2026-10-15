@@ -10,14 +10,14 @@ const AICTE_Courses = () => {
   return (
     <>
       <HeroSection
-        imageUrl="./rec_gate.jpg"
+        imageUrl="/rec_gate.jpg"
         title="AICTE Approved Courses & Intake"
         breadcrumbs={breadcrumbs}
       />
       <div className="flex justify-center items-center ">
-        <div className="p-6 px-4 sm:px-14 py-20 max-w-7xl w-full">
+        <div className="site-container py-20">
           <div className="mb-6 space-y-6">
-            <h1 className="text-2xl font-semibold uppercase text-green-900">
+            <h1 className="page-title">
               AICTE{" "}
               <span className="text-black">Approved Courses & Intake</span>
             </h1>

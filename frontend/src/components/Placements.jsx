@@ -31,17 +31,16 @@ const PlacementCarousel = () => {
         slider.style.animation = "none";
       }
     };
-  }, [companies.length, isHovered]);
+  }, [isHovered]);
 
   return (
     <div id="placements" className="">
       <div className="w-full bg-[#e5f7f8] py-24 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 ">
+        <div className="site-container">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-semibold text-emerald-900 mb-4 uppercase">
+            <h2 className="section-title with-rule text-center">
               Recruiting <span className="text-black">Partners</span>
             </h2>
-            <div className="w-28 h-1 bg-black mx-auto rounded-lg" />
           </div>
 
           <div

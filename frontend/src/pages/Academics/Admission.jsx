@@ -27,35 +27,35 @@ const CollegePoliciesPage = () => {
     }));
   };
 
+  const allOpen = policies.every((policy) => openSections[policy.id]);
+  const toggleAll = () =>
+    setOpenSections(
+      Object.fromEntries(policies.map((policy) => [policy.id, !allOpen]))
+    );
+
+  const pointList = (points) => (
+    <ul className="list-disc pl-5 space-y-2 marker:text-emerald-800">
+      {points.map((point, index) => (
+        <li key={index}>{point}</li>
+      ))}
+    </ul>
+  );
+
   const renderContent = (content) => {
     if (!content) return null;
 
     return (
-      <div className="space-y-4 text-gray-700">
-        {content.heading && (
-          <h3 className="font-semibold">{content.heading}</h3>
-        )}
-
-        {content.sections ? (
-          <div className="space-y-4">
-            {content.sections.map((section, index) => (
+      <div className="space-y-5 text-gray-700 leading-7">
+        {content.sections
+          ? content.sections.map((section, index) => (
               <div key={index}>
-                <h4 className="font-semibold mb-2">{section.subheading}</h4>
-                <ul className="list-disc pl-5 space-y-2">
-                  {section.points.map((point, pointIndex) => (
-                    <li key={pointIndex}>{point}</li>
-                  ))}
-                </ul>
+                <h3 className="font-semibold text-gray-900 mb-2">
+                  {section.subheading}
+                </h3>
+                {pointList(section.points)}
               </div>
-            ))}
-          </div>
-        ) : (
-          <ul className="list-disc pl-5 space-y-2">
-            {content.points.map((point, index) => (
-              <li key={index}>{point}</li>
-            ))}
-          </ul>
-        )}
+            ))
+          : pointList(content.points)}
       </div>
     );
   };
@@ -63,45 +63,57 @@ const CollegePoliciesPage = () => {
   return (
     <>
       <HeroSection
-        imageUrl="./rec_gate.jpg"
+        imageUrl="/rec_gate.jpg"
         title="College Policies"
         breadcrumbs={breadcrumbs}
       />
 
-      <div className="min-h-screen bg-gray-50 py-20 px-4 lg:px-8">
+      <div className="bg-white py-14 md:py-20 px-4">
         <div className="max-w-4xl mx-auto">
-          <div className="mb-12">
-            <h1 className="text-3xl text-center font-semibold mb-4 uppercase text-emerald-900">
-              College <span className="text-black">Guidlines & Policies</span>
+          <div className="mb-10">
+            <h1 className="page-title text-center">
+              College <span className="text-black">Guidelines & Policies</span>
             </h1>
-            <div className="w-28 h-1 bg-[#FDB714] rounded-full mx-auto"></div>
+          </div>
+
+          <div className="flex justify-end mb-3">
+            <button
+              type="button"
+              onClick={toggleAll}
+              className="text-sm font-medium text-emerald-900 hover:underline focus-visible:underline focus-visible:outline-none">
+              {allOpen ? "Collapse all" : "Expand all"}
+            </button>
           </div>
 
           {policies.map((policy) => {
             const content = policyContent.find((p) => p.id === policy.id);
+            const open = !!openSections[policy.id];
 
             return (
-              <div key={policy.id} className="mb-4 border rounded-lg shadow-sm">
+              <div
+                key={policy.id}
+                className="mb-4 border border-gray-200 rounded-lg shadow-sm overflow-hidden">
                 <button
-                  className={`w-full px-6 py-4 text-left flex justify-between items-center ${
-                    openSections[policy.id]
+                  type="button"
+                  id={`policy-btn-${policy.id}`}
+                  aria-expanded={open}
+                  aria-controls={`policy-panel-${policy.id}`}
+                  className={`w-full px-6 py-4 text-left flex justify-between items-center gap-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#FDB714] ${
+                    open
                       ? "bg-gradient-to-b from-emerald-800 to-emerald-950"
-                      : "bg-white"
-                  } hover:bg-green-100 transition-colors rounded-t-lg`}
+                      : "bg-white hover:bg-green-100"
+                  }`}
                   onClick={() => toggleSection(policy.id)}>
                   <h2
-                    className={`text-xl font-semibold ${
-                      openSections[policy.id]
-                        ? "text-white"
-                        : "text-emerald-900"
+                    className={`text-lg md:text-xl font-semibold ${
+                      open ? "text-white" : "text-emerald-900"
                     }`}>
                     {policy.title}
                   </h2>
                   <svg
-                    className={`w-6 h-6 transform transition-transform ${
-                      openSections[policy.id]
-                        ? "text-white rotate-180"
-                        : "text-emerald-900"
+                    aria-hidden="true"
+                    className={`w-6 h-6 shrink-0 transform transition-transform ${
+                      open ? "text-white rotate-180" : "text-emerald-900"
                     }`}
                     fill="none"
                     stroke="currentColor"
@@ -114,8 +126,12 @@ const CollegePoliciesPage = () => {
                     />
                   </svg>
                 </button>
-                {openSections[policy.id] && (
-                  <div className="px-6 py-4 bg-white rounded-b-lg">
+                {open && (
+                  <div
+                    id={`policy-panel-${policy.id}`}
+                    role="region"
+                    aria-labelledby={`policy-btn-${policy.id}`}
+                    className="px-6 py-5 bg-white">
                     {renderContent(content)}
                   </div>
                 )}

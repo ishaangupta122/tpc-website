@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 import { Smartphone } from "lucide-react";
-import { topbarLinks } from "../data/data";
+import { collegeContact, topbarLinks } from "../data/data";
 
 const Topbar = () => {
   return (
     <div className="hidden lg:block bg-gradient-to-b from-emerald-800 to-emerald-950 border-b">
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="site-container">
         <div className="flex items-center justify-between h-14">
           <div className="flex items-center lg:space-x-3 xl:space-x-4 text-xs xl:uppercase lg:tracking-tighter xl:tracking-wide">
             {/* Hardcoded Admission Enquiry */}
@@ -16,7 +16,7 @@ const Topbar = () => {
                 <Smartphone className="h-4" />
                 Admission Enquiry :
               </span>
-              <span>+91 75088-55997</span>
+              <span>+91 {collegeContact.phones[0].display}</span>
             </Link>
 
             {/* Dynamic Links */}

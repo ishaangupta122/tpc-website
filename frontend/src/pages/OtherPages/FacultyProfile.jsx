@@ -1,14 +1,13 @@
-import { useEffect, useState } from "react";
 import HeroSection from "../../components/HeroSection";
 import { Link, useParams } from "react-router-dom";
-import { fetchFacultyById } from "../../context/FacultyContext";
+import { useFacultyMember } from "../../hooks/useResources";
 import Loading from "../../components/Loading";
+import Error from "../../components/Error";
 
 const FacultyProfile = () => {
   const { facultyId } = useParams();
-  const [loading, setLoading] = useState(true);
-
-  const [faculty, setFaculty] = useState({});
+  const { data, loading, error, refresh } = useFacultyMember(facultyId);
+  const faculty = data || {};
 
   const breadcrumbs = [
     { label: "Home", href: "/" },
@@ -19,22 +18,13 @@ const FacultyProfile = () => {
     },
   ];
 
-  const fetchFacultyProfile = async () => {
-    setLoading(true);
-    const data = await fetchFacultyById(facultyId);
-    console.log(data);
-
-    setFaculty(data);
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    fetchFacultyProfile();
-  }, [facultyId]);
-
   if (loading) {
     return <Loading title="Faculty Profile" />;
   }
+
+  const education = Array.isArray(faculty?.education)
+    ? faculty.education.filter((e) => typeof e === "string" && e.trim() !== "")
+    : [];
 
   return (
     <>
@@ -44,10 +34,13 @@ const FacultyProfile = () => {
         breadcrumbs={breadcrumbs}
       />
 
-      <div className="flex items-center w-full flex-col px-4 md:px-16">
-        <section className="py-16 max-w-7xl w-full md:w-fit">
+      {error ? (
+        <Error error={error} onRetry={refresh} />
+      ) : (
+      <div className="site-container flex items-center flex-col">
+        <section className="py-16 w-full md:w-fit">
           <div className="mb-6 text-center md:text-left">
-            <h1 className="text-2xl font-semibold uppercase text-green-900 ">
+            <h1 className="page-title">
               Faculty <span className="text-black">Details</span>
             </h1>
           </div>
@@ -88,7 +81,9 @@ const FacultyProfile = () => {
                     ["Joined Date", faculty.joinedDate || "Not Provided"],
                     [
                       "Experience",
-                      faculty.experience + " years" || "Not Provided",
+                      faculty.experience == null
+                        ? "Not Provided"
+                        : `${faculty.experience} ${faculty.experience === 1 ? "year" : "years"}`,
                     ],
                   ].map(([label, value]) => (
                     <tr
@@ -108,11 +103,10 @@ const FacultyProfile = () => {
                     </td>
                     <td className="py-2 text-gray-800 font-normal">
                       <ul className="list-disc list-inside space-y-2">
-                        {faculty.education === 0 ||
-                        faculty.education.every((e) => e.trim() === "") ? (
+                        {education.length === 0 ? (
                           <p>Not Provided</p>
                         ) : (
-                          faculty.education.map((edu, index) => (
+                          education.map((edu, index) => (
                             <li key={index}>{edu}</li>
                           ))
                         )}
@@ -125,6 +119,7 @@ const FacultyProfile = () => {
           </div>
         </section>
       </div>
+      )}
     </>
   );
 };

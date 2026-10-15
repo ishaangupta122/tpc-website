@@ -1,117 +1,91 @@
-import { useState, useEffect, useRef } from "react";
-import { ChevronUp, ChevronDown } from "lucide-react";
+import { useRef } from "react";
+import { ChevronUp, ChevronDown, MoveRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import TruncateText from "./TruncateText";
-import { fetchSuccessStories } from "../context/SuccessStoriesContext";
+import { useSuccessStories } from "../hooks/useResources";
+import HomePanel from "./HomePanel";
 import Loading from "./Loading";
 import NoDataFound from "./NoDataFound";
 import Error from "./Error";
 
-const SuccessStoriesCarousel = () => {
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [successStories, setSuccessStories] = useState([]);
+const navButtonClass =
+  "p-2 rounded-full bg-gradient-to-b from-emerald-800 to-emerald-950 text-white hover:from-emerald-800/95 hover:to-emerald-950/95 transition-colors";
 
-  const fetchStories = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await fetchSuccessStories();
-      setSuccessStories(data);
-    } catch (err) {
-      setError(err.message || "Failed to fetch success stories");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchStories();
-  }, []);
-
+const SuccessStoriesCarousel = ({ className = "" }) => {
+  const { data: successStories, loading, error, refresh } = useSuccessStories();
   const containerRef = useRef(null);
 
-  const handleScrollUp = () => {
-    if (containerRef.current) {
-      containerRef.current.scrollBy({ top: -150, behavior: "smooth" });
-    }
-  };
+  const scrollBy = (top) =>
+    containerRef.current?.scrollBy({ top, behavior: "smooth" });
 
-  const handleScrollDown = () => {
-    if (containerRef.current) {
-      containerRef.current.scrollBy({ top: 150, behavior: "smooth" });
-    }
-  };
+  const controls = (
+    <div className="flex gap-2">
+      <button
+        onClick={() => scrollBy(-200)}
+        aria-label="Scroll up"
+        className={navButtonClass}>
+        <ChevronUp className="w-5 h-5" />
+      </button>
+      <button
+        onClick={() => scrollBy(200)}
+        aria-label="Scroll down"
+        className={navButtonClass}>
+        <ChevronDown className="w-5 h-5" />
+      </button>
+    </div>
+  );
 
   return (
-    <div className="w-full lg:w-1/3">
-      <div className="relative w-full">
-        <div className="flex items-start xl:items-center justify-between mb-6">
-          <h2 className="text-2xl font-semibold uppercase">
-            <span className="text-emerald-900">Success </span> Stories
-          </h2>
-          <div className="flex gap-2">
-            <button
-              onClick={handleScrollUp}
-              className="p-2 rounded-full bg-gradient-to-b from-emerald-800 to-emerald-950 text-white hover:bg-gradient-to-b hover:from-emerald-800/95 hover:to-emerald-950/95">
-              <ChevronUp size={24} />
-            </button>
-            <button
-              onClick={handleScrollDown}
-              className="p-2 rounded-full bg-gradient-to-b from-emerald-800 to-emerald-950 text-white hover:bg-gradient-to-b hover:from-emerald-800/95 hover:to-emerald-950/95">
-              <ChevronDown size={24} />
-            </button>
-          </div>
-        </div>
-
-        {/* Carousel or Loading State */}
-        {error ? (
-          <Error error={error} />
-        ) : loading ? (
-          <>
+    // Fixed height on small screens; on large screens it stretches to match
+    // the Events panel next to it and the list scrolls inside.
+    <aside className={`relative h-[560px] lg:h-auto lg:min-h-[560px] ${className}`}>
+      <div className="absolute inset-0">
+        <HomePanel title="Success Stories" actions={controls}>
+          {error ? (
+            <Error error={error} onRetry={refresh} />
+          ) : loading ? (
             <Loading title="Success Stories" />
-          </>
-        ) : successStories.length === 0 ? (
-          <NoDataFound title="Success Stories" />
-        ) : (
-          <div
-            ref={containerRef}
-            className="flex flex-col gap-4 h-[550px] w-full overflow-y-auto bg-gray-200 p-4 rounded-lg"
-            style={{
-              scrollBehavior: "smooth",
-              msOverflowStyle: "none",
-              scrollbarWidth: "none",
-            }}>
-            {successStories.map((story) => (
-              <div
-                key={story._id}
-                className="flex bg-white rounded-lg shadow-lg  min-h-56 w-full">
-                <div className="overflow-hidden rounded-l-lg h-full w-1/2">
+          ) : successStories.length === 0 ? (
+            <NoDataFound title="Success Stories" />
+          ) : (
+            <div
+              ref={containerRef}
+              className="flex flex-col gap-4 h-full overflow-y-auto"
+              style={{
+                scrollBehavior: "smooth",
+                msOverflowStyle: "none",
+                scrollbarWidth: "none",
+              }}>
+              {successStories.map((story) => (
+                <article
+                  key={story._id}
+                  className="group flex flex-shrink-0 min-h-[10rem] bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-300">
                   <img
                     src={story.image}
                     alt={story.title}
-                    className="h-full w-full object-cover bg-emerald-100"
+                    className="w-2/5 object-cover bg-gray-200 border-r-4 border-emerald-900"
+                    loading="lazy"
                   />
-                </div>
-                <div className="w-1/2 px-3 py-4 flex flex-col gap-4">
-                  <div className="text-sm font-semibold text-emerald-900">
-                    <TruncateText text={story.title} maxLength={20} />
+                  <div className="w-3/5 p-4 flex flex-col">
+                    <h3 className="text-base font-semibold text-gray-900 line-clamp-2 group-hover:text-emerald-800 transition-colors duration-150">
+                      {story.title}
+                    </h3>
+                    <p className="mt-2 text-sm text-gray-600 line-clamp-3">
+                      {story.description}
+                    </p>
+                    <Link
+                      to={`/success-story/${story._id}`}
+                      className="mt-auto pt-3 inline-flex items-center gap-2 text-sm font-medium text-emerald-800 hover:underline">
+                      Read More
+                      <MoveRight size={16} />
+                    </Link>
                   </div>
-                  <div className="text-gray-600 text-xs">
-                    <TruncateText text={story.description} maxLength={60} />
-                  </div>
-                  <Link
-                    to={`/success-story/${story._id}`}
-                    className="text-emerald-900 text-sm hover:underline">
-                    Read More
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
+                </article>
+              ))}
+            </div>
+          )}
+        </HomePanel>
       </div>
-    </div>
+    </aside>
   );
 };
 

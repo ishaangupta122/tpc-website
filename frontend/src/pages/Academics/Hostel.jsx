@@ -1,129 +1,120 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { Check } from "lucide-react";
 import HeroSection from "../../components/HeroSection";
 import { HostelData } from "../../data/data";
 
+const tabs = [
+  { id: "boys", label: "Boys Hostels", heading: "Boys Hostel" },
+  { id: "girls", label: "Girls Hostels", heading: "Girls Hostel" },
+];
+
 const HostelPage = () => {
   const [activeTab, setActiveTab] = useState("boys");
-  const [hostelData, setHostelData] = useState(HostelData);
 
   const breadcrumbs = [
     { label: "Home", href: "/" },
     { label: "Hostel", href: "/hostel" },
   ];
 
-  useEffect(() => {
-    const fetchHostelData = async () => {
-      setHostelData({
-        boys: HostelData.boys,
-        girls: HostelData.girls,
-      });
-    };
-
-    fetchHostelData();
-  }, []);
-
-  const renderItems = (items) => {
-    return items.map((item, index) => (
-      <div
-        key={index}
-        className="flex flex-col lg:flex-row items-start gap-6 mb-8 bg-gray-100 rounded-lg shadow-lg shadow-black/10 p-6">
-        <img
-          src={item.image}
-          alt={item.title}
-          className="w-full lg:w-1/2 h-full object-cover rounded-lg shadow-lg shadow-black/20"
-        />
-        <div className="flex-1">
-          <h3 className="text-xl font-bold mb-4 text-emerald-900">
-            {item.title}
-          </h3>
-          <p className="text-gray-800 mb-4">
-            <span className="font-semibold text-emerald-900">Overview:</span>{" "}
-            {item.description}
-          </p>
-          <p className="text-gray-800 mb-4">
-            <span className="font-semibold text-emerald-900">Capacity:</span>{" "}
-            {item.capacity}
-          </p>
-          <div>
-            <h4 className="font-semibold text-emerald-900">Facilities:</h4>
-            <ul className="list-disc list-inside text-gray-800 space-y-1">
-              {item.facilities.map((facility, idx) => (
-                <li key={idx}>{facility}</li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </div>
-    ));
+    // Left/Right arrow keys move between the tabs.
+  const onTabKeyDown = (event) => {
+    if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
+    event.preventDefault();
+    const next = activeTab === "boys" ? "girls" : "boys";
+    setActiveTab(next);
+    document.getElementById(`hostel-tab-${next}`)?.focus();
   };
+
+  const renderItems = (items) =>
+    items.map((item, index) => (
+      <article
+        key={index}
+        className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-stretch">
+        <div className="lg:col-span-5 relative rounded-lg overflow-hidden aspect-[4/3] lg:aspect-auto lg:min-h-[280px]">
+          <img
+            src={item.image}
+            alt={item.title}
+            loading="lazy"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        </div>
+        <div className="lg:col-span-7 flex flex-col justify-center">
+          <div className="space-y-4 text-gray-700 leading-7">
+            {item.description.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
+          </div>
+
+          <h4 className="mt-8 mb-3 font-semibold text-gray-900">Facilities</h4>
+          <ul className="space-y-2 text-gray-700">
+            {item.facilities.map((facility) => (
+              <li key={facility} className="flex items-center gap-3">
+                <Check
+                  className="w-5 h-5 shrink-0 text-emerald-800"
+                  aria-hidden="true"
+                />
+                {facility}
+              </li>
+            ))}
+          </ul>
+
+        </div>
+      </article>
+    ));
 
   return (
     <>
       <HeroSection
-        imageUrl="./rec_gate.jpg"
+        imageUrl="/rec_gate.jpg"
         title="College Hostel"
         breadcrumbs={breadcrumbs}
       />
 
-      <div className="min-h-screen bg-white">
+      <div className="bg-white">
         {/* Navigation Tabs */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-14 pb-8 pt-20 flex items-center justify-between flex-wrap gap-4">
+        <div className="site-container pb-6 pt-10 flex items-center justify-between flex-wrap gap-4">
           <div>
-            <h1 className="text-3xl font-semibold uppercase text-emerald-900">
+            <h1 className="page-title">
               Hostel <span className="text-black">Information</span>
             </h1>
           </div>
 
-          <div className="flex gap-2">
-            <button
-              onClick={() => setActiveTab("boys")}
-              className={`px-6 py-2 rounded-lg font-medium ${
-                activeTab === "boys"
-                  ? "bg-gradient-to-b from-emerald-800 to-emerald-950 text-white"
-                  : "text-gray-600 bg-gray-200 hover:bg-gray-300"
-              }`}>
-              Boys Hostels
-            </button>
-            <button
-              onClick={() => setActiveTab("girls")}
-              className={`px-6 py-2 rounded-lg font-medium ${
-                activeTab === "girls"
-                  ? "bg-gradient-to-b from-emerald-800 to-emerald-950 text-white"
-                  : "text-gray-600 bg-gray-200 hover:bg-gray-300"
-              }`}>
-              Girls Hostels
-            </button>
+          <div
+            role="tablist"
+            aria-label="Hostel type"
+            onKeyDown={onTabKeyDown}
+            className="flex gap-2">
+            {tabs.map((tab) => {
+              const selected = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  role="tab"
+                  id={`hostel-tab-${tab.id}`}
+                  aria-selected={selected}
+                  aria-controls="hostel-panel"
+                  tabIndex={selected ? 0 : -1}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`px-6 py-2 rounded-lg font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FDB714] focus-visible:ring-offset-2 ${
+                    selected
+                      ? "bg-gradient-to-b from-emerald-800 to-emerald-950 text-white"
+                      : "text-gray-600 bg-gray-200 hover:bg-gray-300"
+                  }`}>
+                  {tab.label}
+                </button>
+              );
+            })}
           </div>
         </div>
 
         {/* Main Content */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-14 py-8">
-          {
-            <>
-              {activeTab === "boys" && (
-                <div>
-                  <div className="mb-8 w-fit">
-                    <h1 className="text-2xl font-semibold mb-2 text-emerald-900">
-                      Boys Hostel
-                    </h1>
-                    <div className="w-28 h-1 bg-[#FDB714] rounded-full mx-auto"></div>
-                  </div>
-                  {renderItems(hostelData.boys)}
-                </div>
-              )}
-              {activeTab === "girls" && (
-                <div>
-                  <div className="mb-8 w-fit">
-                    <h1 className="text-2xl font-semibold mb-2 text-emerald-900">
-                      Girls Hostel
-                    </h1>
-                    <div className="w-28 h-1 bg-[#FDB714] rounded-full mx-auto"></div>
-                  </div>
-                  {renderItems(hostelData.girls)}
-                </div>
-              )}
-            </>
-          }
+        <div
+          id="hostel-panel"
+          role="tabpanel"
+          aria-labelledby={`hostel-tab-${activeTab}`}
+          className="site-container pt-4 pb-16">
+          {renderItems(HostelData[activeTab])}
         </div>
       </div>
     </>
