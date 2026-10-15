@@ -1,4 +1,28 @@
-sampleFrontend
-.env
-DS_Store
+# Dependencies and build output
 node_modules
+dist
+build
+
+# Environment files (keep the *.sample ones)
+.env
+.env.*
+!.env.sample
+
+# Credentials: never commit keys
+*.pem
+*.key
+serviceAccount*.json
+backend/src/auth/*.json
+
+# OS / editor
+.DS_Store
+.idea
+.vscode/*
+!.vscode/settings.json
+
+# Logs
+*.log
+npm-debug.log*
+
+# Scratch
+sampleFrontend
