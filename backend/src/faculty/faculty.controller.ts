@@ -24,36 +24,40 @@ export class FacultyController {
   constructor(private readonly facultyService: FacultyService) {}
 
   @Get()
-  async getAllFaculties() {
+  async findAll() {
     return this.facultyService.findAll();
   }
 
   @Get(':id')
-  async getFacultyById(@Param('id') id: string) {
-    return this.facultyService.findById(id);
+  async findOne(@Param('id') id: string) {
+    return this.facultyService.findOne(id);
   }
 
   @Post()
-  @UseInterceptors(FileInterceptor('image', imageUploadOptions(IMAGE_FOLDERS.faculty)))
-  async createFaculty(
-    @Body() createFacultyDto: CreateFacultyDto,
+  @UseInterceptors(
+    FileInterceptor('image', imageUploadOptions(IMAGE_FOLDERS.faculty)),
+  )
+  async create(
+    @Body() createDto: CreateFacultyDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    return this.facultyService.create(createFacultyDto, file);
+    return this.facultyService.create(createDto, file);
   }
 
   @Put(':id')
-  @UseInterceptors(FileInterceptor('image', imageUploadOptions(IMAGE_FOLDERS.faculty)))
-  async updateFaculty(
+  @UseInterceptors(
+    FileInterceptor('image', imageUploadOptions(IMAGE_FOLDERS.faculty)),
+  )
+  async update(
     @Param('id') id: string,
-    @Body() updateFacultyDto: UpdateFacultyDto,
+    @Body() updateDto: UpdateFacultyDto,
     @UploadedFile() file?: Express.Multer.File,
   ) {
-    return this.facultyService.update(id, updateFacultyDto, file);
+    return this.facultyService.update(id, updateDto, file);
   }
 
   @Delete(':id')
-  async deleteFaculty(@Param('id') id: string) {
-    return this.facultyService.delete(id);
+  async remove(@Param('id') id: string) {
+    return this.facultyService.remove(id);
   }
 }

@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 import { Smartphone } from "lucide-react";
-import { collegeContact, topbarLinks } from "../data/data";
+import { topbarLinks } from "../data/data";
+import { useContact } from "../hooks/useResources";
 
 const Topbar = () => {
+  const { data: collegeContact } = useContact();
   return (
     <div className="hidden lg:block bg-gradient-to-b from-emerald-800 to-emerald-950 border-b">
       <div className="site-container">

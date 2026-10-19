@@ -16,6 +16,12 @@ import { GalleryModule } from './gallery/gallery.module';
 import { SuccessStoryModule } from './successstory/successstory.module';
 import { NoticesModule } from './notices/notices.module';
 import { DocumentsModule } from './documents/documents.module';
+import { BlocksModule } from './blocks/blocks.module';
+import { PrincipalModule } from './principal/principal.module';
+import { AicteCoursesModule } from './aicte-courses/aicte-courses.module';
+import { PoliciesModule } from './policies/policies.module';
+import { ContactModule } from './contact/contact.module';
+import { DepartmentsModule } from './departments/departments.module';
 
 @Module({
   imports: [
@@ -38,6 +44,12 @@ import { DocumentsModule } from './documents/documents.module';
     SuccessStoryModule,
     NoticesModule,
     DocumentsModule,
+    BlocksModule,
+    PrincipalModule,
+    AicteCoursesModule,
+    PoliciesModule,
+    ContactModule,
+    DepartmentsModule,
   ],
   controllers: [HealthController],
   providers: [

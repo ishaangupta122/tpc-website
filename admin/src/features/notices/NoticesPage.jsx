@@ -1,7 +1,8 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Column } from "primereact/column";
 import { FileText } from "lucide-react";
 import { useNotices } from "../../context";
+import { noticesApi } from "../../api";
 import { useNotify } from "../../context/NotificationContext";
 import { useDialogs } from "../../hooks/useDialogs";
 import { useConfirmDelete } from "../../hooks/useConfirmDelete";
@@ -21,14 +22,34 @@ const NoticesPage = () => {
   const notify = useNotify();
   const [search, setSearch] = useState("");
 
+  // The list as arranged on screen; follows the server list and is updated at
+  // once when a row is dropped, before the new order is saved.
+  const [rows, setRows] = useState(items);
+  useEffect(() => setRows(items), [items]);
+
+  // Dragging only makes sense on the full list, so it is off while searching.
+  const searching = search.trim() !== "";
   const notices = useMemo(
-    () => items.filter((notice) => matchesSearch(notice, ["title"], search)),
-    [items, search]
+    () => (searching ? rows.filter((notice) => matchesSearch(notice, ["title"], search)) : rows),
+    [rows, search, searching]
   );
 
-  const handleSubmit = async ({ title }, file) => {
-    if (dialogs.formItem) await update(dialogs.formItem._id, { title }, file);
-    else await create({ title }, file);
+  const handleReorder = async (next) => {
+    setRows(next);
+    try {
+      await noticesApi.reorder(next.map((notice) => notice._id));
+      await refresh();
+      notify.success("Notice order saved.");
+    } catch (err) {
+      setRows(items);
+      notify.error(err.message, "Could not save the order");
+    }
+  };
+
+  const handleSubmit = async ({ title, highlight }, file) => {
+    if (dialogs.formItem)
+      await update(dialogs.formItem._id, { title, highlight }, file);
+    else await create({ title, highlight }, file);
     notify.success(dialogs.formItem ? "Notice updated." : "Notice added.");
   };
 
@@ -43,7 +64,7 @@ const NoticesPage = () => {
     <PageContainer>
       <PageHeader
         title="Notices & Circulars"
-        subtitle="PDFs shown in the Notices & Circulars section of the home page"
+        subtitle="Drag the handle on a row to change the order shown on the home page"
         actionLabel="Add Notice"
         onAction={dialogs.openAdd}
       />
@@ -57,11 +78,25 @@ const NoticesPage = () => {
         loading={loading}
         error={error}
         onRetry={refresh}
-        emptyMessage="No Notices Found.">
+        emptyMessage="No Notices Found."
+        onReorder={searching ? undefined : handleReorder}>
         <Column
           field="title"
           header="TITLE"
           body={(row) => <TruncateText text={row.title} maxLength={50} />}
+        />
+        <Column
+          header="HIGHLIGHT"
+          field="highlight"
+          body={(row) =>
+            row.highlight ? (
+              <span className="-mx-2 rounded bg-yellow-300 px-2 py-0.5">
+                Yes
+              </span>
+            ) : (
+              "No"
+            )
+          }
         />
         <Column
           header="PDF"
@@ -92,7 +127,8 @@ const NoticesPage = () => {
         isOpen={dialogs.formOpen}
         onClose={dialogs.close}
         item={dialogs.formItem}
-        header={dialogs.formItem ? "Edit Notice" : "Add Notice"}
+        entity="Notice"
+        highlightOption
         onSubmit={handleSubmit}
       />
     </PageContainer>

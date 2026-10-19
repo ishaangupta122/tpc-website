@@ -77,6 +77,15 @@ export class DocumentsController {
     return this.documentsService.create(section, dto, file);
   }
 
+  /** Saves the order of one section's documents: { ids: [...] }. Declared before `:section/:id`. */
+  @Put(':section/reorder')
+  reorder(
+    @Param('section', SectionPipe) section: DocumentSection,
+    @Body() body: { ids: string[] },
+  ) {
+    return this.documentsService.reorder(section, body?.ids);
+  }
+
   @Put(':section/:id')
   @UseInterceptors(FileInterceptor('file', pdfUploadOptions(sectionFolder)))
   update(

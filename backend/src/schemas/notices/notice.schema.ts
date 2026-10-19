@@ -12,6 +12,14 @@ export class Notice extends Document {
 
   @Prop()
   originalName?: string;
+
+  /** Position in the list (lowest first); set by dragging in the admin. */
+  @Prop()
+  order?: number;
+
+  /** Blinks with a yellow highlight on the home page when true. */
+  @Prop({ default: false })
+  highlight: boolean;
 }
 
 export const NoticeSchema = SchemaFactory.createForClass(Notice);

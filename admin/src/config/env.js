@@ -14,3 +14,4 @@ export const API_BASE_URL = (
   import.meta.env.VITE_BASE_API || DEFAULT_DEV_API
 ).replace(/\/+$/, "");
 
+export const USE_MOCK_DATA = import.meta.env.VITE_USE_MOCK_DATA === "true";

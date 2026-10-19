@@ -9,7 +9,7 @@ export class Faculty extends Document {
   @Prop({ required: true })
   email: string;
 
-  @Prop({ required: true })
+  @Prop({ default: 'N/A' })
   phone: string;
 
   @Prop({ required: true })
@@ -26,6 +26,16 @@ export class Faculty extends Document {
 
   @Prop({ required: false })
   image: string;
+
+  /** Table rows shown on the profile (keys: see faculty/faculty-sections.util.ts). */
+  @Prop({ type: [Object], default: [] })
+  publications: Record<string, string>[];
+
+  @Prop({ type: [Object], default: [] })
+  conferences: Record<string, string>[];
+
+  @Prop({ type: [Object], default: [] })
+  books: Record<string, string>[];
 
   // @Prop({ required: true })
   // publicId: string;

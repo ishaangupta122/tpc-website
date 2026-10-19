@@ -1,10 +1,7 @@
-import { useMemo, useState } from "react";
 import { Column } from "primereact/column";
 import { useCommittee } from "../../context";
-import { useDialogs } from "../../hooks/useDialogs";
-import { useConfirmDelete } from "../../hooks/useConfirmDelete";
+import { useListPage } from "../../hooks/useListPage";
 import { DESIGNATION_OPTIONS } from "../../constants/options";
-import { matchesSearch } from "../../utils/search";
 import PageContainer from "../../components/ui/PageContainer";
 import PageHeader from "../../components/ui/PageHeader";
 import FilterBar from "../../components/ui/FilterBar";
@@ -25,27 +22,16 @@ const SEARCH_FIELDS = ["name", "designation"];
 
 const CommitteePage = () => {
   const { items, loading, error, refresh, remove } = useCommittee();
-  const dialogs = useDialogs();
-  const confirmDelete = useConfirmDelete();
-  const [search, setSearch] = useState("");
-  const [designation, setDesignation] = useState("");
-
-  const members = useMemo(
-    () =>
-      items.filter(
-        (member) =>
-          matchesSearch(member, SEARCH_FIELDS, search) &&
-          (designation === "" || member.designation === designation)
-      ),
-    [items, search, designation]
-  );
-
-  const handleDelete = (member) =>
-    confirmDelete({
-      message: `Are you sure you want to delete "${member.name}" ?`,
-      onConfirm: () => remove(member._id),
-      successMessage: "Member deleted.",
-    });
+  const {
+    dialogs, search, setSearch, filterValue, setFilterValue, rows: members, handleDelete,
+  } = useListPage({
+    items,
+    remove,
+    searchFields: SEARCH_FIELDS,
+    filterField: "designation",
+    itemLabel: (member) => member.name,
+    deletedMessage: "Member deleted.",
+  });
 
   const viewItem = dialogs.viewItem;
 
@@ -62,8 +48,8 @@ const CommitteePage = () => {
         onSearchChange={setSearch}
         placeholder="Search Committee Members..."
         filter={{
-          value: designation,
-          onChange: setDesignation,
+          value: filterValue,
+          onChange: setFilterValue,
           allLabel: "All Designation",
           options: DESIGNATION_OPTIONS,
         }}
@@ -85,7 +71,7 @@ const CommitteePage = () => {
           header="DESIGNATION"
           body={(row) => (
             <div
-              className={`px-3 py-1 rounded-full w-fit ${
+              className={`px-3 py-1 rounded-full w-fit whitespace-nowrap ${
                 DESIGNATION_COLORS[row.designation] || "text-gray-800 bg-gray-100"
               }`}>
               {row.designation}

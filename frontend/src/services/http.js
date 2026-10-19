@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_BASE_URL } from "../config/env";
+import { API_BASE_URL, USE_MOCK_DATA } from "../config/env";
 
 // The one axios instance every API call goes through.
 const http = axios.create({
@@ -7,6 +7,12 @@ const http = axios.create({
   headers: { "Content-Type": "application/json" },
   timeout: 15000,
 });
+
+// Mock mode: answer every request from /mock/mockApi.js instead of the network.
+// Loaded on demand, so it is not part of the normal bundle.
+if (USE_MOCK_DATA) {
+  http.defaults.adapter = (config) => import("@mock/mockApi.js").then((mock) => mock.mockAdapter(config));
+}
 
 // List endpoints must return an array. If the server is down, the URL is wrong,
 // or an HTML/other payload comes back, throw so the UI shows its error state

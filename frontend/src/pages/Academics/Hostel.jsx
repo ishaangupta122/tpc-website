@@ -46,8 +46,8 @@ const HostelPage = () => {
           </div>
 
           <h4 className="mt-8 mb-3 font-semibold text-gray-900">Facilities</h4>
-          <ul className="space-y-2 text-gray-700">
-            {item.facilities.map((facility) => (
+          <ul className="grid gap-x-8 gap-y-2 text-gray-700 sm:grid-cols-2">
+            {HostelData.facilities.map((facility) => (
               <li key={facility} className="flex items-center gap-3">
                 <Check
                   className="w-5 h-5 shrink-0 text-emerald-800"
@@ -73,10 +73,11 @@ const HostelPage = () => {
       <div className="bg-white">
         {/* Navigation Tabs */}
         <div className="site-container pb-6 pt-10 flex items-center justify-between flex-wrap gap-4">
-          <div>
+          <div className="max-w-3xl">
             <h1 className="page-title">
               Hostel <span className="text-black">Information</span>
             </h1>
+            <p className="mt-5 text-gray-700 leading-7">{HostelData.intro}</p>
           </div>
 
           <div

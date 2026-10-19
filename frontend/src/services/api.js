@@ -32,3 +32,16 @@ export const getNotices = () => getList(ENDPOINTS.notices, "notices");
 // tpc-newsletter | safe-working | eoa
 export const getDocuments = (section) =>
   getList(`${ENDPOINTS.documents}/${section}`, "documents");
+
+// The Principal page content (an empty object until the admin saves it).
+export const getPrincipal = () => getOne(ENDPOINTS.principal, "principal page");
+
+export const getAicteCourses = () => getList(ENDPOINTS.aicteCourses, "AICTE courses");
+
+// What the admin saved for the department pages (a list, empty until then).
+export const getDepartments = () => getList(ENDPOINTS.departments, "departments");
+
+// The college contact details (an empty object until the admin saves them).
+export const getContact = () => getOne(ENDPOINTS.contact, "contact details");
+
+export const getPolicies = () => getList(ENDPOINTS.policies, "policies");

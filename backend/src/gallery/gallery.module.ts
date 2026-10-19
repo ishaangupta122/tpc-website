@@ -5,7 +5,9 @@ import { GalleryService } from './gallery.service';
 import { Gallery, GallerySchema } from '../schemas/gallery/gallery.schema';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: Gallery.name, schema: GallerySchema }])],
+  imports: [
+    MongooseModule.forFeature([{ name: Gallery.name, schema: GallerySchema }]),
+  ],
   controllers: [GalleryController],
   providers: [GalleryService],
 })

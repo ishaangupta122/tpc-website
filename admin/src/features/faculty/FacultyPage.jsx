@@ -1,11 +1,8 @@
-import { useMemo, useState } from "react";
 import { Column } from "primereact/column";
 import { useFaculty } from "../../context";
-import { useDialogs } from "../../hooks/useDialogs";
-import { useConfirmDelete } from "../../hooks/useConfirmDelete";
+import { useListPage } from "../../hooks/useListPage";
 import { FACULTY_DEPARTMENT_OPTIONS } from "../../constants/options";
-import { formatYears } from "../../utils/format";
-import { matchesSearch } from "../../utils/search";
+import { formatDisplayDate, formatYears } from "../../utils/format";
 import PageContainer from "../../components/ui/PageContainer";
 import PageHeader from "../../components/ui/PageHeader";
 import FilterBar from "../../components/ui/FilterBar";
@@ -13,32 +10,22 @@ import DataCard from "../../components/ui/DataCard";
 import RowActions from "../../components/ui/RowActions";
 import ViewDialog from "../../components/forms/ViewDialog";
 import FacultyFormModal from "./FacultyFormModal";
+import ProfileTablesView from "./ProfileTablesView";
 
 const SEARCH_FIELDS = ["name", "department", "email"];
 
 const FacultyPage = () => {
   const { items, loading, error, refresh, remove } = useFaculty();
-  const dialogs = useDialogs();
-  const confirmDelete = useConfirmDelete();
-  const [search, setSearch] = useState("");
-  const [department, setDepartment] = useState("");
-
-  const faculty = useMemo(
-    () =>
-      items.filter(
-        (member) =>
-          matchesSearch(member, SEARCH_FIELDS, search) &&
-          (department === "" || member.department === department)
-      ),
-    [items, search, department]
-  );
-
-  const handleDelete = (member) =>
-    confirmDelete({
-      message: `Are you sure you want to delete "${member.name}" ?`,
-      onConfirm: () => remove(member._id),
-      successMessage: "Faculty deleted.",
-    });
+  const {
+    dialogs, search, setSearch, filterValue, setFilterValue, rows: faculty, handleDelete,
+  } = useListPage({
+    items,
+    remove,
+    searchFields: SEARCH_FIELDS,
+    filterField: "department",
+    itemLabel: (member) => member.name,
+    deletedMessage: "Faculty deleted.",
+  });
 
   const viewItem = dialogs.viewItem;
 
@@ -55,8 +42,8 @@ const FacultyPage = () => {
         onSearchChange={setSearch}
         placeholder="Search Faculty..."
         filter={{
-          value: department,
-          onChange: setDepartment,
+          value: filterValue,
+          onChange: setFilterValue,
           allLabel: "All Departments",
           options: FACULTY_DEPARTMENT_OPTIONS,
         }}
@@ -93,7 +80,7 @@ const FacultyPage = () => {
           header="DEPARTMENT"
           body={(row) => (
             <div
-              className={`px-3 py-1 rounded-full w-fit ${
+              className={`px-3 py-1 rounded-full w-fit whitespace-nowrap ${
                 row.department === "Admin Staff"
                   ? "bg-yellow-100 text-yellow-700"
                   : "bg-green-100 text-green-700"
@@ -105,7 +92,7 @@ const FacultyPage = () => {
         <Column field="designation" header="DESIGNATION" />
         <Column
           field="experience"
-          header="EXPERIENCE"
+          header="EXPERIENCE AT TPC"
           body={(row) => (
             <span className="text-blue-600 bg-blue-100 px-3 py-2 rounded-full">
               {formatYears(row.experience)}
@@ -113,7 +100,11 @@ const FacultyPage = () => {
           )}
           sortable
         />
-        <Column field="joinedDate" header="JOINED DATE" />
+        <Column
+          field="joinedDate"
+          header="JOINED DATE"
+          body={(row) => formatDisplayDate(row.joinedDate)}
+        />
         <Column
           field="education"
           header="EDUCATION"
@@ -142,6 +133,7 @@ const FacultyPage = () => {
         header="View Faculty Details"
         visible={dialogs.viewOpen}
         onHide={dialogs.close}
+        extra={<ProfileTablesView faculty={viewItem} />}
         fields={[
           { label: "Name", value: viewItem?.name },
           { label: "Email", value: viewItem?.email },
@@ -152,7 +144,7 @@ const FacultyPage = () => {
             label: "Experience (auto-calculated from joined date)",
             value: formatYears(viewItem?.experience, ""),
           },
-          { label: "Joined Date", value: viewItem?.joinedDate },
+          { label: "Joined Date", value: formatDisplayDate(viewItem?.joinedDate) },
           { label: "Education", value: (viewItem?.education || []).join(", ") },
           ...(viewItem?.image
             ? [{ label: "Image", value: viewItem.image, type: "image" }]

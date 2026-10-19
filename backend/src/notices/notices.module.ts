@@ -5,7 +5,9 @@ import { NoticesService } from './notices.service';
 import { Notice, NoticeSchema } from '../schemas/notices/notice.schema';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: Notice.name, schema: NoticeSchema }])],
+  imports: [
+    MongooseModule.forFeature([{ name: Notice.name, schema: NoticeSchema }]),
+  ],
   controllers: [NoticesController],
   providers: [NoticesService],
 })

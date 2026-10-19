@@ -4,8 +4,9 @@ import { Document } from 'mongoose';
 @Schema({ collection: 'updates' }) // keeps the existing Mongo collection
 export class Achievement extends Document {
   /** "College" or a department: CSE, Mechanical, Civil, Architectural, Applied Science, Electrical. */
-  @Prop({ required: true })
-  category: string;
+  /** No longer used: events carry the category now. Kept so older records stay valid. */
+  @Prop()
+  category?: string;
 
   @Prop({ required: true })
   date: string;
@@ -18,6 +19,10 @@ export class Achievement extends Document {
 
   @Prop({ required: true })
   image: string;
+
+  /** Optional page-builder layout for the detail page (see achievements/blocks.util.ts). */
+  @Prop({ type: [Object], default: [] })
+  blocks: Record<string, any>[];
 
   // @Prop({ required: true })
   // publicId: string;

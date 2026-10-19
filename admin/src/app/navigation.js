@@ -8,6 +8,11 @@ import {
   BarChart4,
   Bell,
   FileText,
+  GraduationCap,
+  BookOpenCheck,
+  ScrollText,
+  Phone,
+  Building2,
 } from "lucide-react";
 
 // Sidebar entries, in display order.
@@ -17,9 +22,14 @@ export const NAV_ITEMS = [
   { name: "Events", to: "/events", icon: Calendar },
   { name: "Achievements", to: "/achievements", icon: Trophy },
   { name: "Success Story", to: "/success-stories", icon: Rocket },
+  { name: "Departments", to: "/departments", icon: Building2 },
   { name: "Placements", to: "/placements", icon: BarChart4 },
-  { name: "Managing Committee", to: "/managing-committee", icon: Users },
   { name: "Gallery", to: "/gallery", icon: Image },
   { name: "Notices", to: "/notices", icon: Bell },
   { name: "Documents", to: "/documents", icon: FileText },
+  { name: "Policies", to: "/policies", icon: ScrollText },
+  { name: "Principal", to: "/principal", icon: GraduationCap },
+  { name: "Managing Committee", to: "/managing-committee", icon: Users },
+  { name: "AICTE Courses", to: "/aicte-courses", icon: BookOpenCheck },
+  { name: "Contact", to: "/contact", icon: Phone },
 ];

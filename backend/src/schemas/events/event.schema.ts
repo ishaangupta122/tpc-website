@@ -3,6 +3,10 @@ import { Document } from 'mongoose';
 
 @Schema({ timestamps: true })
 export class Event extends Document {
+  /** "College" or a department (CSE, Mechanical, Civil, Architectural, Applied Science, Electrical). */
+  @Prop({ default: 'College' })
+  category: string;
+
   @Prop({ required: true })
   date: string;
 
@@ -14,6 +18,10 @@ export class Event extends Document {
 
   @Prop()
   image?: string;
+
+  /** Optional page-builder layout for the detail page (see utils/blocks.util.ts). */
+  @Prop({ type: [Object], default: [] })
+  blocks: Record<string, any>[];
 }
 
 export const EventSchema = SchemaFactory.createForClass(Event);

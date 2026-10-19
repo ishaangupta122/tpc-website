@@ -14,10 +14,10 @@ const HomeCard = ({ image, date, title, description, to }) => (
       />
     </div>
     <div className="flex flex-col flex-1 p-4">
-      <span className="text-xs font-medium text-emerald-800">
-        {formatDate(date) || "N/A"}
-      </span>
-      <h3 className="mt-2 text-base font-semibold text-gray-900 line-clamp-2 group-hover:text-emerald-800 transition-colors duration-150">
+      {date && (
+        <span className="text-xs font-medium text-emerald-800">{formatDate(date)}</span>
+      )}
+      <h3 className={`${date ? "mt-2" : ""} text-base font-semibold text-gray-900 line-clamp-2 group-hover:text-emerald-800 transition-colors duration-150`}>
         {title}
       </h3>
       <p className="mt-2 text-sm text-gray-600 line-clamp-3">{description}</p>

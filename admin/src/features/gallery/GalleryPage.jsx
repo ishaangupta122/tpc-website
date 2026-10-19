@@ -10,7 +10,6 @@ const config = {
   emptyMessage: "No Images Found.",
   useResource: useGallery,
   deleteLabel: (image) => image.description,
-  imageColumn: "first",
   fields: [
     // The gallery API returns the picture as `imageUrl`.
     { type: "image", key: "imageUrl", label: "Image", required: true },

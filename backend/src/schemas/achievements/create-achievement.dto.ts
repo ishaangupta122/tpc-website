@@ -1,9 +1,9 @@
-import { IsString, IsNotEmpty, IsUrl } from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional } from 'class-validator';
 
 export class CreateAchievementDto {
+  @IsOptional()
   @IsString()
-  @IsNotEmpty()
-  category: string;
+  category?: string;
 
   @IsString()
   @IsNotEmpty()

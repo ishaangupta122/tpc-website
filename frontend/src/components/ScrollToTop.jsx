@@ -32,7 +32,7 @@ const ScrollToTop = () => {
       // Scroll to top for new navigation
       window.scrollTo(0, 0);
     }
-  }, [location]);
+  }, [location.pathname, location.hash]);
 
   // Remember the scroll position of the current history entry.
   useEffect(() => {

@@ -22,9 +22,12 @@ export const IMAGE_FOLDERS = {
   gallery: 'images/gallery',
   successStories: 'images/success-stories',
   achievements: 'images/achievements',
+  blocks: 'images/blocks',
+  principal: 'images/principal',
 } as const;
 
 export const NOTICES_FOLDER = 'documents/notices';
+export const DEPARTMENT_DOCS_FOLDER = 'documents/departments';
 
 /** Sections of the site (topbar links) that each hold their own PDFs. */
 export const DOCUMENT_SECTIONS = [

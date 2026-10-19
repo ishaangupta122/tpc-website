@@ -8,6 +8,7 @@ const config = {
   addLabel: "Add Success Story",
   searchPlaceholder: "Search Success Stories...",
   emptyMessage: "No Success Stories Found.",
+  blocks: true,
   useResource: useSuccessStories,
   deleteLabel: (story) => story.title,
   fields: [
@@ -23,6 +24,7 @@ const config = {
       name: "description",
       label: "Description",
       type: "textarea",
+      hint: "Leave a blank line between paragraphs.",
       required: true,
       placeholder: "Enter Success Story Description",
       column: { header: "DESCRIPTION", truncate: 20 },

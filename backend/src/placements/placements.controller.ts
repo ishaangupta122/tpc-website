@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Param, Delete, Put } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  Put,
+} from '@nestjs/common';
 import { PlacementsService } from './placements.service';
 import { CreatePlacementDto } from '../schemas/placements/create-placements.dto';
 import { UpdateDepartmentDto } from '../schemas/placements/update-placements.dto';
@@ -57,7 +65,11 @@ export class PlacementsController {
     @Param('departmentId') departmentId: string,
     @Body() updateDepartmentDto: UpdateDepartmentDto,
   ): Promise<Placements> {
-    return this.placementsService.updateDepartment(id, departmentId, updateDepartmentDto);
+    return this.placementsService.updateDepartment(
+      id,
+      departmentId,
+      updateDepartmentDto,
+    );
   }
 
   // Remove a department from a placement

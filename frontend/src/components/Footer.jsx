@@ -8,7 +8,7 @@ import {
   FaPhone,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { collegeContact } from "../data/data";
+import { useContact } from "../hooks/useResources";
 
 const quickLinks = [
   { title: "Admissions", link: "/admission" },
@@ -51,6 +51,7 @@ const linkClass =
   "text-gray-300 hover:text-white transition-colors duration-300";
 
 const Footer = () => {
+  const { data: collegeContact } = useContact();
   const { name, addressLines, phones, email } = collegeContact;
 
   return (

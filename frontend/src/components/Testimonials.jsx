@@ -14,28 +14,28 @@ const Testimonials = () => {
         <div className="relative flex items-center">
           {/* Cards Container */}
           <div
-            className="flex w-full overflow-x-scroll scroll-smooth py-6 lg:mx-4"
+            className="flex w-full overflow-x-scroll scroll-smooth px-2 pb-10 pt-4 lg:mx-4"
             style={{
               scrollbarWidth: "none",
               msOverflowStyle: "none",
               WebkitOverflowScrolling: "touch",
             }}>
-            <div className="flex gap-2 px-2 transition-transform duration-500 ease-out">
+            <div className="flex gap-6 px-2 transition-transform duration-500 ease-out">
               {testimonials.map((testimonial) => (
                 <div
                   key={testimonial.id}
-                  className=" max-w-[400px] w-[21rem] md:w-[20rem] lg:w-[30rem] ">
-                  <div className="bg-white rounded-xl shadow-lg p-6 h-full flex flex-col justify-between">
+                  className="w-[21rem] max-w-[400px] shrink-0 md:w-[20rem] lg:w-[24rem]">
+                  <div className="flex h-full flex-col justify-between rounded-xl border border-gray-100 bg-white p-6 shadow-lg">
                     <div>
                       <Quote className="w-8 h-8 text-emerald-800 mb-4" />
-                      <blockquote className="text-sm text-gray-600 mb-6 leading-relaxed">
+                      <blockquote className="mb-6 text-base leading-relaxed text-gray-600">
                         {testimonial.quote}
                       </blockquote>
                     </div>
 
                     <div className="mt-auto pt-4 border-t border-gray-300">
                       <div className="flex items-center">
-                        <div className="w-16 h-16 rounded-full overflow-hidden mr-3">
+                        <div className="mr-4 h-16 w-16 shrink-0 overflow-hidden rounded-full">
                           <img
                             src={testimonial.image}
                             alt={testimonial.name}

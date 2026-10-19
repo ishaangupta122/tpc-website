@@ -1,7 +1,5 @@
-// Picks the data source once, at startup. Production builds use the real API
-// unless VITE_USE_MOCK_DATA=true is set explicitly.
-import { USE_MOCK_DATA } from "../config/env";
-import * as realApi from "./api";
-import * as mockApi from "../data/mockApi";
+// The single entry point to the backend API. In mock mode (VITE_USE_MOCK_DATA=true)
+// the same calls are answered by the shared mock in /mock/mockApi.js (see http.js).
+import * as api from "./api";
 
-export const api = USE_MOCK_DATA ? mockApi : realApi;
+export { api };

@@ -13,6 +13,11 @@ import CommitteePage from "../features/committee/CommitteePage";
 import GalleryPage from "../features/gallery/GalleryPage";
 import NoticesPage from "../features/notices/NoticesPage";
 import DocumentsPage from "../features/documents/DocumentsPage";
+import PrincipalPage from "../features/principal/PrincipalPage";
+import AicteCoursesPage from "../features/aicte-courses/AicteCoursesPage";
+import PoliciesPage from "../features/policies/PoliciesPage";
+import ContactPage from "../features/contact/ContactPage";
+import DepartmentsPage from "../features/departments/DepartmentsPage";
 
 const App = () => (
   <AppProviders>
@@ -31,6 +36,11 @@ const App = () => (
             <Route path="gallery" element={<GalleryPage />} />
             <Route path="notices" element={<NoticesPage />} />
             <Route path="documents" element={<DocumentsPage />} />
+            <Route path="principal" element={<PrincipalPage />} />
+            <Route path="aicte-courses" element={<AicteCoursesPage />} />
+            <Route path="policies" element={<PoliciesPage />} />
+            <Route path="contact" element={<ContactPage />} />
+            <Route path="departments" element={<DepartmentsPage />} />
             {/* Old bookmark */}
             <Route path="successStory" element={<Navigate to="/success-stories" replace />} />
           </Route>

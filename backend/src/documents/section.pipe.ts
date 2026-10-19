@@ -1,5 +1,8 @@
 import { BadRequestException, PipeTransform } from '@nestjs/common';
-import { DOCUMENT_SECTIONS, DocumentSection } from '../storage/storage.constants';
+import {
+  DOCUMENT_SECTIONS,
+  DocumentSection,
+} from '../storage/storage.constants';
 
 export class SectionPipe implements PipeTransform<string, DocumentSection> {
   transform(value: string): DocumentSection {

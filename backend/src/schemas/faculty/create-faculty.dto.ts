@@ -1,3 +1,4 @@
+import { Transform } from 'class-transformer';
 import {
   IsArray,
   IsEmail,
@@ -6,6 +7,7 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
+import { toIsoDate } from '../../utils/date.util';
 
 export class CreateFacultyDto {
   @IsString()
@@ -15,9 +17,9 @@ export class CreateFacultyDto {
   @IsEmail()
   email: string;
 
+  @IsOptional()
   @IsString()
-  @IsNotEmpty()
-  phone: string;
+  phone?: string;
 
   @IsString()
   @IsNotEmpty()
@@ -29,6 +31,8 @@ export class CreateFacultyDto {
 
   // Experience is calculated from this date, so it must be a real calendar date.
   @IsNotEmpty({ message: 'joinedDate is required' })
+  // The admin sends YYYY-MM-DD; "15 Oct 2026" (the stored format) is accepted too.
+  @Transform(({ value }) => toIsoDate(value) || value)
   @IsISO8601(
     { strict: true },
     { message: 'joinedDate must be a valid date in YYYY-MM-DD format' },
@@ -43,4 +47,17 @@ export class CreateFacultyDto {
   @IsOptional()
   @IsString()
   image?: string;
+
+  // Profile table sections, sent as JSON strings (multipart form fields).
+  @IsOptional()
+  @IsString()
+  publications?: any;
+
+  @IsOptional()
+  @IsString()
+  conferences?: any;
+
+  @IsOptional()
+  @IsString()
+  books?: any;
 }

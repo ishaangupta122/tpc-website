@@ -2,6 +2,8 @@ import HeroSection from "../../components/HeroSection";
 import { Link } from "react-router-dom";
 import { Mail, Phone, CalendarDays, Briefcase, MoveRight } from "lucide-react";
 import { useFaculty } from "../../hooks/useResources";
+import { formatExperience } from "../../utils/formatExperience";
+import { formatDate } from "../../utils/formatDate";
 
 const LibraryPage = () => {
   const { data: staff } = useFaculty();
@@ -102,15 +104,11 @@ const LibraryPage = () => {
                   {[
                     [Mail, "Email", faculty.email, `mailto:${faculty.email}`],
                     [Phone, "Phone", faculty.phone],
-                    [CalendarDays, "Joined", faculty.joinedDate],
+                    [CalendarDays, "Joined", formatDate(faculty.joinedDate)],
                     [
                       Briefcase,
                       "Experience",
-                      faculty.experience == null
-                        ? "N/A"
-                        : `${faculty.experience} ${
-                            faculty.experience === 1 ? "year" : "years"
-                          }`,
+                      formatExperience(faculty.experience, { lower: true }),
                     ],
                   ].map(([Icon, label, value, href]) => (
                     <li key={label} className="flex items-start gap-3">

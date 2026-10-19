@@ -20,25 +20,24 @@ export const DESIGNATION_OPTIONS = [
   { label: "Member", value: "Member" },
 ];
 
-// Achievement categories: the whole college, or one department.
-export const ACHIEVEMENT_CATEGORY_OPTIONS = [
+// Event categories: the whole college, or one department.
+export const EVENT_CATEGORY_OPTIONS = [
   { label: "College", value: "College" },
   ...TEACHING_DEPARTMENT_OPTIONS,
 ];
 
 // Designations are picked from a list, never typed. Admin Staff have their own
 // list (keep it in sync with the filter on the public Admin Staff page).
-export const ADMIN_STAFF_DESIGNATIONS = [
+const ADMIN_STAFF_DESIGNATIONS = [
   "Superintendent",
   "PA to Principal",
-  "Sr. Assistant",
-  "Jr. Assistant",
+  "Assistant",
   "Clerk",
   "Assistant Librarian",
 ];
 
 // Teaching departments (CSE, Civil, ...). Edit this list to add a title.
-export const TEACHING_DESIGNATIONS = [
+const TEACHING_DESIGNATIONS = [
   "Head of Department",
   "Lecturer",
   "Guest Faculty",

@@ -68,7 +68,7 @@ export const testimonials = [
   {
     id: 1,
     name: "Monika Gupta",
-    role: "Programmer",
+    role: "Lecturer",
     image: "/monika.jpg",
     quote:
       "I have been associated with TPC since 2008. To me, it has always been a pleasure to serve the institute.",
@@ -142,24 +142,33 @@ export const courses = [
   },
   {
     id: 5,
-    department: "Archtectural Assistantship",
+    department: "Architectural Assistantship",
     approvedIntake: 60,
   },
 ];
 
 export const HostelData = {
+  intro:
+    "Thapar Polytechnic College provides separate hostels for boys and girls inside the Thapar Technology Campus, Patiala. Living on the campus keeps classrooms, laboratories and the library within a short walk and gives students a quiet, disciplined setting for study.",
+  // The same facilities are listed for both hostels.
+  facilities: [
+    "Shared rooms",
+    "24-hour security",
+    "RO drinking water",
+    "Hot water in bathrooms",
+    "Power backup",
+    "Mess and dining facility",
+    "Common room",
+    "Warden supervision",
+    "Green campus surroundings",
+    "Playground for sports and exercise",
+  ],
   boys: [
     {
       title: "Boys Hostel",
       description: [
-        "The boys' hostel of Thapar Polytechnic College stands inside the campus, surrounded by green lawns, and is a short walk from the classrooms, labs and library.",
-        "Students stay in shared rooms in a calm setting that suits both study and rest. Guards are on duty round the clock, so parents can be assured of their ward's safety.",
-      ],
-      facilities: [
-        "24-hour security",
-        "RO drinking water",
-        "Hot water in bathrooms",
-        "Playground",
+        "The boys' hostel stands inside the campus, surrounded by green lawns, and is a short walk from the classrooms, laboratories and library.",
+        "Students stay in shared rooms in a calm setting that suits both study and rest. Guards are on duty round the clock, so parents can be assured of the safety of their ward.",
       ],
       image: "/boys_hostel.jpg",
     },
@@ -168,14 +177,8 @@ export const HostelData = {
     {
       title: "Girls Hostel",
       description: [
-        "The girls' hostel of Thapar Polytechnic College is located inside the campus among green lawns, close to the academic blocks.",
-        "The hostel offers a safe and comfortable home away from home, with guards on duty round the clock and a peaceful environment for students to focus on their studies.",
-      ],
-      facilities: [
-        "24-hour security",
-        "RO drinking water",
-        "Hot water in bathrooms",
-        "Power backup",
+        "The girls' hostel is located inside the campus among green lawns, close to the academic blocks, so students can reach their classes and laboratories easily.",
+        "The hostel offers a safe and comfortable home away from home, with guards on duty round the clock and a peaceful environment in which students can focus on their studies.",
       ],
       image: "/girls_hostel.jpg",
     },
@@ -265,7 +268,7 @@ export const policyContent = [
   },
 ];
 
-export const principalKeyHighlights = [
+const principalKeyHighlights = [
   {
     id: 1,
     title: "Infrastructure Development",
@@ -278,7 +281,7 @@ export const principalKeyHighlights = [
     id: 2,
     title: "Academic Excellence",
     points: [
-      "Offering Offering Diploma in seven branches of Engineering since 1956",
+      "Offering Diploma in seven branches of Engineering since 1956",
       "Co-located with renowned Thapar University in a lush green campus",
     ],
   },
@@ -316,8 +319,17 @@ export const collegeContact = {
   hours: "Monday – Friday: 9:00 AM – 5:00 PM",
 };
 
-// Only the photo and name are shown (Principal page and home page card).
-export const principalContactInfo = {
+// Built-in content of the Principal page. The admin can override each part
+// (name, photo, message, highlights); anything left empty falls back to these.
+export const principalDefaults = {
   image: "/principal.jpeg",
   name: "Dr. Ankush Kansal",
+  message: [
+    "India today is an emerging economic power. Since the economic liberalization, industry has seen significant growth and the country has successfully leveraged its engineering skills to build a formidable manufacturing sector. The continued improvement in industrial infrastructure coupled with favourable policies and thrust from the Government are expected to help sustain the growth momentum in manufacturing.",
+    "Diploma engineers with practical and skills-oriented training along with supervisory skills have a major role to ensure quality and volume of production in manufacturing sector. Thapar Polytechnic College Patiala is one of the oldest and most reputed Polytechnics of Punjab imparting technical education upto Diploma in seven branches of Engineering.",
+    "Established since 1956 and co-located with the renowned Thapar University in a lush green campus, the College offers a very conducive environment for learning and overall growth. We aim to provide students with industry or job related engineering knowledge, scientific skills, sound knowledge of English to communicate in the field and ability to apply problem solving techniques.",
+    "We have quality infrastructure with fully equipped workshops, labs, library, excellent sports facilities, class rooms and hostels in green and clean surroundings providing a healthy academic environment both for students and faculty. Our well qualified and dedicated faculty is focused on imparting high quality education and mentoring for the students for them to become successful technocrats and worthy citizens of our country.",
+    "I am looking forward for a purposeful participation and whole hearted co-operation from students and teachers in building this institution stronger.",
+  ].join("\n\n"),
+  highlights: principalKeyHighlights,
 };

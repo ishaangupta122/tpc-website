@@ -1,9 +1,9 @@
+import { useState, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useMemo, useState, useRef } from "react";
+import SuccessStoriesCarousel from "./SuccessStories";
 import { useAchievements } from "../hooks/useResources";
 import HomePanel from "./HomePanel";
 import HomeCard from "./HomeCard";
-import NoticesPanel from "./NoticesPanel";
 import Loading from "./Loading";
 import NoDataFound from "./NoDataFound";
 import Error from "./Error";
@@ -11,17 +11,10 @@ import Error from "./Error";
 const navButtonClass =
   "p-2 rounded-full bg-gradient-to-b from-emerald-800 to-emerald-950 text-white hover:from-emerald-800/95 hover:to-emerald-950/95 transition-colors";
 
-const AchievementsCarousel = () => {
-  const { data, loading, error, refresh } = useAchievements();
-  const achievements = useMemo(
-    () =>
-      data.filter((achievement) =>
-        ["Student", "Faculty", "College"].includes(achievement.category)
-      ),
-    [data]
-  );
-  const scrollRef = useRef(null);
+const AchievementsCarousel = ({ className = "" }) => {
+  const { data: achievements, loading, error, refresh } = useAchievements();
   const [activeButton, setActiveButton] = useState(null);
+  const scrollRef = useRef(null);
 
   const scroll = (direction) => {
     if (!scrollRef.current || activeButton) return;
@@ -54,49 +47,55 @@ const AchievementsCarousel = () => {
   );
 
   return (
+    <div className={`min-w-0 ${className}`}>
+      <HomePanel title="Latest Achievements" actions={controls}>
+        {error ? (
+          <Error error={error} onRetry={refresh} />
+        ) : loading ? (
+          <Loading title="Achievements" />
+        ) : achievements.length === 0 ? (
+          <NoDataFound title="Achievements" />
+        ) : (
+          <div
+            ref={scrollRef}
+            className="flex -mx-2 overflow-x-auto scroll-smooth"
+            style={{
+              scrollbarWidth: "none",
+              msOverflowStyle: "none",
+              WebkitOverflowScrolling: "touch",
+            }}>
+            {achievements.map((achievement) => (
+              <div
+                key={achievement._id}
+                className="w-full sm:w-1/2 lg:w-1/3 flex-shrink-0 px-2">
+                <HomeCard
+                  image={achievement.image}
+                  date={achievement.date}
+                  title={achievement.title}
+                  description={achievement.description}
+                  to={`achievements/${achievement._id}`}
+                />
+              </div>
+            ))}
+          </div>
+        )}
+      </HomePanel>
+    </div>
+  );
+};
+
+// Success stories beside the college achievements (all of them, newest first).
+const AchievementsSection = () => {
+  return (
     <section
       id="achievements"
       className="bg-white overflow-hidden py-10">
       <div className="site-container my-10 grid grid-cols-1 lg:grid-cols-12 gap-8">
-        <div className="lg:col-span-8 min-w-0">
-          <HomePanel title="College Achievements" actions={controls}>
-            {error ? (
-              <Error error={error} onRetry={refresh} />
-            ) : loading ? (
-              <Loading title="Achievements" />
-            ) : achievements.length === 0 ? (
-              <NoDataFound title="Achievements" />
-            ) : (
-              <div
-                ref={scrollRef}
-                className="flex -mx-2 overflow-x-auto scroll-smooth"
-                style={{
-                  scrollbarWidth: "none",
-                  msOverflowStyle: "none",
-                  WebkitOverflowScrolling: "touch",
-                }}>
-                {achievements.map((achievement) => (
-                  <div
-                    key={achievement._id}
-                    className="w-full sm:w-1/2 lg:w-1/3 flex-shrink-0 px-2">
-                    <HomeCard
-                      image={achievement.image}
-                      date={achievement.date}
-                      title={achievement.title}
-                      description={achievement.description}
-                      to={`achievements/${achievement._id}`}
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
-          </HomePanel>
-        </div>
-
-        <NoticesPanel className="lg:col-span-4" />
+        <SuccessStoriesCarousel className="lg:col-span-4" />
+        <AchievementsCarousel className="lg:col-span-8" />
       </div>
     </section>
   );
 };
 
-export default AchievementsCarousel;
+export default AchievementsSection;

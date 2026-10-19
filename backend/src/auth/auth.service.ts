@@ -13,7 +13,10 @@ const BCRYPT_COST = 12;
 export class AuthService {
   // Compared against when the email is unknown, so a wrong email and a wrong
   // password take the same time and can't be told apart.
-  private readonly dummyHash = bcrypt.hashSync('not-a-real-password', BCRYPT_COST);
+  private readonly dummyHash = bcrypt.hashSync(
+    'not-a-real-password',
+    BCRYPT_COST,
+  );
 
   constructor(
     @InjectModel(User.name) private readonly userModel: Model<User>,
@@ -26,7 +29,10 @@ export class AuthService {
       .findOne({ email: email.trim().toLowerCase() })
       .exec();
 
-    const valid = await bcrypt.compare(password, user?.password ?? this.dummyHash);
+    const valid = await bcrypt.compare(
+      password,
+      user?.password ?? this.dummyHash,
+    );
     if (!user || !valid) {
       throw new UnauthorizedException('Invalid email or password');
     }

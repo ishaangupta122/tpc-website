@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ArrowRight } from "lucide-react";
 import HeroSection from "../../components/HeroSection";
-import { collegeContact } from "../../data/data";
+import { useContact } from "../../hooks/useResources";
 
 const fields = [
   {
@@ -39,44 +39,46 @@ const inputClass =
 
 const labelClass = "block text-xs font-medium text-gray-800 mb-1.5";
 
-const contactDetails = [
-  {
-    label: "Tel",
-    value: (
-      <>
-        {collegeContact.phones.map(({ display, tel }, index) => (
-          <span key={tel}>
-            {index > 0 && ", "}
-            <a href={`tel:${tel}`} className="hover:underline">
-              {display}
-            </a>
-          </span>
-        ))}
-      </>
-    ),
-  },
-  {
-    label: "Email",
-    value: (
-      <a href={`mailto:${collegeContact.email}`} className="hover:underline">
-        {collegeContact.email}
-      </a>
-    ),
-  },
-  {
-    label: "Hours",
-    value: collegeContact.hours,
-  },
-];
 
 const ContactPage = () => {
+  const { data: collegeContact } = useContact();
+  const contactDetails = [
+    {
+      label: "Tel",
+      value: (
+        <>
+          {collegeContact.phones.map(({ display, tel }, index) => (
+            <span key={tel}>
+              {index > 0 && ", "}
+              <a href={`tel:${tel}`} className="hover:underline">
+                {display}
+              </a>
+            </span>
+          ))}
+        </>
+      ),
+    },
+    {
+      label: "Email",
+      value: (
+        <a href={`mailto:${collegeContact.email}`} className="hover:underline">
+          {collegeContact.email}
+        </a>
+      ),
+    },
+    {
+      label: "Hours",
+      value: collegeContact.hours,
+    },
+  ];
+
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
 
   const breadcrumbs = [
     { label: "Home", href: "/" },
-    { label: "contact", href: "/contact" },
+    { label: "Contact", href: "/contact" },
   ];
 
   const handleSubmit = async (e) => {

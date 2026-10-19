@@ -41,4 +41,20 @@
   .title-rule {
     @apply h-1 w-28 rounded-full bg-[#FDB714];
   }
+
+  /* Admin-authored HTML blocks on achievement pages: site typography, never the author's own styles. */
+  .rich-html {
+    @apply text-base md:text-lg leading-relaxed text-gray-800;
+  }
+  .rich-html > * + * { @apply mt-4; }
+  .rich-html h1, .rich-html h2 { @apply text-xl md:text-2xl font-semibold text-emerald-900 mt-6; }
+  .rich-html h3, .rich-html h4 { @apply text-lg md:text-xl font-semibold text-emerald-900 mt-5; }
+  .rich-html ul { @apply list-disc pl-6 space-y-1; }
+  .rich-html ol { @apply list-decimal pl-6 space-y-1; }
+  .rich-html a { @apply text-emerald-800 underline underline-offset-4 hover:text-emerald-900; }
+  .rich-html img { @apply max-w-full h-auto rounded-md shadow-md; }
+  .rich-html blockquote { @apply border-l-4 border-[#fdb714] pl-5 italic; }
+  .rich-html table { @apply w-full border-collapse text-left text-sm md:text-base; }
+  .rich-html th { @apply bg-emerald-50 font-semibold text-emerald-900; }
+  .rich-html th, .rich-html td { @apply border border-gray-200 px-3 py-2; }
 }

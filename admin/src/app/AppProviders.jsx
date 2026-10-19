@@ -1,6 +1,7 @@
 import { NotificationProvider } from "../context/NotificationContext";
 import {
   AchievementsProvider,
+  AicteCoursesProvider,
   AuthProvider,
   CommitteeProvider,
   DocumentsProvider,
@@ -9,6 +10,7 @@ import {
   GalleryProvider,
   NoticesProvider,
   PlacementsProvider,
+  PoliciesProvider,
   SuccessStoriesProvider,
 } from "../context";
 
@@ -23,6 +25,8 @@ const PROVIDERS = [
   SuccessStoriesProvider,
   PlacementsProvider,
   CommitteeProvider,
+  AicteCoursesProvider,
+  PoliciesProvider,
   GalleryProvider,
   NoticesProvider,
   DocumentsProvider,

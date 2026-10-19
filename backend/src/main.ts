@@ -20,7 +20,10 @@ async function bootstrap() {
   // Behind a reverse proxy (nginx, Render, ...) the real client IP is needed
   // for rate limiting: set TRUST_PROXY=1.
   if (config.get('TRUST_PROXY')) {
-    app.set('trust proxy', Number(config.get('TRUST_PROXY')) || config.get('TRUST_PROXY'));
+    app.set(
+      'trust proxy',
+      Number(config.get('TRUST_PROXY')) || config.get('TRUST_PROXY'),
+    );
   }
 
   // Security headers. Uploaded images are shown on the (cross-origin) website,
@@ -36,7 +39,9 @@ async function bootstrap() {
   app.enableCors({
     origin: (origin, callback) => {
       const ok =
-        !origin || allowed.includes(origin) || (!production && DEV_ORIGIN.test(origin));
+        !origin ||
+        allowed.includes(origin) ||
+        (!production && DEV_ORIGIN.test(origin));
       callback(null, ok);
     },
     methods: ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE'],
@@ -59,6 +64,8 @@ async function bootstrap() {
   } else {
     logger.warn('MongoDB not connected yet');
   }
-  logger.log(`Application is running on port ${port} (${production ? 'production' : 'development'})`);
+  logger.log(
+    `Application is running on port ${port} (${production ? 'production' : 'development'})`,
+  );
 }
 bootstrap();

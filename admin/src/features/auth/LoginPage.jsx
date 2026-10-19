@@ -7,7 +7,7 @@ const LoginPage = () => {
   const { isAuthenticated, login } = useAuth();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: "", password: "" });
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -17,18 +17,27 @@ const LoginPage = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    setError("");
+    setErrors({});
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const found = {};
+    if (!formData.email.trim()) found.email = "Enter your email address.";
+    else if (!/^\S+@\S+\.\S+$/.test(formData.email.trim())) found.email = "Enter a valid email address.";
+    if (!formData.password) found.password = "Enter your password.";
+    if (Object.keys(found).length) {
+      setErrors(found);
+      return;
+    }
     setSubmitting(true);
-    setError("");
+    setErrors({});
     try {
       await login(formData.email.trim(), formData.password);
       navigate("/", { replace: true });
     } catch (err) {
-      setError(err.message || "Unable to sign in. Please try again.");
+      // Wrong password, too many attempts or no connection: all shown under the password.
+      setErrors({ password: err.message || "Unable to sign in. Please try again." });
       setSubmitting(false);
     }
   };
@@ -46,7 +55,7 @@ const LoginPage = () => {
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-lg mx-4">
         <div className="bg-white py-8 px-4 shadow-lg shadow-green-100/50 sm:rounded-xl sm:px-10 border border-green-50">
-          <form className="space-y-6" onSubmit={handleSubmit}>
+          <form className="space-y-6" noValidate onSubmit={handleSubmit}>
             <div>
               <label
                 htmlFor="email"
@@ -60,12 +69,16 @@ const LoginPage = () => {
                   type="email"
                   placeholder="admin@example.com"
                   autoComplete="email"
-                  required
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+                  className={`appearance-none block w-full px-3 py-2 border rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all ${errors.email ? "border-red-500" : "border-gray-300"}`}
                   value={formData.email}
                   onChange={handleChange}
                 />
               </div>
+              {errors.email && (
+                <p role="alert" className="mt-1 text-sm text-red-600">
+                  {errors.email}
+                </p>
+              )}
             </div>
 
             <div>
@@ -81,8 +94,7 @@ const LoginPage = () => {
                   type={showPassword ? "text" : "password"}
                   placeholder="••••••••"
                   autoComplete="current-password"
-                  required
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all pr-10"
+                  className={`appearance-none block w-full px-3 py-2 border rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all pr-10 ${errors.password ? "border-red-500" : "border-gray-300"}`}
                   value={formData.password}
                   onChange={handleChange}
                 />
@@ -93,13 +105,12 @@ const LoginPage = () => {
                   {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                 </button>
               </div>
+              {errors.password && (
+                <p role="alert" className="mt-1 text-sm text-red-600">
+                  {errors.password}
+                </p>
+              )}
             </div>
-
-            {error && (
-              <p role="alert" className="text-red-600 text-sm">
-                {error}
-              </p>
-            )}
 
             <div>
               <button

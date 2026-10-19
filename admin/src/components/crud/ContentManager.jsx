@@ -1,8 +1,5 @@
-import { useMemo, useState } from "react";
 import { Column } from "primereact/column";
-import { useDialogs } from "../../hooks/useDialogs";
-import { useConfirmDelete } from "../../hooks/useConfirmDelete";
-import { matchesSearch } from "../../utils/search";
+import { useListPage } from "../../hooks/useListPage";
 import PageContainer from "../ui/PageContainer";
 import PageHeader from "../ui/PageHeader";
 import FilterBar from "../ui/FilterBar";
@@ -10,11 +7,12 @@ import DataCard from "../ui/DataCard";
 import RowActions from "../ui/RowActions";
 import TruncateText from "../ui/TruncateText";
 import ViewDialog from "../forms/ViewDialog";
+import BlocksPreview from "../forms/BlocksPreview";
 import ImageContentForm from "./ImageContentForm";
 
 const CategoryBadge = ({ value }) => (
   <div
-    className={`px-3 py-1 rounded-full w-fit ${
+    className={`px-3 py-1 rounded-full w-fit whitespace-nowrap ${
       value === "College"
         ? "bg-red-100 text-red-700"
         : "bg-green-100 text-green-700"
@@ -32,49 +30,31 @@ const CategoryBadge = ({ value }) => (
 //   title, subtitle, addLabel, searchPlaceholder, emptyMessage,
 //   useResource: useEvents,                // context hook (CRUD resource)
 //   deleteLabel: (item) => string,         // what to call the item when confirming
-//   imageColumn: "first" | "last",
+//   imageColumn: "first" (default, right after S.NO) | "last",
 //   filter?: { field, allLabel, options }  // dropdown next to the search box
 //   fields: [                              // in form/view order
 //     { name, label, type: "text" | "textarea" | "date" | "select", required,
 //       placeholder, options (select only),
-//       column?: { header, truncate?, sortable?, badge? } },
+//       column?: { header, truncate?, sortable?, sortField?, badge? } },
 //     { type: "image", key: "image", label, required },
 //   ],
 // }
 const ContentManager = ({ config }) => {
   const {
     title, subtitle, addLabel, searchPlaceholder, emptyMessage, entity, fields,
-    useResource, deleteLabel, imageColumn = "last", filter,
+    useResource, deleteLabel, imageColumn = "first", filter,
   } = config;
   const resource = useResource();
   const { items, loading, error, refresh, remove } = resource;
-  const dialogs = useDialogs();
-  const confirmDelete = useConfirmDelete();
-  const [search, setSearch] = useState("");
-  const [filterValue, setFilterValue] = useState("");
-
   const imageField = fields.find((field) => field.type === "image");
-  const searchFields = fields
-    .filter((field) => field.type !== "image")
-    .map((field) => field.name);
-
-  const rows = useMemo(
-    () =>
-      items.filter(
-        (item) =>
-          matchesSearch(item, searchFields, search) &&
-          (!filter || filterValue === "" || item[filter.field] === filterValue)
-      ),
-    // searchFields is derived from the constant config
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [items, search, filterValue]
-  );
-
-  const handleDelete = (item) =>
-    confirmDelete({
-      message: `Are you sure you want to delete "${deleteLabel(item)}" ?`,
-      onConfirm: () => remove(item._id),
-      successMessage: `${entity} deleted.`,
+  const { dialogs, search, setSearch, filterValue, setFilterValue, rows, handleDelete } =
+    useListPage({
+      items,
+      remove,
+      searchFields: fields.filter((field) => field.type !== "image").map((field) => field.name),
+      filterField: filter?.field,
+      itemLabel: deleteLabel,
+      deletedMessage: `${entity} deleted.`,
     });
 
   const imageColumnEl = imageField && (
@@ -130,6 +110,7 @@ const ContentManager = ({ config }) => {
               field={name}
               header={column.header}
               sortable={column.sortable}
+              sortField={column.sortField}
               body={
                 column.badge
                   ? (row) => <CategoryBadge value={row[name]} />
@@ -167,6 +148,7 @@ const ContentManager = ({ config }) => {
         header={`View ${entity}`}
         visible={dialogs.viewOpen}
         onHide={dialogs.close}
+        extra={config.blocks && <BlocksPreview blocks={viewItem?.blocks} />}
         fields={fields.map((field) => ({
           label: field.label,
           type: field.type === "image" ? "image" : field.type === "textarea" ? "textarea" : "text",

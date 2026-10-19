@@ -1,152 +1,69 @@
-import { useState } from "react";
-import { Search } from "lucide-react";
-import HeroSection from "../../components/HeroSection";
-import { usePlacements } from "../../hooks/useResources";
-import Loading from "../../components/Loading";
+import { useMemo } from "react";
+import PageLayout from "../../components/PageLayout";
+import DataBoundary from "../../components/DataBoundary";
+import DataTable from "../../components/DataTable";
+import FilterBar from "../../components/FilterBar";
 import NoDataFound from "../../components/NoDataFound";
-import Error from "../../components/Error";
+import { usePlacements } from "../../hooks/useResources";
+import { useUrlFilters } from "../../hooks/useUrlFilters";
+import { optionsFrom, validOption } from "../../utils/filterOptions";
+
+const COLUMNS = [
+  { header: "Department", key: "department", className: "font-medium text-gray-900" },
+  { header: "Approved Intake", key: "approvedIntake" },
+  { header: "No. Companies Visited", key: "companiesVisited" },
+  { header: "Students Placed", key: "studentsPlaced" },
+  { header: "Average Package", render: (dept) => `₹ ${dept.avgPackage} LPA` },
+];
 
 const PlacementsTracker = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedYear, setSelectedYear] = useState("");
   const { data: placements, loading, error, refresh } = usePlacements();
+  const [filters, setFilter] = useUrlFilters(["q", "year"]);
+  // Years come from the data, newest first.
+  const years = useMemo(
+    () => optionsFrom(placements, (placement) => String(placement.year)).sort((a, b) => b.value - a.value),
+    [placements]
+  );
+  const selectedYear = validOption(filters.year, years);
 
-  const breadcrumbs = [
-    { label: "Home", href: "/" },
-    { label: "Placements", href: "/placements" },
-  ];
-
-  const filteredPlacements = placements
-    .filter((placement) =>
-      selectedYear ? placement.year.toString() === selectedYear : true
-    )
+  // Each year keeps only the departments that match the search.
+  const query = filters.q.toLowerCase();
+  const visibleYears = placements
+    .filter((placement) => !selectedYear || String(placement.year) === selectedYear)
     .map((placement) => ({
       ...placement,
-      departments: placement.departments
-        ? placement.departments.filter((dept) =>
-            dept.department.toLowerCase().includes(searchTerm.toLowerCase())
-          )
-        : [],
+      departments: (placement.departments || []).filter((dept) =>
+        dept.department.toLowerCase().includes(query)
+      ),
     }))
     .filter((placement) => placement.departments.length > 0);
 
   return (
-    <>
-      <HeroSection
-        imageUrl="/rec_gate.jpg"
-        title="College Placements"
-        breadcrumbs={breadcrumbs}
-      />
-
-      <div className="flex justify-center items-center ">
-        <div className="site-container py-6 my-10">
-          <div className="mb-6 space-y-6">
-            <h1 className="page-title">
-              College <span className="text-black">Placements</span>
-            </h1>
-            {error ? (
-              <Error error={error} onRetry={refresh} />
-            ) : loading ? (
-              <Loading title="Placements Data" />
-            ) : (
-              <>
-                {/* Filters and Search */}
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <div className="relative flex-1">
-                    <input
-                      type="search"
-                      placeholder="Search department..."
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      className="w-full p-2 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-800"
-                    />
-                    <Search className="absolute left-3 top-2.5 text-gray-400 h-5 w-5" />
-                  </div>
-
-                  <select
-                    value={selectedYear}
-                    onChange={(e) => setSelectedYear(e.target.value)}
-                    className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-800 bg-white">
-                    <option value="">All Years</option>
-                    {placements
-                      .map((placement) => placement.year)
-                      .sort((a, b) => b - a)
-                      .map((year) => (
-                        <option key={year} value={year}>
-                          {year}
-                        </option>
-                      ))}
-                  </select>
-                </div>
-                {/* No Data Found */}
-                {filteredPlacements.length === 0 ? (
-                  <NoDataFound title="Placements" />
-                ) : (
-                  <>
-                    {/* Data List */}
-                    {filteredPlacements.map((placement) => (
-                      <div key={placement.year} className="mb-8">
-                        <h3 className="card-title mb-4">
-                          {placement.year} Placements
-                        </h3>
-                        <div className="border border-gray-200 rounded-lg">
-                          <div className="overflow-x-auto">
-                            <table className="min-w-full bg-white rounded-lg overflow-hidden shadow-lg">
-                              <thead className="bg-gray-100">
-                                <tr>
-                                  <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">
-                                    Department
-                                  </th>
-                                  <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">
-                                    Approved Intake
-                                  </th>
-                                  <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">
-                                    No. Companies Visited
-                                  </th>
-                                  <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">
-                                    Students Placed
-                                  </th>
-                                  <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">
-                                    Average Package
-                                  </th>
-                                </tr>
-                              </thead>
-                              <tbody className="divide-y divide-gray-200">
-                                {placement.departments.map((dept) => (
-                                  <tr
-                                    key={dept.department}
-                                    className="hover:bg-gray-50">
-                                    <td className="px-6 py-4 text-sm font-medium text-gray-900">
-                                      {dept.department}
-                                    </td>
-                                    <td className="px-6 py-4 text-sm text-gray-600">
-                                      {dept.approvedIntake}
-                                    </td>
-                                    <td className="px-6 py-4 text-sm text-gray-600">
-                                      {dept.companiesVisited}
-                                    </td>
-                                    <td className="px-6 py-4 text-sm text-gray-600">
-                                      {dept.studentsPlaced}
-                                    </td>
-                                    <td className="px-6 py-4 text-sm text-gray-600">
-                                      ₹ {dept.avgPackage} LPA
-                                    </td>
-                                  </tr>
-                                ))}
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </>
-                )}
-              </>
-            )}
-          </div>
-        </div>
-      </div>
-    </>
+    <PageLayout title="College Placements" crumb="Placements" path="/placements" heading={["College", "Placements"]}>
+      <DataBoundary loading={loading} error={error} onRetry={refresh} title="Placements Data">
+        <FilterBar
+          search={filters.q}
+          onSearch={(value) => setFilter("q", value)}
+          placeholder="Search department..."
+          filter={{
+            value: selectedYear,
+            onChange: (value) => setFilter("year", value),
+            allLabel: "All Years",
+            options: years,
+          }}
+        />
+        {visibleYears.length === 0 ? (
+          <NoDataFound title="Placements" />
+        ) : (
+          visibleYears.map((placement) => (
+            <div key={placement.year} className="mb-8">
+              <h3 className="card-title mb-4">{placement.year} Placements</h3>
+              <DataTable columns={COLUMNS} rows={placement.departments} rowKey={(dept) => dept.department} />
+            </div>
+          ))
+        )}
+      </DataBoundary>
+    </PageLayout>
   );
 };
 

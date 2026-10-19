@@ -1,16 +1,16 @@
-import { 
-  Controller, 
-  Get, 
-  Post, 
-  Put, 
-  Delete, 
-  Body, 
-  Param, 
-  UploadedFile, 
-  UseInterceptors 
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Body,
+  Param,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { imageUploadOptions, toAbsoluteUrl, toPublicPath } from '../storage/storage.util';
+import { imageUploadOptions } from '../storage/storage.util';
 import { IMAGE_FOLDERS } from '../storage/storage.constants';
 import { AchievementsService } from './achievements.service';
 import { CreateAchievementDto } from '../schemas/achievements/create-achievement.dto';
@@ -21,12 +21,12 @@ export class AchievementsController {
   constructor(private readonly achievementsService: AchievementsService) {}
 
   @Get()
-  async getAllAchievements(): Promise<Record<string, any>[]> {
+  async findAll(): Promise<Record<string, any>[]> {
     return this.achievementsService.findAll();
   }
 
   @Get(':id')
-  async getAchievementById(@Param('id') id: string): Promise<Record<string, any>> {
+  async findOne(@Param('id') id: string): Promise<Record<string, any>> {
     return this.achievementsService.findOne(id);
   }
 
@@ -34,27 +34,27 @@ export class AchievementsController {
   @UseInterceptors(
     FileInterceptor('image', imageUploadOptions(IMAGE_FOLDERS.achievements)),
   )
-  async createAchievement(
-    @Body() createAchievementDto: CreateAchievementDto,
+  async create(
+    @Body() createDto: CreateAchievementDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    return this.achievementsService.create(createAchievementDto, file);
+    return this.achievementsService.create(createDto, file);
   }
 
   @Put(':id')
   @UseInterceptors(
     FileInterceptor('image', imageUploadOptions(IMAGE_FOLDERS.achievements)),
   )
-  async updateAchievement(
+  async update(
     @Param('id') id: string,
-    @Body() updateAchievementDto: UpdateAchievementDto,
+    @Body() updateDto: UpdateAchievementDto,
     @UploadedFile() file?: Express.Multer.File,
   ) {
-    return this.achievementsService.update(id, updateAchievementDto, file);
+    return this.achievementsService.update(id, updateDto, file);
   }
 
   @Delete(':id')
-  async deleteAchievement(@Param('id') id: string) {
-    return this.achievementsService.delete(id);
+  async remove(@Param('id') id: string) {
+    return this.achievementsService.remove(id);
   }
 }

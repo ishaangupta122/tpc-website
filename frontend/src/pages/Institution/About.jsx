@@ -8,8 +8,6 @@ const facts = [
     "Affiliation",
     "Punjab State Board of Technical Education and Industrial Training, Chandigarh",
   ],
-  ["Programmes", "3-year diplomas in 5 branches"],
-  ["Annual intake", "360 students"],
   ["Recognition", "Best Polytechnic in the Northern Region (1999-2000, 2005-06)"],
 ];
 

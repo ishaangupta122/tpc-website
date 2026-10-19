@@ -96,6 +96,13 @@ const Navbar = () => {
                 Home
               </Link>
 
+              <Link
+                to='/about'
+                onClick={handleDropdownLinkClick}
+                className=' text-gray-700 hover:text-emerald-600 transition-colors'>
+                About Us
+              </Link>
+
               {/* Institution Dropdown */}
               <div
                 className='relative group  flex items-center'
@@ -112,12 +119,6 @@ const Navbar = () => {
                       : "opacity-0 invisible"
                   }`}>
                   <div className='py-2 text-white text-sm font-normal'>
-                    <Link
-                      to='/about'
-                      onClick={handleDropdownLinkClick}
-                      className='block px-4 py-2 hover:bg-emerald-50 hover:text-emerald-600'>
-                      About Us
-                    </Link>
                     <Link
                       to='/principal'
                       onClick={handleDropdownLinkClick}
@@ -141,12 +142,6 @@ const Navbar = () => {
                       onClick={handleDropdownLinkClick}
                       className='block px-4 py-2 hover:bg-emerald-50 hover:text-emerald-600'>
                       Admin Staff
-                    </Link>
-                    <Link
-                      to='/gallery'
-                      onClick={handleDropdownLinkClick}
-                      className='block px-4 py-2 hover:bg-emerald-50 hover:text-emerald-600'>
-                      Gallery
                     </Link>
                   </div>
                 </div>
@@ -228,7 +223,7 @@ const Navbar = () => {
                       to='/architectural'
                       onClick={handleDropdownLinkClick}
                       className='block px-4 py-2  hover:bg-emerald-50 hover:text-emerald-600'>
-                      Architectural Assitantship
+                      Architectural Assistantship
                     </Link>
                     <Link
                       to='/cse'
@@ -258,9 +253,10 @@ const Navbar = () => {
                 </div>
               </div>
               <Link
-                to='/placements'
+                to='/gallery'
+                onClick={handleDropdownLinkClick}
                 className='text-gray-700 hover:text-emerald-600 transition-colors'>
-                Placements
+                Gallery
               </Link>
             </div>
           </div>
@@ -305,6 +301,12 @@ const Navbar = () => {
               className='block py-3 text-base font-medium text-gray-900 hover:text-emerald-600 border-b'>
               Home
             </Link>
+            <Link
+              to='/about'
+              onClick={handleLinkClick}
+              className='block py-3 text-base font-medium text-gray-900 hover:text-emerald-600 border-b'>
+              About Us
+            </Link>
 
             {/* Mobile Institution */}
             <div className='border-b'>
@@ -325,12 +327,6 @@ const Navbar = () => {
                     : "max-h-0"
                 }`}>
                 <div className='pl-4 pb-3 space-y-2 font-medium'>
-                  <Link
-                    to='/about'
-                    onClick={handleLinkClick}
-                    className='block py-2  text-gray-600 hover:text-emerald-600'>
-                    About Us
-                  </Link>
                   <Link
                     to='/principal'
                     onClick={handleLinkClick}
@@ -354,12 +350,6 @@ const Navbar = () => {
                     onClick={handleLinkClick}
                     className='block py-2  text-gray-600 hover:text-emerald-600'>
                     Admin Staff
-                  </Link>
-                  <Link
-                    to='/gallery'
-                    onClick={handleLinkClick}
-                    className='block py-2  text-gray-600 hover:text-emerald-600'>
-                    Gallery
                   </Link>
                 </div>
               </div>
@@ -473,10 +463,10 @@ const Navbar = () => {
               </div>
             </div>
             <Link
-              to='/placements'
+              to='/gallery'
               onClick={handleLinkClick}
               className='block py-3 text-base font-medium text-gray-900 hover:text-emerald-600 border-b'>
-              Placements
+              Gallery
             </Link>
             {/* Top Navbar Links */}
             <Link

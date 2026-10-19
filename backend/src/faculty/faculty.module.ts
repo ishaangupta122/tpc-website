@@ -5,7 +5,9 @@ import { FacultyService } from './faculty.service';
 import { Faculty, FacultySchema } from '../schemas/faculty/faculty.schema';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: Faculty.name, schema: FacultySchema }])],
+  imports: [
+    MongooseModule.forFeature([{ name: Faculty.name, schema: FacultySchema }]),
+  ],
   controllers: [FacultyController],
   providers: [FacultyService],
 })

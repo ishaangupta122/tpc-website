@@ -14,7 +14,7 @@
 //    error entry so the UI can show it, and is retried on the next load.
 //    A failed background revalidation keeps the previous good data.
 
-export const DEFAULT_STALE_TIME = 5 * 60 * 1000; // 5 minutes
+const DEFAULT_STALE_TIME = 5 * 60 * 1000; // 5 minutes
 
 export const createDataStore = ({ staleTime = DEFAULT_STALE_TIME } = {}) => {
   const entries = new Map(); // key -> immutable entry object

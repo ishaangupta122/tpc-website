@@ -3,16 +3,20 @@ import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 import Field from "./Field";
+import { DIALOG_WIDTH } from "./dialogWidth";
 
 // Read-only detail dialog.
 //   fields  [{ label, value, type: "text" | "textarea" | "image" }]
-const ViewDialog = ({ header, visible, onHide, fields }) => (
+//   extra   optional content shown below the fields (e.g. the page layout)
+//   width   dialog width (default: the shared DIALOG_WIDTH)
+const ViewDialog = ({ header, visible, onHide, fields, extra, width = DIALOG_WIDTH }) => (
   <Dialog
     header={header}
     visible={visible}
     onHide={onHide}
-    style={{ width: "50vw" }}
-    breakpoints={{ "960px": "90vw" }}>
+    style={{ width, maxWidth: "96vw" }}
+    draggable={false}
+    breakpoints={{ "960px": "94vw" }}>
     <div className="space-y-4">
       {fields.map(({ label, value, type = "text" }) => (
         <Field key={label} label={label}>
@@ -37,6 +41,7 @@ const ViewDialog = ({ header, visible, onHide, fields }) => (
           )}
         </Field>
       ))}
+      {extra}
       <div className="flex justify-end">
         <Button
           type="button"

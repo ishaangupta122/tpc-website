@@ -21,7 +21,9 @@ export const validateEnv = (env: Record<string, unknown>) => {
   if (production) {
     if (!text('BASE_URL')) errors.push('BASE_URL is required in production');
     if (!text('CORS_ORIGINS')) {
-      errors.push('CORS_ORIGINS is required in production (comma-separated site and admin URLs)');
+      errors.push(
+        'CORS_ORIGINS is required in production (comma-separated site and admin URLs)',
+      );
     }
   }
 

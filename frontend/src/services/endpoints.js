@@ -9,4 +9,9 @@ export const ENDPOINTS = {
   members: "/members",
   placements: "/placements",
   successStories: "/successstory",
+  principal: "/principal",
+  aicteCourses: "/aicte-courses",
+  policies: "/policies",
+  contact: "/contact",
+  departments: "/departments",
 };

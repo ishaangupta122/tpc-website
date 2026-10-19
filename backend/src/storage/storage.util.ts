@@ -3,12 +3,16 @@ import { existsSync, mkdirSync, unlink } from 'fs';
 import { diskStorage } from 'multer';
 import { extname, join, normalize, sep } from 'path';
 import { randomUUID } from 'crypto';
-import { MAX_IMAGE_SIZE, MAX_PDF_SIZE, getUploadRoot } from './storage.constants';
+import {
+  MAX_IMAGE_SIZE,
+  MAX_PDF_SIZE,
+  getUploadRoot,
+} from './storage.constants';
 
 type FolderResolver = string | ((req: any) => string);
 
 /** Disk storage that saves into `uploads/<folder>` (created on demand) with a uuid name. */
-export const createDiskStorage = (folder: FolderResolver) =>
+const createDiskStorage = (folder: FolderResolver) =>
   diskStorage({
     destination: (req, _file, cb) => {
       try {
@@ -31,7 +35,10 @@ const IMAGE_MIMES = ['image/jpeg', 'image/jpg', 'image/png'];
 const imageFilter = (_req, file, cb) =>
   IMAGE_MIMES.includes(file.mimetype)
     ? cb(null, true)
-    : cb(new BadRequestException('Only jpg, jpeg and png images are allowed'), false);
+    : cb(
+        new BadRequestException('Only jpg, jpeg and png images are allowed'),
+        false,
+      );
 
 const pdfFilter = (_req, file, cb) =>
   file.mimetype === 'application/pdf' &&
@@ -66,6 +73,21 @@ export const toAbsoluteUrl = (publicPath?: string | null) => {
   return `${base.replace(/\/$/, '')}${publicPath}`;
 };
 
+/**
+ * A record with the absolute URL of its stored file(s) in the given field(s).
+ * Files are stored as `/uploads/...` paths; older records may hold full URLs,
+ * which are returned as they are.
+ */
+export const withFileUrls = <T extends Record<string, any>>(
+  doc: T,
+  ...fields: string[]
+) => ({
+  ...doc,
+  ...Object.fromEntries(
+    fields.map((field) => [field, toAbsoluteUrl(doc[field])]),
+  ),
+});
+
 /** Best-effort removal of a stored file; never throws and never leaves `uploads/`. */
 export const deleteUploadedFile = (publicPath?: string | null) => {
   if (!publicPath) return;
@@ -79,9 +101,4 @@ export const deleteUploadedFile = (publicPath?: string | null) => {
   unlink(full, (err) => {
     if (err) console.error('Error deleting file:', err.message);
   });
-};
-
-/** Removes a just-uploaded file when the request fails after multer saved it. */
-export const discardUploadedFile = (file?: Express.Multer.File) => {
-  if (file?.path) unlink(file.path, () => undefined);
 };

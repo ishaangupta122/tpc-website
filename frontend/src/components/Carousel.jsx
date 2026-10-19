@@ -10,18 +10,19 @@ import Typewriter from "./TypeWriteEffect";
 import { homePageCarousel } from "../data/data";
 
 const Carousel = () => {
+  const slides = homePageCarousel;
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const [quickLinks] = useState([
     {
-      icon: <Trophy className="h-8 w-8" />,
-      title: "Achievements",
-      href: "#achievements",
-    },
-    {
       icon: <CalendarDays className="h-8 w-8" />,
       title: "Events",
       href: "#events",
+    },
+    {
+      icon: <Trophy className="h-8 w-8" />,
+      title: "Achievements",
+      href: "#achievements",
     },
     {
       icon: <GraduationCapIcon className="h-8 w-8" />,
@@ -41,14 +42,13 @@ const Carousel = () => {
   ]);
 
   useEffect(() => {
+    if (slides.length < 2) return;
     const timer = setInterval(() => {
-      setCurrentSlide((prevSlide) =>
-        prevSlide === homePageCarousel.length - 1 ? 0 : prevSlide + 1
-      );
+      setCurrentSlide((prevSlide) => (prevSlide >= slides.length - 1 ? 0 : prevSlide + 1));
     }, 2000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [slides.length]);
 
   const getCardStyle = (index) => {
     const baseClasses = "animate-slide-in opacity-0 card-animation";
@@ -64,9 +64,9 @@ const Carousel = () => {
       <div className="relative w-full overflow-hidden h-full">
         <div
           className="flex transition-transform duration-500 ease-in-out h-full"
-          style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
-          {homePageCarousel.map((slide, index) => (
-            <div key={index} className="w-full flex-shrink-0 h-full">
+          style={{ transform: `translateX(-${(currentSlide % slides.length) * 100}%)` }}>
+          {slides.map((slide, index) => (
+            <div key={slide._id ?? index} className="w-full flex-shrink-0 h-full">
               <div className="relative w-full h-full aspect-[3/1]">
                 <img
                   src={slide.image}

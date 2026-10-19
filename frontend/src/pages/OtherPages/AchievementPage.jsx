@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import { useAchievement } from "../../hooks/useResources";
 import Loading from "../../components/Loading";
 import Error from "../../components/Error";
+import DetailContent from "../../components/DetailContent";
+import { formatDate } from "../../utils/formatDate";
 
 const AchievementPage = () => {
   const { achievementId } = useParams();
@@ -27,28 +29,19 @@ const AchievementPage = () => {
       {error ? (
         <Error error={error} onRetry={refresh} />
       ) : loading ? (
-        <>
-          <Loading title="Achievement Details" />
-        </>
+        <Loading title="Achievement Details" />
       ) : (
-        <div className="max-w-5xl mx-auto py-16 px-4 md:px-6">
-          <div className="mb-8">
-            <p className="text-gray-600 mb-2 tracking-wide uppercase text-sm font-medium">
-              {achievement.category}
-            </p>
-            <h1 className="detail-title mb-6">
-              {achievement.title}
-            </h1>
-          </div>
-          <img
-            src={achievement.image}
-            alt={achievement.title}
-            className="w-full h-[600px] object-cover object-top mb-8 shadow-lg rounded-md"
-          />
-          <p className="text-md text-gray-800 font-normal text-justify space-y-4">
-            {achievement.description}
-          </p>
-        </div>
+        <DetailContent
+          backTo="/#achievements"
+          backLabel="All achievements"
+          eyebrow={[formatDate(achievement.date), achievement.category]
+            .filter(Boolean)
+            .join("  •  ")}
+          title={achievement.title}
+          image={achievement.image}
+          description={achievement.description}
+          blocks={achievement.blocks}
+        />
       )}
     </>
   );

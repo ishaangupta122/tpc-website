@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { SectionDocument } from '../schemas/documents/document.schema';
@@ -27,16 +31,39 @@ export class DocumentsService {
 
   private async getOrFail(section: DocumentSection, id: string) {
     const doc = await this.documentModel.findOne({ _id: id, section }).exec();
-    if (!doc) throw new NotFoundException(`Document "${id}" not found in "${section}"`);
+    if (!doc) throw new NotFoundException('Document not found');
     return doc;
   }
 
+  /**
+   * One section's documents in the order the admin arranged them. Documents
+   * never arranged keep the old order (newest first) and rank by their place in it.
+   */
   async findAll(section: DocumentSection) {
     const docs = await this.documentModel
       .find({ section })
       .sort({ createdAt: -1 })
       .exec();
-    return docs.map((d) => this.serialize(d));
+    return docs
+      .map((doc, index) => ({ doc, rank: doc.order ?? index }))
+      .sort((a, b) => a.rank - b.rank)
+      .map(({ doc }) => this.serialize(doc));
+  }
+
+  /** Saves a new order for ONE section: `ids` is that section's documents, first to last. */
+  async reorder(section: DocumentSection, ids: string[]) {
+    if (!Array.isArray(ids) || ids.some((id) => typeof id !== 'string'))
+      throw new BadRequestException('ids must be a list of document ids');
+    await this.documentModel.bulkWrite(
+      ids.map((id, index) => ({
+        // The section is part of the filter, so other sections are never touched.
+        updateOne: {
+          filter: { _id: id, section },
+          update: { $set: { order: index } },
+        },
+      })),
+    );
+    return this.findAll(section);
   }
 
   async findOne(section: DocumentSection, id: string) {
@@ -48,9 +75,15 @@ export class DocumentsService {
     dto: CreateDocumentDto,
     file: Express.Multer.File,
   ) {
+    // A new document goes to the top of its section.
+    const first = await this.documentModel
+      .findOne({ section, order: { $ne: null } })
+      .sort({ order: 1 })
+      .exec();
     const doc = await this.documentModel.create({
       ...dto,
       section,
+      order: first?.order !== undefined ? first.order - 1 : undefined,
       file: toPublicPath(documentFolder(section), file.filename),
       originalName: file.originalname,
     });

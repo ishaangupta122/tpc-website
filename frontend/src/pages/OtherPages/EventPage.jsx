@@ -3,6 +3,8 @@ import HeroSection from "../../components/HeroSection";
 import { useEvent } from "../../hooks/useResources";
 import Loading from "../../components/Loading";
 import Error from "../../components/Error";
+import DetailContent from "../../components/DetailContent";
+import { formatDate } from "../../utils/formatDate";
 
 const EventPage = () => {
   const { eventId } = useParams();
@@ -24,28 +26,19 @@ const EventPage = () => {
       {error ? (
         <Error error={error} onRetry={refresh} />
       ) : loading ? (
-        <>
-          <Loading title="Event Details" />
-        </>
+        <Loading title="Event Details" />
       ) : (
-        <div className="max-w-5xl mx-auto py-16 px-4 md:px-6">
-          <div className="mb-8">
-            <p className="text-gray-600 mb-2 tracking-wide uppercase text-sm font-medium">
-              {event.date}
-            </p>
-            <h1 className="detail-title mb-6">
-              {event.title}
-            </h1>
-          </div>
-          <img
-            src={event.image}
-            alt={event.title}
-            className="w-full h-[600px] object-cover object-top mb-8 shadow-lg rounded-md"
-          />
-          <p className="text-md text-gray-800 font-normal text-justify space-y-4">
-            {event.description}
-          </p>
-        </div>
+        <DetailContent
+          backTo="/#events"
+          backLabel="All events"
+          eyebrow={[formatDate(event.date), event.category]
+            .filter(Boolean)
+            .join("  •  ")}
+          title={event.title}
+          image={event.image}
+          description={event.description}
+          blocks={event.blocks}
+        />
       )}
     </>
   );

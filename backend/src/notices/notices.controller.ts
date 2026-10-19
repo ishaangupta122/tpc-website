@@ -35,6 +35,12 @@ export class NoticesController {
     return this.noticesService.findAll();
   }
 
+  /** Saves the order the admin dragged the notices into: { ids: [...] }. */
+  @Put('reorder')
+  reorder(@Body() body: { ids: string[] }) {
+    return this.noticesService.reorder(body?.ids);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.noticesService.findOne(id);

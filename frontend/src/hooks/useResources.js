@@ -4,7 +4,7 @@
 // Single items return `data` as null until loaded.
 import { useResource } from "./useResource";
 import { api } from "../services";
-import { staticGalleryImages } from "../data/data";
+import { staticGalleryImages, principalDefaults, courses as staticCourses, policyContent, collegeContact } from "../data/data";
 
 const EMPTY = [];
 
@@ -45,3 +45,75 @@ export const useFacultyMember = (id) =>
   useItem(`faculty:${id}`, () => api.getFacultyById(id), id);
 export const useSuccessStory = (id) =>
   useItem(`successStories:${id}`, () => api.getSuccessStoryById(id), id);
+
+// Principal page content from the admin, field by field falling back to the
+// built-in text. A failed request also shows the built-in content.
+export const usePrincipal = () => {
+  const result = useResource("principal", api.getPrincipal);
+  const saved = result.data || {};
+  const data = {
+    name: saved.name || principalDefaults.name,
+    image: saved.image || principalDefaults.image,
+    message: saved.message || principalDefaults.message,
+    highlights: saved.highlights?.length ? saved.highlights : principalDefaults.highlights,
+  };
+  return { ...result, data, error: null };
+};
+
+// AICTE courses from the admin; the built-in list is shown only when the
+// server answers successfully with no courses (never on a failed request).
+export const useAicteCourses = () => {
+  const result = useResource("aicteCourses", api.getAicteCourses);
+  const loaded = result.data !== undefined;
+  const courses = !loaded ? EMPTY : result.data.length > 0 ? result.data : staticCourses;
+  return { ...result, data: courses };
+};
+
+// The built-in policy cards in the same shape the admin saves them.
+const staticPolicies = policyContent.map((policy) => ({
+  _id: policy.id,
+  title:
+    policy.heading.replace("Requirements", "Policy").replace("Rules", "Policy") ||
+    "Policy",
+  points: policy.points || [],
+  groups: policy.sections || [],
+}));
+
+// Policy cards from the admin; the built-in ones are shown only when the
+// server answers successfully with none (never on a failed request).
+export const usePolicies = () => {
+  const result = useResource("policies", api.getPolicies);
+  const loaded = result.data !== undefined;
+  const policies = !loaded ? EMPTY : result.data.length > 0 ? result.data : staticPolicies;
+  return { ...result, data: policies };
+};
+
+// Dialable form of a phone number as the admin typed it ("75088-55997" -> "+917508855997").
+const toTel = (phone) => {
+  const digits = phone.replace(/\D/g, "");
+  if (phone.trim().startsWith("+")) return `+${digits}`;
+  return digits.length === 10 ? `+91${digits}` : digits;
+};
+
+// College contact details from the admin, in the same shape as the built-in
+// `collegeContact`; empty or failed loads fall back to the built-in details.
+export const useContact = () => {
+  const result = useResource("contact", api.getContact);
+  const saved = result.data || {};
+  const phones = (saved.phones || []).filter(Boolean);
+  const data = {
+    name: saved.name || collegeContact.name,
+    addressLines: saved.address
+      ? saved.address.split("\n").filter(Boolean)
+      : collegeContact.addressLines,
+    phones: phones.length
+      ? phones.map((display) => ({ display, tel: toTel(display) }))
+      : collegeContact.phones,
+    email: saved.email || collegeContact.email,
+    hours: saved.hours ?? collegeContact.hours,
+  };
+  return { ...result, data, error: null };
+};
+
+// What the admin saved for the department pages; the built-in text covers the rest.
+export const useDepartments = () => useList("departments", api.getDepartments);

@@ -16,15 +16,20 @@ export class CommitteeService {
   }
 
   async findAll(): Promise<Committee[]> {
-    return this.committeeModel.find().exec();
+    return this.committeeModel.find().sort({ _id: -1 }).exec();
   }
 
   async findOne(id: string): Promise<Committee> {
     return this.committeeModel.findById(id).exec();
   }
 
-  async update(id: string, updateCommitteeDto: CreateCommitteeDto): Promise<Committee> {
-    return this.committeeModel.findByIdAndUpdate(id, updateCommitteeDto, { new: true }).exec();
+  async update(
+    id: string,
+    updateCommitteeDto: CreateCommitteeDto,
+  ): Promise<Committee> {
+    return this.committeeModel
+      .findByIdAndUpdate(id, updateCommitteeDto, { new: true })
+      .exec();
   }
 
   async remove(id: string): Promise<void> {

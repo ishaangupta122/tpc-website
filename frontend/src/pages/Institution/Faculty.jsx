@@ -1,33 +1,29 @@
-import { useState } from "react";
-import { Search } from "lucide-react";
-import HeroSection from "../../components/HeroSection";
-import { Link } from "react-router-dom";
-import TruncateText from "../../components/TruncateText";
-import { useFaculty } from "../../hooks/useResources";
-import Loading from "../../components/Loading";
+import { useMemo } from "react";
+import PageLayout from "../../components/PageLayout";
+import DataBoundary from "../../components/DataBoundary";
+import FilterBar from "../../components/FilterBar";
 import NoDataFound from "../../components/NoDataFound";
-import Error from "../../components/Error";
+import FacultyCard from "../../components/FacultyCard";
+import { useFaculty } from "../../hooks/useResources";
+import { useUrlFilters } from "../../hooks/useUrlFilters";
+import { departmentLabel, optionsFrom, validOption } from "../../utils/filterOptions";
 
 const Faculty = () => {
   const { data: facultyList, loading, error, refresh } = useFaculty();
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedDepartment, setSelectedDepartment] = useState("");
+  const [filters, setFilter] = useUrlFilters(["q", "department"]);
+  const searchQuery = filters.q;
 
-  const breadcrumbs = [
-    { label: "Home", href: "/" },
-    { label: "Faculty", href: "/faculty" },
-  ];
-
-  // `value` is what the admin stores in each faculty record (see the admin
-  // Faculty form), so the filter compares like with like.
-  const departments = [
-    { label: "Applied Science", value: "Applied Science" },
-    { label: "Architectural Assistantship", value: "Architectural" },
-    { label: "Civil Engineering", value: "Civil" },
-    { label: "Computer Science Engineering", value: "CSE" },
-    { label: "Mechanical Engineering", value: "Mechanical" },
-    { label: "Electrical Engineering", value: "Electrical" },
-  ];
+  // Departments come from the faculty the API returned (not Admin Staff, who have their own page).
+  const departments = useMemo(
+    () =>
+      optionsFrom(
+        facultyList.filter((member) => member.department !== "Admin Staff"),
+        (member) => member.department,
+        departmentLabel
+      ),
+    [facultyList]
+  );
+  const selectedDepartment = validOption(filters.department, departments);
 
   const filteredFaculty = facultyList.filter((faculty) => {
     const matchesSearch =
@@ -40,142 +36,30 @@ const Faculty = () => {
   });
 
   return (
-    <>
-      <HeroSection
-        imageUrl="/rec_gate.jpg"
-        title="Faculty"
-        breadcrumbs={breadcrumbs}
-      />
-      <div className="flex items-center flex-col">
-        <section className="site-container py-20">
-          <div className="mb-6 space-y-6">
-            <h1 className="page-title mb-4">
-              College <span className="text-black">Faculty</span>
-            </h1>
-            {error ? (
-              <Error error={error} onRetry={refresh} />
-            ) : loading ? (
-              <Loading title="Faculty List" />
-            ) : (
-              <>
-                {/* Filters and Search */}
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <div className="relative flex-1">
-                    <input
-                      type="search"
-                      placeholder="Search faculty..."
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full p-2 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-800"
-                    />
-                    <Search className="w-5 h-5 absolute left-3 top-2.5 text-neutral-400" />
-                  </div>
-                  <select
-                    value={selectedDepartment}
-                    onChange={(e) => setSelectedDepartment(e.target.value)}
-                    className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-800 bg-white">
-                    <option value="">All Departments</option>
-                    {departments.map(({ label, value }) => (
-                      <option key={value} value={value}>
-                        {label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                {/* No Data Found */}
-                {filteredFaculty.length === 0 ? (
-                  <NoDataFound title="Faculty" />
-                ) : (
-                  <>
-                    {/* Faculty List */}
-                    <div className="flex items-center justify-center w-full ">
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 w-full gap-x-4 gap-y-6 justify-items-center ">
-                        {filteredFaculty.map((faculty) => (
-                          <div
-                            key={faculty.id}
-                            className="bg-white rounded-lg shadow-lg overflow-hidden w-full ">
-                            {/* Header Section */}
-                            <div className="bg-gradient-to-b from-emerald-800 to-emerald-950 text-white px-6 py-4">
-                              <Link to={`/faculty/${faculty._id}`}>
-                                <div className="flex items-center gap-4">
-                                  <img
-                                    src={
-                                      faculty.image || "/default_user_img.jpeg"
-                                    }
-                                    alt="Profile"
-                                    className="w-20 h-20 rounded-full object-cover object-top border-4 border-white"
-                                    loading="lazy"
-                                  />
-                                  <div>
-                                    <h2 className="text-lg font-semibold hover:underline">
-                                      {faculty.name}
-                                    </h2>
-                                    <p className="text-sm font-normal text-green-200">
-                                      {faculty.designation}
-                                    </p>
-                                  </div>
-                                </div>
-                              </Link>
-                            </div>
-
-                            {/* Details Section */}
-                            <div className="py-6 px-4 space-y-2 text-sm">
-                              {/* Email */}
-                              <div className="flex gap-2 justify-start items-center font-medium">
-                                <h3 className=" text-green-800 ">Email:</h3>
-                                <a
-                                  href={`mailto:${faculty.email}`}
-                                  className="text-green-800 underline ">
-                                  {faculty.email}
-                                </a>
-                              </div>
-                              {/* Department */}
-                              <div className="flex gap-2 justify-start items-center font-medium">
-                                <h3 className=" text-green-800  ">
-                                  Department:
-                                </h3>
-                                <div className="text-gray-800 ">
-                                  <TruncateText
-                                    text={faculty.department}
-                                    maxLength={20}
-                                  />
-                                </div>
-                              </div>
-
-                              {/* Joined Date */}
-                              <div className="flex gap-2 justify-start items-center font-medium">
-                                <h3 className=" text-green-800 ">
-                                  Joined Date:
-                                </h3>
-                                <p className="text-gray-800  ">
-                                  {faculty.joinedDate}
-                                </p>
-                              </div>
-                              {/* Experience */}
-                              <div className="flex gap-2 justify-start items-center font-medium">
-                                <h3 className=" text-green-800  ">
-                                  Experience:
-                                </h3>
-                                <p className="text-gray-800 ">
-                                  {faculty.experience == null
-                                    ? "N/A"
-                                    : `${faculty.experience} ${faculty.experience === 1 ? "Year" : "Years"}`}
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </>
-                )}
-              </>
-            )}
+    <PageLayout title="Faculty" path="/faculty" heading={["College", "Faculty"]}>
+      <DataBoundary loading={loading} error={error} onRetry={refresh} title="Faculty List">
+        <FilterBar
+          search={searchQuery}
+          onSearch={(value) => setFilter("q", value)}
+          placeholder="Search faculty..."
+          filter={{
+            value: selectedDepartment,
+            onChange: (value) => setFilter("department", value),
+            allLabel: "All Departments",
+            options: departments,
+          }}
+        />
+        {filteredFaculty.length === 0 ? (
+          <NoDataFound title="Faculty" />
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 w-full gap-6">
+            {filteredFaculty.map((faculty) => (
+              <FacultyCard key={faculty._id} member={faculty} />
+            ))}
           </div>
-        </section>
-      </div>
-    </>
+        )}
+      </DataBoundary>
+    </PageLayout>
   );
 };
 

@@ -1,7 +1,11 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 
 export class CreateEventDto {
- // @IsNotEmpty()
+  @IsOptional()
+  @IsString()
+  category?: string;
+
+  // @IsNotEmpty()
   @IsString()
   date: string;
 
@@ -16,4 +20,9 @@ export class CreateEventDto {
   // @IsNotEmpty()
   @IsString()
   image?: string;
+
+  /** Page-builder blocks as a JSON string (multipart form field). */
+  @IsOptional()
+  @IsString()
+  blocks?: any;
 }

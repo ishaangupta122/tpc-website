@@ -13,7 +13,7 @@ import {
 import { GalleryService } from './gallery.service';
 import { CreateGalleryDto } from '../schemas/gallery/create-gallery.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { imageUploadOptions, toAbsoluteUrl, toPublicPath } from '../storage/storage.util';
+import { imageUploadOptions, toPublicPath } from '../storage/storage.util';
 import { IMAGE_FOLDERS } from '../storage/storage.constants';
 
 @Controller('gallery')
@@ -32,7 +32,7 @@ export class GalleryController {
       throw new BadRequestException('Image file is required');
     }
 
-    const imageUrl = toAbsoluteUrl(toPublicPath(IMAGE_FOLDERS.gallery, file.filename));
+    const imageUrl = toPublicPath(IMAGE_FOLDERS.gallery, file.filename);
 
     const galleryData = { ...createGalleryDto, imageUrl };
     return this.galleryService.create(galleryData);
@@ -59,7 +59,7 @@ export class GalleryController {
   ) {
     // The image is whatever was uploaded, never a path from the request body.
     updateGalleryDto.imageUrl = file
-      ? toAbsoluteUrl(toPublicPath(IMAGE_FOLDERS.gallery, file.filename))
+      ? toPublicPath(IMAGE_FOLDERS.gallery, file.filename)
       : undefined;
 
     return this.galleryService.update(id, updateGalleryDto);
